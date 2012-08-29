@@ -12,6 +12,11 @@
   </head>
   <body>
     <div id="header">
+      [#if currentUser??]
+        <a href="/addressbook/${currentUser.id}">${currentUser.login}</a>
+      [#else]
+        <a href="/auth/login">${msg['login']}</a>
+      [/#if]
     </div>
     <div id="outer">
       <div id="content">
