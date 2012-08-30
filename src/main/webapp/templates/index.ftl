@@ -51,7 +51,7 @@
     spec out-of-box. You are free to add more sophisticated tests for your application.</li>
 </ul>
 <p>Please visit <a href="http://circumflex.ru" target="_blank">Circumflex website</a> for
-   further information.</p>
+  further information.</p>
 <p style="font-weight:bold">
   We hope you'll get a lot of fun developing with Circumflex! Good luck!</p>
 [/#assign]

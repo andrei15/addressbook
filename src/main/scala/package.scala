@@ -10,4 +10,7 @@ package object whiteants {
     case Some(u: User) => Some(u)
     case _ => None
   }
+
+  def currentUser = currentUserOption.get
+
 }

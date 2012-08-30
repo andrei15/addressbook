@@ -2,17 +2,17 @@
 
 [#assign content]
 
-[#assign errors = flash['errors']![]/]
+  [#assign errors = flash['errors']![]/]
 
-[#if errors?size > 0]
+  [#if errors?size > 0]
   <ul>
-  [#list errors as e]
-    <li>${e}</li>
-  [/#list]
+    [#list errors as e]
+      <li>${e}</li>
+    [/#list]
   </ul>
-[/#if]
+  [/#if]
 
-<form action="/register"
+<form action="/auth/signup"
       method="post">
   <dl>
     <dt><label for="l">${msg['user.login']}</label></dt>
@@ -28,7 +28,8 @@
       <input id="p"
              name="p"
              size="25"
-             type="password"/>
+             type="password"
+             placeholder="${msg['user.password']}"/>
     </dd>
     <dt><label for="l">${msg['name.email']}</label></dt>
     <dd>
@@ -36,12 +37,14 @@
              name="e"
              size="25"
              type="email"
-             placeholder="${msg['name.email']}"/>
+             placeholder="${msg['email.placeholder']}"/>
     </dd>
     <input type="submit"
-           value="${msg['create']}"
+           value="${msg['create']}"/>
+    <span>${msg['or']}</span>
+    <a href="/auth/login">${msg['login']}</a>
   </dl>
 </form>
 [/#assign]
 
-[#include "../addressbook/layout.ftl"/]
+[#include "layout.ftl"/]

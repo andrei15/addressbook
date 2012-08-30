@@ -10,7 +10,7 @@ class AuthRouter extends Router {
     val user = User.find(param("l"), param("p"))
     if (user.isEmpty) {
       flash.update("error", new Msg("user.not-found"))
-      sendRedirect("/login")
+      sendRedirect("/auth/login")
     } else {
       session.update("principal", user.get)
       sendRedirect("/addressbook/" + user.get.id())
@@ -31,6 +31,7 @@ class AuthRouter extends Router {
         flash.update("errors", e.errors)
         sendRedirect("/auth/signup")
     }
-    sendRedirect("/")
+    session.update("principal", u)
+    sendRedirect("/addressbook/" + u.id())
   }
 }

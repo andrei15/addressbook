@@ -3,8 +3,8 @@
 [#assign error = flash["error"]!/]
 
 [#assign content]
-[#if error??]<p>${error}</p>[/#if]
-<h2> Адресная книга</h2>
+  [#if error??]<p>${error}</p>[/#if]
+<h2>${msg['addressbook']}</h2>
 <form action="/auth/login"
       method="post">
   <dl>
@@ -23,9 +23,11 @@
              type="password"/>
     </dd>
     <input type="submit"
-           value="${msg['login']}"
+           value="${msg['login']}"/>
+    <span>${msg['or']}</span>
+    <a href="/auth/signup">${msg['signup']}</a>
   </dl>
 </form>
 [/#assign]
 
-[#include "../layout.ftl"/]
+[#include "layout.ftl"/]
