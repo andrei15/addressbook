@@ -43,7 +43,7 @@ class ContactsRouter extends Router {
 
     get("/~edit") = ftl("/contacts/edit.ftl")
 
-    post("/~edit") = {
+    post("/?") = {
       contact.name := param("n")
       contact.surname:=param("s")
       contact.phone:=param("p")
@@ -58,14 +58,12 @@ class ContactsRouter extends Router {
       }
       sendRedirect(prefix)
     }
+
+    get ("/~delete") = ftl("/contacts/delete.ftl")
+
     delete("/?") = {
-      try  {
-        contact.DELETE_!()
-      } catch {
-        case e: Exception =>
-          sendError(404)
-      }
-      sendRedirect(prefix)
+      contact.DELETE_!()
+      sendRedirect("/contacts")
     }
   }
 }

@@ -3,7 +3,9 @@
 [#assign main]
 <div class="grid margin-top pad">
   <div class="w66">
-    <img src="/img/ab_logo.png"/>
+    <div class="centered">
+      <img src="/img/ab_logo.png"/>
+    </div>
   </div>
   <div class="w33">
     <h2>${msg['signup']}</h2>

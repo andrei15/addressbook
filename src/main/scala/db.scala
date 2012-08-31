@@ -19,6 +19,10 @@ class User
   val email = "email".TEXT.NOT_NULL
 
   val creationDate = "created_at".DATE.NOT_NULL(new Date)
+
+  def gravatar(size: String) = "http://www.gravatar.com/avatar/" + md5(email()) +
+    "?d=identicon&amp;" + "size=" + size
+
 }
 
 object User
@@ -59,6 +63,12 @@ class AddressBook
   val phone = "phone".TEXT.NOT_NULL
   val email = "email".TEXT.NOT_NULL
   val address = "address".TEXT.NOT_NULL("")
+
+  def fullName = surname() + " " + name()
+
+  def gravatar(size: String) = "http://www.gravatar.com/avatar/" + md5(email()) +
+    "?d=identicon&amp;" + "size=" + size
+
 }
 
 object AddressBook

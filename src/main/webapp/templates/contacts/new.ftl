@@ -21,10 +21,12 @@
       <div class="submits centered">
         <input type="submit"
                value="${msg['contact.new']}"/>
+        <span>${msg['or']}</span>
+        <a href="/contacts">${msg['cancel']}</a>
       </div>
     </form>
   </div>
-  <div class="w66">
+  <div class="w66 no-mobiles">
     <div class="centered">
       <img src="/img/new-contact.png"/>
     </div>

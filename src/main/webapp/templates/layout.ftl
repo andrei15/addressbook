@@ -12,6 +12,7 @@
         type="text/css"
         media="screen, projection"
         href="/css/main.less"/>
+  <link rel="icon" type="image/png" href="/img/favicon.png"/>
   <script type="text/javascript" src="/js/jquery.min.js">
   </script>
   <script type="text/javascript" src="/js/less-1.3.0.min.js">
@@ -26,7 +27,10 @@
     </a>
   [#else]
     <div class="userbox">
-      <a href="/profile">${env.principal.login}</a>
+      <a href="/profile">
+        <img src="${env.principal.gravatar("32")}"/>
+        <span>${env.principal.login}</span>
+      </a>
     </div>
   [/#if]
   </div>

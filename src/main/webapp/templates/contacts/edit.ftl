@@ -10,10 +10,10 @@
     [/#list]
   </ul>
   [/#if]
-<form action="/contact/${contact.id}"
+<form action="/contacts/${contact.id}"
       class="submission"
       method="post">
-
+  <h2>${msg['contact.edit.title']}</h2>
   [#include "edit-base.ftl"/]
   <div class="submits centered">
     <input type="submit"
