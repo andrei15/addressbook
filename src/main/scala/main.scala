@@ -5,14 +5,13 @@ import java.util.Date
 
 class Main extends Router {
 
-  'currentDate := new Date
+  if (!currentUserOption.isEmpty)
+    rewrite("/?") = "/contacts"
 
-  'currentUser := currentUserOption
-
-  get("/test") = "I'm fine, thanks!"
-  get("/") = ftl("index.ftl")
+  get("/") = ftl("/index.ftl")
 
   sub("/auth") = new AuthRouter
-  sub("/addressbook") = new AddressBookRouter
+
+  sub("/contacts") = new ContactsRouter
 
 }

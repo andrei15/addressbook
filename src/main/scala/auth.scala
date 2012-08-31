@@ -6,14 +6,19 @@ class AuthRouter extends Router {
 
   get("/login/?") = ftl("/auth/login.ftl")
 
+  get("/logout") = {
+    session.remove("principal")
+    sendRedirect("/")
+  }
+
   post("/login") = {
-    val user = User.find(param("l"), param("p"))
-    if (user.isEmpty) {
-      flash.update("error", new Msg("user.not-found"))
-      sendRedirect("/auth/login")
-    } else {
-      session.update("principal", user.get)
-      sendRedirect("/addressbook/" + user.get.id())
+    User.find(param("l").toLowerCase, param("p")) match {
+      case Some(u: User) =>
+        session.update("principal", u)
+        redirectWithReturn
+      case _ =>
+        flash.update("error", new Msg("user.not-found"))
+        sendRedirect("/auth/login")
     }
   }
 
@@ -32,6 +37,6 @@ class AuthRouter extends Router {
         sendRedirect("/auth/signup")
     }
     session.update("principal", u)
-    sendRedirect("/addressbook/" + u.id())
+    redirectWithReturn
   }
 }

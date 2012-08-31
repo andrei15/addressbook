@@ -1,33 +1,41 @@
 [#ftl]
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!doctype html>
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet"
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <title>${msg['site.title']}</title>
+  <link id="theme-css"
+        rel="stylesheet/less"
         type="text/css"
-        media="screen"
-        href="/css/main.css"/>
-  <title>Simple Circumflex Application</title>
+        media="screen, projection"
+        href="/css/main.less"/>
+  <script type="text/javascript" src="/js/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/js/less-1.3.0.min.js">
+  </script>
 </head>
 <body>
 <div id="header">
-[#if currentUser??]
-  <a href="/addressbook/${currentUser.id}">${currentUser.login}</a>
-[#else]
-  <a href="/auth/login">${msg['login']}</a>
-[/#if]
-</div>
-<div id="outer">
-  <div id="content">
-  ${content}
-  </div>
-  <div id="footer">
-    <span class="copyright">2008-${currentDate?string("yyyy")}</span> ©
-    <a class="home" href="http://${headers['Host']!"localhost"}">
-    ${headers['Host']!"localhost"}
+  <div class="right-float">
+  [#if !env.principal??]
+    <a href="/auth/login" class="btn">
+      ${msg['login.title']}
     </a>
+  [#else]
+    <div class="userbox">
+      <a href="/profile">${env.principal.login}</a>
+    </div>
+  [/#if]
   </div>
+</div>
+<div id="content">
+${main}
+</div>
+<div id="footer" class="clear">
+  <span>${msg['poweredBy']} <a href="http://circumflex.ru">Circumflex</a></span>
 </div>
 </body>
 </html>

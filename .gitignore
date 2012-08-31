@@ -1,4 +1,5 @@
 testdb*
 target/*
 .idea/*
+*.db
 addressbook.iml
