@@ -26,7 +26,11 @@
         <td>${c.email}</td>
         <td>
           <a href="/addressbook/${currentUser.id}/contact/${c.id}/~edit">${msg['addressbook.edit']}</a>
-          <a href="/addressbook/${currentUser.id}/contact/${c.id}/~delete">${msg['addressbook.delete']}</a>
+          <form method="post"
+                action="/addressbook/${currentUser.id}/contact/${c.id}">
+            <input type="hidden" name="_method" value="delete"/>
+            <input type="submit" value="${msg['addressbook.delete']}"/>
+          </form>
         </td>
       </tr>
     [/#list]
@@ -34,7 +38,7 @@
   [#else ]
   <p>${msg['contacts.empty']}</p>
   [/#if]
- <p></p>
+<p></p>
 <a href="/addressbook/${currentUser.id}/~new">${msg['addressbook.create']}</a>
 [#--[#if currentUser??]--]
 [#--<a href="/addressbook/${currentUser.id}">${currentUser.login}</a>--]

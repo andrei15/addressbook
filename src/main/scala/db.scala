@@ -47,7 +47,6 @@ object AddressBook
       .FROM(ab)
       .WHERE(ab.owner IS user)
       .list()
-
 }
 
 object User

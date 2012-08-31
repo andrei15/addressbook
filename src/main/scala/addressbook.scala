@@ -37,14 +37,53 @@ class AddressBookRouter extends Router {
 
     get("/contact/:recid/~edit")=
       {
+        AddressBook.get(param("recid").toLong)   match {
+          case Some(record) =>
+            'record:=record
 
-        ftl("/addressbook/contact/edit.ftl")
+            ftl("/addressbook/contact/edit.ftl")
+          case _ => sendError(404)
+        }
+        //ftl("/addressbook/contact/edit.ftl")
       }
-    get("/contact/:recid/~delete")=
-      {
-        param("recid").toLong
-        ftl("/addressbook/contact/edit.ftl")
+
+    post("/contact/:recid/~edit") = {
+        AddressBook.get(param("recid").toLong) match {
+          case Some(record) =>
+            //record.owner := currentUser
+            record.name := param("n")
+            record.surname:=param("s")
+            record.phone:=param("p")
+            record.address:=param("a")
+            record.email:=param("e")
+            try {
+              record.save()
+            } catch {
+              case e: ValidationException =>
+                flash.update("errors", e.errors)
+                sendRedirect(prefix + "/~edit")
+            }
+            sendRedirect(prefix)
+          case _ => sendError(404)
+        }
       }
-    delete("/?") = sendError(501)
+    delete("/contact/:recid") = {
+        AddressBook.get(param("recid").toLong) match {
+          case Some(record) =>
+            try  {
+              record.DELETE_!()
+              flash("message") = "Record deleted"
+            } catch {
+              case e:
+                ValidationException =>
+                flash.update("errors", e.errors)
+                sendError(404)
+            }
+            redirect(prefix)
+          case _ => sendError(404)
+          // ftl("/addressbook/contact/edit.ftl")
+        }
+      }
+
   }
 }
