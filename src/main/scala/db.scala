@@ -68,7 +68,6 @@ class AddressBook
 
   def gravatar(size: String) = "http://www.gravatar.com/avatar/" + md5(email()) +
     "?d=identicon&amp;" + "size=" + size
-
 }
 
 object AddressBook

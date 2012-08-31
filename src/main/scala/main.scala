@@ -14,4 +14,6 @@ class Main extends Router {
 
   sub("/contacts") = new ContactsRouter
 
+  sub("/profile") = new ProfileRouter
+
 }

@@ -56,7 +56,7 @@ class ContactsRouter extends Router {
           flash.update("errors", e.errors)
           sendRedirect(prefix + "/~edit")
       }
-      sendRedirect(prefix)
+      sendRedirect("/contacts")
     }
 
     get ("/~delete") = ftl("/contacts/delete.ftl")
