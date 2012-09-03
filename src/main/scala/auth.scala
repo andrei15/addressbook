@@ -8,12 +8,19 @@ class AuthRouter extends Router {
 
   get("/logout") = {
     session.remove("principal")
+    //remove cookie
+
+    val c = HttpCookie("auth", "", path = "/", maxAge = 1)
+    cookies += "auth" -> c
+
     sendRedirect("/")
   }
 
   post("/login") = {
     User.find(param("l").toLowerCase, param("p")) match {
       case Some(u: User) =>
+        val c = HttpCookie("auth", u.login(), path = "/", maxAge = 86400)
+        cookies += "auth" -> c
         session.update("principal", u)
         redirectWithReturn
       case _ =>

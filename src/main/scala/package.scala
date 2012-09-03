@@ -31,5 +31,20 @@ package object whiteants {
       } else sendError(404)
     }
   }
+
+  def tryCookieAuth() {
+    if (!request.cookies.find(_.name == "auth").isEmpty ){
+      val c=request.cookies.find(_.name=="auth").get.value
+      User.findLogin(c) match {
+        case Some(u: User) =>
+          session.update("principal", u)
+          redirectWithReturn
+        case _ =>
+          flash.update("error", new Msg("user.not-found"))
+          //sendRedirect("/auth/login")
+      }
+    }
+
+  }
 }
 

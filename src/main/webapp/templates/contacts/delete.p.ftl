@@ -1,7 +1,6 @@
 [#ftl]
 
-[#assign main]
-<form class="submission"
+<form class="submission pad"
       action="/contacts/${contact.id}">
   <h2>${msg['contact.delete.title']}</h2>
   <div class="pad">
@@ -16,6 +15,3 @@
     <a href="/contacts">${msg['cancel']}</a>
   </div>
 </form>
-[/#assign]
-
-[#include "layout.ftl"/]

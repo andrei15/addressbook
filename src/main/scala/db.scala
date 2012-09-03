@@ -47,6 +47,12 @@ object User
       .add(u.login EQ login)
       .add(u.password EQ password)
       .unique()
+
+  def findLogin(login: String): Option[User] =
+    SELECT(u.*)
+      .FROM(u)
+      .add(u.login EQ login)
+      .unique()
 }
 
 class AddressBook
@@ -86,6 +92,16 @@ object AddressBook
     SELECT(ab.*)
       .FROM(ab)
       .WHERE(ab.owner IS user)
+      .list()
+
+  def userFind(name:String,surname:String,phone:String,email:String,address:String): Seq[AddressBook] =
+    SELECT(ab.*)
+      .FROM(ab)
+      .add(ab.name EQ name)
+      .add(ab.surname EQ surname)
+      .add(ab.phone EQ phone)
+      .add(ab.email EQ email)
+      .add(ab.address EQ address)
       .list()
 
   def fetch(id: String) = {

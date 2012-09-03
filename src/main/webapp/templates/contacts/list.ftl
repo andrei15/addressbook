@@ -23,41 +23,13 @@
           </a>
           <a href="/contacts/${c.id}/~delete"
              title="${msg['contact.delete']}"
+             rel="popup"
              class="btn inverse">
             <img src="/img/delete.png"/>
           </a>
         </div>
       </div>
     [/#list]
-  [#--
-  <table border bordercolor="peru" cellpadding="5" cellspacing ="0" bgcolor="#f5f5dc" >
-    <tr>
-      <th>${msg['contact.name']}</th>
-      <th>${msg['contact.surname']}</th>
-      <th>${msg['contact.phone']}</th>
-      <th>${msg['contact.email']}</th>
-      <th>${msg['contact.address']}</th>
-      <th></th>
-    </tr>
-    [#list contacts as c]
-      <tr>
-        <td>${c.name}</td>
-        <td>${c.surname}</td>
-        <td>${c.phone}</td>
-        <td>${c.email}</td>
-        <td>${c.address}</td>
-        <td>
-          <a href="/contacts/${c.id}/~edit">${msg['contact.edit']}</a>
-          <form method="post"
-                action="/contact/${c.id}">
-            <input type="hidden" name="_method" value="delete"/>
-            <input type="submit" value="${msg['contact.delete']}"/>
-          </form>
-        </td>
-      </tr>
-    [/#list]
-  </table>
-  --]
   [#else ]
     <p class="no-items">${msg['contacts.empty']}</p>
   [/#if]

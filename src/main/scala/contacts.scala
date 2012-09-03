@@ -13,6 +13,16 @@ class ContactsRouter extends Router {
 
   get("/~new") = ftl("/contacts/new.ftl")
 
+  get("/find?") = ftl("/contacts/find.ftl")
+
+  post("/find?") ={
+    'findr := AddressBook.userFind(param("n"),param("s"),param("p"),param("e"),param("a"))
+    sendRedirect(prefix + "/findresult")
+  }
+
+  get("/findresult?") = ftl("/contacts/result-find.ftl")
+
+
   post("/?") = {
     val addressBook = new AddressBook
     addressBook.owner := currentUser
@@ -39,7 +49,10 @@ class ContactsRouter extends Router {
 
     'contact := contact
 
-    get("/?") = ftl("/contacts/view.ftl")
+    get("/?") = {
+      'contacts := AddressBook.findAll(currentUser)
+      ftl("/contacts/list.ftl")
+    }
 
     get("/~edit") = ftl("/contacts/edit.ftl")
 
@@ -59,7 +72,7 @@ class ContactsRouter extends Router {
       sendRedirect("/contacts")
     }
 
-    get ("/~delete") = ftl("/contacts/delete.ftl")
+    get ("/~delete") = ftl("/contacts/delete.p.ftl")
 
     delete("/?") = {
       contact.DELETE_!()

@@ -4,8 +4,11 @@
 
 [#assign main]
 <h2 xmlns="http://www.w3.org/1999/html">${msg['user.profile']}</h2>
-<p>${msg['user.login']}:  ${user.login}</p>
-<p>${msg['user.email']}:  ${user.email}</p>
+<div class="profile">
+  <div class="title">${msg['user.login']}: <span>${user.login}</span></div>
+  <div class="title">${msg['user.email']}: <span>${user.email}</span> </div>
+</div>
+
 
 
 <div class="submits centered" >

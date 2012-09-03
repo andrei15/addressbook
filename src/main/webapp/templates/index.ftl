@@ -4,7 +4,7 @@
 <div class="grid margin-top pad">
   <div class="w66">
     <div class="centered">
-      <img src="/img/ab_logo.png"/>
+      <a href="/"><img src="/img/ab_logo.png"></a>
     </div>
   </div>
   <div class="w33">

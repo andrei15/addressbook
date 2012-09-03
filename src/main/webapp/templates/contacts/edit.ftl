@@ -26,14 +26,16 @@
         <a href="/contacts">${msg['cancel']}</a>
 
       </div>
+    </form>
   </div>
   <div class="w66 no-mobiles">
     <div class="centered">
-      <img src="/img/edit-contact.jpeg"/>
+      <img src="/img/edit-contact.png"/>
     </div>
   </div>
 </div>
-</form>
+<div class="clear"></div>
+
 
 [/#assign]
 [#include "layout.ftl"/]
