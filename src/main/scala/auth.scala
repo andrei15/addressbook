@@ -9,11 +9,9 @@ class AuthRouter extends Router {
   get("/logout") = {
     session.remove("principal")
     //remove cookie
-
     val c = HttpCookie("auth", "", path = "/", maxAge = 1)
     cookies += "auth" -> c
-
-    sendRedirect("/")
+    sendRedirect("/auth/login")
   }
 
   post("/login") = {

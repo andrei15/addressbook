@@ -27,7 +27,10 @@
         var a = $(this);
         a.click(function(){
           a.colorbox({
+            title:" ",
+            opacity:"0.75",
             href: a.attr("href")
+
           });
         });
       })
@@ -37,26 +40,26 @@
 </head>
 <body>
 <div id="header">
-<div class="right-float">
-[#if !env.principal??]
-  <a href="/auth/login" class="btn">
-  ${msg['login.title']}
-  </a>
-[#else]
-  <div class="userbox">
-    <a href="/profile">
-      <img src="${env.principal.gravatar("32")}"/>
-      <span>${env.principal.login}</span>
-
-      [#--<div class="logout">--]
-        [#--<a href="/auth/logout">  ${msg['logout.title']}</a>--]
-      [#--</div>--]
-
+  <div class="right-float">
+  [#if !env.principal??]
+    <a href="/auth/login" class="btn">
+    ${msg['login.title']}
     </a>
+  [#else]
+    <div class="userbox">
+      <a href="/profile">
+        <img src="${env.principal.gravatar("32")}"/>
+        <span>${env.principal.login}</span>
+      </a>
+    </div>
 
-</div>
-[/#if]
-</div>
+    <div class="logout">
+      <a href="/auth/logout">  ${msg['logout.title']}</a>
+    </div>
+
+  [/#if]
+
+  </div>
 </div>
 <div id="content">
 ${main}

@@ -35,6 +35,7 @@
   [/#if]
   <div class="centered margin-top margin-bottom">
     <a href="/contacts/~new" class="btn">${msg['contacts.new']}</a>
+    <a href="/contacts/find" class="btn">${msg['contact.find.submit']}</a>
   </div>
 </div>
 [/#assign]

@@ -4,7 +4,10 @@
 <div class="grid margin-top pad">
   <div class="w66">
     <div class="centered">
-      <a href="/"><img src="/img/ab_logo.png"></a>
+      <a href="/"
+          title=${msg['contacts']}>
+        <img src="/img/ab_logo.png">
+      </a>
     </div>
   </div>
   <div class="w33">

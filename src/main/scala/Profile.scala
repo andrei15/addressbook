@@ -14,15 +14,21 @@ class ProfileRouter extends Router {
   }
 
   post("/~edit")={
+    User.findLogin(param("n").toLowerCase) match{
+      case Some(u: User) =>
+        flash.update("errors", new ValidationException(Msg("User.login.unique").toString()).errors)
+        sendRedirect(prefix+"/~edit")
+      case _ =>
+        currentUser.login := param("n")
+        currentUser.email:=param("e")
+        try {
+          currentUser.save()
+        } catch {
+          case e: ValidationException =>
+            flash.update("errors", e.errors)
+            sendRedirect(prefix)
+        }
 
-    currentUser.login := param("n")
-    currentUser.email:=param("e")
-    try {
-      currentUser.save()
-    } catch {
-      case e: ValidationException =>
-        flash.update("errors", e.errors)
-        sendRedirect(prefix)
     }
     sendRedirect("/profile")
   }

@@ -12,10 +12,10 @@
   [/#if]
 <div class="grid pad">
   <div class="w33">
-    <form action="/contacts/find"
+    <h2>${msg['contact.find']}</h2>
+    <form action="/contacts/findresult"
           class="submission"
           method="post">
-
 
       <div class="field-box">
         <label for="n">${msg['contact.name']}</label>
@@ -24,7 +24,6 @@
             <input id="n"
                    name="n"
                    size="25"
-                   [#--value="${contact.name!""}"--]
                    autofocus="autofocus"
                    type="text"/>
           </div>
@@ -37,7 +36,6 @@
             <input id="s"
                    name="s"
                    size="25"
-                   [#--value="${contact.surname!""}"--]
                    type="text"/>
           </div>
         </div>
@@ -49,7 +47,6 @@
             <input id="p"
                    name="p"
                    size="25"
-                   [#--value="${contact.phone!""}"--]
                    type="text"/>
           </div>
         </div>
@@ -61,7 +58,6 @@
             <input id="e"
                    name="e"
                    size="25"
-                   [#--value="${contact.email!""}"--]
                    type="text"/>
           </div>
         </div>
@@ -73,7 +69,6 @@
             <input id="a"
                    name="a"
                    size="25"
-                   [#--value="${contact.address!""}"--]
                    type="text"/>
           </div>
         </div>

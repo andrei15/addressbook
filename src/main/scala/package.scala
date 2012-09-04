@@ -15,6 +15,8 @@ package object whiteants {
 
   def currentUser = currentUserOption.get
 
+  var paramList=List(" ")
+
   def redirectWithReturn = {
     val returnTo = flash.getAs[String]("returnTo").getOrElse("/")
     sendRedirect(returnTo)
@@ -38,13 +40,11 @@ package object whiteants {
       User.findLogin(c) match {
         case Some(u: User) =>
           session.update("principal", u)
-          redirectWithReturn
         case _ =>
           flash.update("error", new Msg("user.not-found"))
-          //sendRedirect("/auth/login")
+        //sendRedirect("/auth/login")
       }
     }
-
   }
 }
 

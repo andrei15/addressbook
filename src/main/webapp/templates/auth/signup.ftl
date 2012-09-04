@@ -7,20 +7,20 @@
       method="post"
       action="/auth/signup">
   <div class="field-box">
-    <label for="cn">${msg['signup.cn']}</label>
+    <label for="l">${msg['signup.cn']}</label>
     <div class="field">
       <div class="input">
-        <input id="cn"
+        <input id="l"
                type="text"
                name="l"/>
       </div>
     </div>
   </div>
   <div class="field-box">
-    <label for="pswd">${msg['signup.password']}</label>
+    <label for="p">${msg['signup.password']}</label>
     <div class="field">
       <div class="input">
-        <input id="pswd"
+        <input id="p"
                type="password"
                name="p"/>
       </div>

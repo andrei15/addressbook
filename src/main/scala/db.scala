@@ -94,14 +94,15 @@ object AddressBook
       .WHERE(ab.owner IS user)
       .list()
 
-  def userFind(name:String,surname:String,phone:String,email:String,address:String): Seq[AddressBook] =
+  def userFind(user: User,name:String,surname:String,phone:String,email:String,address:String): Seq[AddressBook] =
     SELECT(ab.*)
       .FROM(ab)
+      .WHERE(ab.owner IS user)
       .add(ab.name EQ name)
-      .add(ab.surname EQ surname)
-      .add(ab.phone EQ phone)
-      .add(ab.email EQ email)
-      .add(ab.address EQ address)
+      //      .add(ab.surname EQ surname)
+      //      .add(ab.phone EQ phone)
+      //      .add(ab.email EQ email)
+      //      .add(ab.address EQ address)
       .list()
 
   def fetch(id: String) = {

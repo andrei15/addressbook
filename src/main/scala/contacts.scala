@@ -13,15 +13,21 @@ class ContactsRouter extends Router {
 
   get("/~new") = ftl("/contacts/new.ftl")
 
-  get("/find?") = ftl("/contacts/find.ftl")
+  get("/find") = ftl("/contacts/find.ftl")
 
-  post("/find?") ={
-    'findr := AddressBook.userFind(param("n"),param("s"),param("p"),param("e"),param("a"))
-    sendRedirect(prefix + "/findresult")
+
+
+  get("/findresult?") = {
+    'findr := AddressBook.userFind(currentUser,paramList(0),paramList(1),paramList(2),paramList(3),paramList(4))
+    ftl("/contacts/result-find.ftl")
   }
 
-  get("/findresult?") = ftl("/contacts/result-find.ftl")
+  post("/findresult?") ={
+    //    'findr := AddressBook.userFind(currentUser,param("n"),param("s"),param("p"),param("e"),param("a"))
+    paramList=List(param("n"), param("s"), param("p"), param("e"), param("a"))
 
+    sendRedirect(prefix + "/findresult")
+  }
 
   post("/?") = {
     val addressBook = new AddressBook
