@@ -31,6 +31,7 @@
           </div>
         </div>
       </div>
+
       <div class="field-box">
         <label for="e">${msg['user.email']}</label>
         <div class="field">

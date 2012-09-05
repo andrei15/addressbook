@@ -1,7 +1,7 @@
 package net.whiteants
 
 import _root_.freemarker.template._
-import ru.circumflex._, core._, freemarker._, markeven._
+import ru.circumflex._,  freemarker._
 
 import java.util.Date
 import net.whiteants

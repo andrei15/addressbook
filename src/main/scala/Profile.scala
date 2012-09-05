@@ -10,26 +10,30 @@ class ProfileRouter extends Router {
   }
 
   get("/~edit")={
-    ftl("/profile/edit-base.ftl")
+    ftl("/profile/edit.ftl")
   }
 
   post("/~edit")={
-    User.findLogin(param("n").toLowerCase) match{
-      case Some(u: User) =>
-        flash.update("errors", new ValidationException(Msg("User.login.unique").toString()).errors)
-        sendRedirect(prefix+"/~edit")
-      case _ =>
-        currentUser.login := param("n")
-        currentUser.email:=param("e")
-        try {
-          currentUser.save()
-        } catch {
-          case e: ValidationException =>
-            flash.update("errors", e.errors)
-            sendRedirect(prefix)
-        }
-
+//    if (currentUser.login() == param("n"))
+    if (!User.checkLoginEmail(param("n").toLowerCase,param("e")))
+    {
+      flash.update("errors", new ValidationException(Msg("User.login.unique").toString()).errors)
+      sendRedirect(prefix+"/~edit")
+    }
+    else {
+      currentUser.login := param("n")
+      currentUser.email := param("e")
+      try {
+        currentUser.save()
+      } catch {
+        case e: ValidationException =>
+          flash.update("errors", e.errors)
+          sendRedirect(prefix)
+      }
     }
     sendRedirect("/profile")
   }
+
+
+
 }

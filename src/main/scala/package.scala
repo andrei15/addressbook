@@ -1,8 +1,6 @@
 package net
 
 import ru.circumflex._, core._, web._
-import java.util.Date
-import java.io.File
 
 package object whiteants {
 
@@ -14,8 +12,6 @@ package object whiteants {
   }
 
   def currentUser = currentUserOption.get
-
-  var paramList=List(" ")
 
   def redirectWithReturn = {
     val returnTo = flash.getAs[String]("returnTo").getOrElse("/")
@@ -34,12 +30,30 @@ package object whiteants {
     }
   }
 
-  def tryCookieAuth() {
-    if (!request.cookies.find(_.name == "auth").isEmpty ){
-      val c=request.cookies.find(_.name=="auth").get.value
-      User.findLogin(c) match {
+  def requireCookieAuth() {
+    val cookie = request.cookies.find(_.name == "auth")
+    if (!cookie.isEmpty ){
+      val c = cookie.get.value
+      var pos = c.indexOf(":")
+      var login = ""
+      var sha = ""
+      if (pos != -1)
+      {
+        login = c.substring(0, pos)
+        sha = c.substring(c.indexOf(":") + 1, c.length)
+      }
+      var ip = request.remoteIp
+      pos = ip.lastIndexOf('.')
+      if (pos != -1)
+      {
+        ip = ip.substring(0, ip.lastIndexOf('.'))
+      }
+      User.findLogin(login) match {
         case Some(u: User) =>
-          session.update("principal", u)
+          if (sha == sha256(ip+u.password())){
+            session.update("principal", u)
+          }
+          else flash.update("error", new Msg("user.not-found"))
         case _ =>
           flash.update("error", new Msg("user.not-found"))
         //sendRedirect("/auth/login")

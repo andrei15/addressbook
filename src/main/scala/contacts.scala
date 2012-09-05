@@ -13,30 +13,19 @@ class ContactsRouter extends Router {
 
   get("/~new") = ftl("/contacts/new.ftl")
 
-  get("/find") = ftl("/contacts/find.ftl")
-
-
-
-  get("/findresult?") = {
-    'findr := AddressBook.userFind(currentUser,paramList(0),paramList(1),paramList(2),paramList(3),paramList(4))
-    ftl("/contacts/result-find.ftl")
-  }
-
-  post("/findresult?") ={
-    //    'findr := AddressBook.userFind(currentUser,param("n"),param("s"),param("p"),param("e"),param("a"))
-    paramList=List(param("n"), param("s"), param("p"), param("e"), param("a"))
-
-    sendRedirect(prefix + "/findresult")
+  get("/search/?") = {
+    'search := AddressBook.userFind(currentUser,param("q"))
+    ftl("/contacts/search.ftl")
   }
 
   post("/?") = {
     val addressBook = new AddressBook
     addressBook.owner := currentUser
     addressBook.name := param("n")
-    addressBook.surname:=param("s")
-    addressBook.phone:=param("p")
-    addressBook.address:=param("a")
-    addressBook.email:=param("e")
+    addressBook.surname := param("s")
+    addressBook.phone := param("p")
+    addressBook.address := param("a")
+    addressBook.email := param("e")
     try {
       addressBook.save()
     } catch {
@@ -64,10 +53,10 @@ class ContactsRouter extends Router {
 
     post("/?") = {
       contact.name := param("n")
-      contact.surname:=param("s")
-      contact.phone:=param("p")
-      contact.address:=param("a")
-      contact.email:=param("e")
+      contact.surname := param("s")
+      contact.phone := param("p")
+      contact.address := param("a")
+      contact.email := param("e")
       try {
         contact.save()
       } catch {

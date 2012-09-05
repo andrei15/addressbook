@@ -23,6 +23,8 @@ class User
   def gravatar(size: String) = "http://www.gravatar.com/avatar/" + md5(email()) +
     "?d=identicon&amp;" + "size=" + size
 
+  def getCookie(ip: String) = login()+":"+sha256(ip+password())
+
 }
 
 object User
@@ -53,6 +55,20 @@ object User
       .FROM(u)
       .add(u.login EQ login)
       .unique()
+
+  def checkLoginEmail(login: String, email:String): Boolean ={
+    val l=
+      SELECT(u.*)
+        .FROM(u)
+        .add(u.login EQ login)
+        .unique().isEmpty
+    val e=
+      SELECT(u.*)
+        .FROM(u)
+        .add(u.login EQ email)
+        .unique().isEmpty
+    l && e
+  }
 }
 
 class AddressBook
@@ -94,16 +110,22 @@ object AddressBook
       .WHERE(ab.owner IS user)
       .list()
 
-  def userFind(user: User,name:String,surname:String,phone:String,email:String,address:String): Seq[AddressBook] =
+  def userFind(user: User, param:String): Seq[AddressBook] =  {
+    val paramList = param.split(" ").map(_.trim).filter(_ != "")
+    val p = AND()
+    paramList.foreach { param =>
+      val prm = param + "%"
+      val or = OR(ab.name LLIKE prm, ab.surname LLIKE prm,
+        ab.email LLIKE prm, ab.phone LLIKE prm,
+        ab.address LLIKE prm)
+      p.add(or)
+    }
     SELECT(ab.*)
       .FROM(ab)
-      .WHERE(ab.owner IS user)
-      .add(ab.name EQ name)
-      //      .add(ab.surname EQ surname)
-      //      .add(ab.phone EQ phone)
-      //      .add(ab.email EQ email)
-      //      .add(ab.address EQ address)
+      .add(ab.owner IS user  )
+      .add(p)
       .list()
+  }
 
   def fetch(id: String) = {
     try {

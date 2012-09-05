@@ -30,7 +30,6 @@
             title:" ",
             opacity:"0.75",
             href: a.attr("href")
-
           });
         });
       })
@@ -40,6 +39,7 @@
 </head>
 <body>
 <div id="header">
+  [#--<a href="/">Home</a>--]
   <div class="right-float">
   [#if !env.principal??]
     <a href="/auth/login" class="btn">

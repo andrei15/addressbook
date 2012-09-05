@@ -4,6 +4,9 @@
 
 [#assign main]
 <div class="pad margin-top">
+
+  [#include "search-form.p.ftl"/]
+
   <h2>${msg['contacts']}</h2>
   [#if contacts?size > 0]
     [#list contacts as c]
@@ -35,9 +38,9 @@
   [/#if]
   <div class="centered margin-top margin-bottom">
     <a href="/contacts/~new" class="btn">${msg['contacts.new']}</a>
-    <a href="/contacts/find" class="btn">${msg['contact.find.submit']}</a>
   </div>
 </div>
+<div class="clear"></div>
 [/#assign]
 
 [#include "layout.ftl"/]
