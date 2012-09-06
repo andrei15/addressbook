@@ -30,6 +30,14 @@ package object whiteants {
     }
   }
 
+  def setCookie(u:User){
+    var ip = request.remoteIp
+    val pos =  ip.lastIndexOf('.')
+    if(pos != -1) ip = ip.substring(0, pos)
+    val c = HttpCookie("auth", u.getCookie(ip), path = "/", maxAge = 86400)
+    cookies += "auth" -> c
+  }
+
   def requireCookieAuth() {
     val cookie = request.cookies.find(_.name == "auth")
     if (!cookie.isEmpty ){

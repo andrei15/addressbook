@@ -6,8 +6,6 @@ class AuthRouter extends Router {
 
   get("/login/?") = ftl("/auth/login.ftl")
 
-
-
   get("/logout") = {
     session.remove("principal")
     //remove cookie
@@ -20,11 +18,7 @@ class AuthRouter extends Router {
     User.find(param("l").toLowerCase, param("p")) match {
       case Some(u: User) =>
         //установка cookie
-        var ip = request.remoteIp
-        val pos =  ip.lastIndexOf('.')
-        if(pos != -1) ip = ip.substring(0, pos)
-        val c = HttpCookie("auth", u.getCookie(ip), path = "/", maxAge = 86400)
-        cookies += "auth" -> c
+        setCookie(u)
         session.update("principal", u)
         redirectWithReturn
       case _ =>

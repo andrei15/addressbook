@@ -14,7 +14,7 @@ class ContactsRouter extends Router {
   get("/~new") = ftl("/contacts/new.ftl")
 
   get("/search/?") = {
-    'search := AddressBook.userFind(currentUser,param("q"))
+    'search := AddressBook.userSearch(currentUser,param("q"))
     ftl("/contacts/search.ftl")
   }
 

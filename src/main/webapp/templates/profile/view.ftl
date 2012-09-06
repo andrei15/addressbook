@@ -16,6 +16,7 @@
     <div class="profile">
       <div class="title">${msg['user.login']}: <span>${user.login}</span></div>
       <div class="title">${msg['user.email']}: <span>${user.email}</span> </div>
+      <div class="title">${msg['user.datecreation']}: <span>${user.creationDate?date}</span> </div>
     </div>
     <div class="submits centered" >
       <a href="/profile/~edit">${msg['user.profile.edit']}</a>

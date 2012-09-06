@@ -4,7 +4,6 @@ import ru.circumflex._, ru.circumflex.core._, orm._, web._
 import java.util.Date
 import java.util.regex.Pattern
 
-
 class User
   extends Record[Long, User]
   with IdentityGenerator[Long, User] {
@@ -24,7 +23,6 @@ class User
     "?d=identicon&amp;" + "size=" + size
 
   def getCookie(ip: String) = login()+":"+sha256(ip+password())
-
 }
 
 object User
@@ -35,9 +33,9 @@ object User
   val emailUnique = UNIQUE(email)
 
   validation
+    .unique(_.login)
     .notEmpty(_.login)
     .notEmpty(_.password)
-    .unique(_.login)
     .unique(_.email)
     .pattern(_.email, Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$"), "syntax")
 
@@ -55,20 +53,6 @@ object User
       .FROM(u)
       .add(u.login EQ login)
       .unique()
-
-  def checkLoginEmail(login: String, email:String): Boolean ={
-    val l=
-      SELECT(u.*)
-        .FROM(u)
-        .add(u.login EQ login)
-        .unique().isEmpty
-    val e=
-      SELECT(u.*)
-        .FROM(u)
-        .add(u.login EQ email)
-        .unique().isEmpty
-    l && e
-  }
 }
 
 class AddressBook
@@ -110,7 +94,7 @@ object AddressBook
       .WHERE(ab.owner IS user)
       .list()
 
-  def userFind(user: User, param:String): Seq[AddressBook] =  {
+  def userSearch(user: User, param:String): Seq[AddressBook] =  {
     val paramList = param.split(" ").map(_.trim).filter(_ != "")
     val p = AND()
     paramList.foreach { param =>
@@ -122,7 +106,7 @@ object AddressBook
     }
     SELECT(ab.*)
       .FROM(ab)
-      .add(ab.owner IS user  )
+      .add(ab.owner IS user)
       .add(p)
       .list()
   }

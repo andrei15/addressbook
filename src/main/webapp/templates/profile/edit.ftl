@@ -14,7 +14,7 @@
 <div class="grid pad">
   <div class="w33">
     <h2>${msg['user.profile.edittitle']}</h2>
-    <form action="/profile/~edit"
+    <form action="/profile/"
           class="submission"
           method="post">
 

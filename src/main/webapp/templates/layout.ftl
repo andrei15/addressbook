@@ -13,33 +13,29 @@
         media="screen, projection"
         href="/css/main.less"/>
   <link rel="icon" type="image/png" href="/img/favicon.png"/>
-  <script type="text/javascript" src="/js/jquery.min.js">
+  <script
+      type="text/javascript"
+      src="/js/jquery.min.js">
   </script>
-  <script type="text/javascript" src="/js/less-1.3.0.min.js">
+  <script
+      type="text/javascript"
+      src="/js/less-1.3.0.min.js">
   </script>
-  <link href="/css/colorbox.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="/js/jquery.colorbox-min.js">
+  <link
+      href="/css/colorbox.css"
+      rel="stylesheet"
+      type="text/css" />
+  <script
+      type="text/javascript"
+      src="/js/jquery.colorbox-min.js">
   </script>
 
-  <script>
-    $(function(){
-      $("[rel=popup]").each(function() {
-        var a = $(this);
-        a.click(function(){
-          a.colorbox({
-            title:" ",
-            opacity:"0.75",
-            href: a.attr("href")
-          });
-        });
-      })
-    });
-  </script>
+  <script src="/js/myScripts.js"></script>
 
 </head>
 <body>
 <div id="header">
-  [#--<a href="/">Home</a>--]
+[#--<a href="/">Home</a>--]
   <div class="right-float">
   [#if !env.principal??]
     <a href="/auth/login" class="btn">
