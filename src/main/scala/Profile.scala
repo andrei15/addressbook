@@ -10,7 +10,7 @@ class ProfileRouter extends Router {
     ftl("/profile/view.ftl")
   }
 
-  get("/~edit") = ftl("/profile/edit.ftl")
+  //get("/~edit") = ftl("/profile/edit.ftl")
 
   post("/?") = {
     currentUser.login := param("n")
@@ -22,7 +22,7 @@ class ProfileRouter extends Router {
       case e: ValidationException =>
         flash.update("errors", e.errors)
         currentUser.refresh()
-        sendRedirect(prefix + "/~edit")
+        sendRedirect(prefix)
     }
     sendRedirect("/profile")
   }

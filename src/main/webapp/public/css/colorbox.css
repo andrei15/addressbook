@@ -21,15 +21,15 @@
 */
 #cboxOverlay{background:url("../img/colorboxImages/overlay.png") repeat 0 0;}
 #colorbox{}
-    #cboxTopLeft{width:21px; height:21px; background:url("../img/colorboxImages/controls.png") no-repeat -101px 0;}
-    #cboxTopRight{width:21px; height:21px; background:url("../img/colorboxImages/controls.png") no-repeat -130px 0;}
-    #cboxBottomLeft{width:21px; height:21px; background:url("../img/colorboxImages/controls.png") no-repeat -101px -29px;}
-    #cboxBottomRight{width:21px; height:21px; background:url("../img/colorboxImages/controls.png") no-repeat -130px -29px;}
-    #cboxMiddleLeft{width:21px; background:url("../img/colorboxImages/controls.png") left top repeat-y;}
-    #cboxMiddleRight{width:21px; background:url("../img/colorboxImages/controls.png") right top repeat-y;}
-    #cboxTopCenter{height:21px; background:url("../img/colorboxImages/border.png") 0 0 repeat-x;}
-    #cboxBottomCenter{height:21px; background:url("../img/colorboxImages/border.png") 0 -29px repeat-x;}
-    #cboxContent{background:#fff; overflow:hidden;}
+    #cboxTopLeft{width:16px; height:16px; background:black;border-top-left-radius: 16px;}
+    #cboxTopRight{width:16px; height:16px; background: black; border-top-right-radius: 16px;}
+    #cboxBottomLeft{width:16px; height:16px; background:black; border-bottom-left-radius: 16px;}
+    #cboxBottomRight{width:16px; height:16px; background:black; border-bottom-right-radius: 16px;}
+    #cboxMiddleLeft{width:16px; background:black;}
+    #cboxMiddleRight{width:16px; background:black;}
+    #cboxTopCenter{height:16px; background:black;}
+    #cboxBottomCenter{height:16px; background:black;}
+    #cboxContent{background:#fff; overflow:hidden; border-radius: 8px;}
         .cboxIframe{background:#fff;}
         #cboxError{padding:50px; border:1px solid #ccc;}
         #cboxLoadedContent{margin-bottom:28px;}
@@ -42,7 +42,7 @@
         #cboxNext:hover{background-position:-50px -25px;}
         #cboxLoadingOverlay{background:url("../img/colorboxImages/loading_background.png") no-repeat center center;}
         #cboxLoadingGraphic{background:url("../img/colorboxImages/loading.gif") no-repeat center center;}
-        #cboxClose{position:absolute; bottom:0; right:0; background:url("../img/colorboxImages/controls.png") no-repeat -25px 0; width:25px; height:25px; text-indent:-9999px;}
+        #cboxClose{position:absolute; bottom:4px; right:8px; font-size: 24px;}
         #cboxClose:hover{background-position:-25px -25px;}
 
 /*

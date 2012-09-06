@@ -1,25 +1,61 @@
 [#ftl]
 
+[#assign errors = flash["errors"]![]/]
 [#assign user = env.principal]
+
 [#assign main]
-
+  [#if errors?size > 0]
+  <ul>
+    [#list errors as e]
+      <li>${e}</li>
+    [/#list]
+  </ul>
+  [/#if]
 <div class="grid pad">
-
-  <div class="w33 no-mobiles">
-    <div class="centered">
-      <img src="${env.principal.gravatar("128")}"/>
-    </div>
-  </div>
 
   <div class="w66">
     <h2>${msg['user.profile']}</h2>
-    <div class="profile">
-      <div class="title">${msg['user.login']}: <span>${user.login}</span></div>
-      <div class="title">${msg['user.email']}: <span>${user.email}</span> </div>
-      <div class="title">${msg['user.datecreation']}: <span>${user.creationDate?date}</span> </div>
-    </div>
-    <div class="submits centered" >
-      <a href="/profile/~edit">${msg['user.profile.edit']}</a>
+    <form action="/profile/"
+          class="submission"
+          method="post">
+
+      <div class="field-box">
+        <label for="n">${msg['user.login']}</label>
+        <div class="field">
+          <div class="input">
+            <input id="n"
+                   name="n"
+                   size="25"
+                   value="${user.login!""}"
+                   autofocus="autofocus"
+                   type="text"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-box">
+        <label for="e">${msg['user.email']}</label>
+        <div class="field">
+          <div class="input">
+            <input id="e"
+                   name="e"
+                   size="25"
+                   value="${user.email!""}"
+                   type="text"/>
+          </div>
+        </div>
+      </div>
+      <div class="submits centered" >
+        <input type="submit"
+               value="${msg['user.profile.edit']}"/>
+        <span>${msg['or']}</span>
+        <a href="/profile">${msg['cancel']}</a>
+      </div>
+    </form>
+  </div>
+  <div class="w33 no-mobiles">
+    <div class="centered">
+      <img src="${env.principal.gravatar("128")}"/>
     </div>
   </div>
 </div>

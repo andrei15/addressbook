@@ -13,29 +13,20 @@
         media="screen, projection"
         href="/css/main.less"/>
   <link rel="icon" type="image/png" href="/img/favicon.png"/>
-  <script
-      type="text/javascript"
-      src="/js/jquery.min.js">
+  <script type="text/javascript" src="/js/jquery.min.js">
   </script>
-  <script
-      type="text/javascript"
-      src="/js/less-1.3.0.min.js">
+  <script type="text/javascript" src="/js/less-1.3.0.min.js">
   </script>
-  <link
-      href="/css/colorbox.css"
-      rel="stylesheet"
-      type="text/css" />
-  <script
-      type="text/javascript"
-      src="/js/jquery.colorbox-min.js">
+  <link href="/css/colorbox.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="/js/jquery.colorbox-min.js">
   </script>
-
-  <script src="/js/myScripts.js"></script>
+  <script type="text/javascript" src="/js/myScripts.js">
+  </script>
 
 </head>
 <body>
 <div id="header">
-[#--<a href="/">Home</a>--]
+  <a href="/" class="home"><img src="/img/AB.png"/></a>
   <div class="right-float">
   [#if !env.principal??]
     <a href="/auth/login" class="btn">
@@ -48,13 +39,10 @@
         <span>${env.principal.login}</span>
       </a>
     </div>
-
     <div class="logout">
-      <a href="/auth/logout">  ${msg['logout.title']}</a>
+      <a href="/auth/logout">${msg['logout.title']}</a>
     </div>
-
   [/#if]
-
   </div>
 </div>
 <div id="content">
