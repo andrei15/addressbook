@@ -94,7 +94,7 @@ object AddressBook
       .WHERE(ab.owner IS user)
       .list()
 
-  def userSearch(user: User, param:String): Seq[AddressBook] =  {
+  def userSearch(user: User, param: String): Seq[AddressBook] =  {
     val paramList = param.split(" ").map(_.trim).filter(_ != "")
     val p = AND()
     paramList.foreach { param =>

@@ -46,10 +46,11 @@
   </div>
 </div>
 <div id="content">
+  <ul id="errors"></ul>
 ${main}
 </div>
 <div id="footer" class="clear">
-  <span>${msg['poweredBy']} <a href="http://circumflex.ru">Circumflex</a></span>
+  <span>${msg['poweredBy']} <a href="http://circumflex.ru" target="_blank">Circumflex</a></span>
 </div>
 </body>
 </html>

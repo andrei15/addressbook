@@ -24,7 +24,17 @@ $(function(){
       dataType:"json",
 
       success: function(data){
-        alert(JSON.stringify(data));
+        if (data.redirect){
+          window.location.replace(data.redirect);
+//          alert(data.msg)
+        }
+        if (data.errors) {
+          $.each(data.errors, function(idx, val) {
+            var li = $("<li></li>");
+            li.html(val);
+            $("#errors").empty().append(li)
+          });
+        }
       },
       error: function(data){
         //$('#profile').html(data);

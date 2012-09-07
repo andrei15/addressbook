@@ -6,11 +6,7 @@ class ProfileRouter extends Router {
 
   requireAuth()
 
-  get("/?") = {
-    ftl("/profile/view.ftl")
-  }
-
-  //get("/~edit") = ftl("/profile/edit.ftl")
+  get("/?") = ftl("/profile/view.ftl")
 
   post("/?").and(request.body.isXHR) = {
     currentUser.login := param("n")
@@ -19,15 +15,15 @@ class ProfileRouter extends Router {
     try {
       currentUser.save()
       setCookie(currentUser)
+      //      notice.addMsg("msg","saved")
       """
        {
-       "msg": "saved",
+      "msg": "saved",
        "redirect": "/profile"
        }
       """
     } catch {
       case e: ValidationException =>
-        flash.update("errors", e.errors)
         currentUser.refresh()
         "{ \"errors\": [" + e.errors.map("\"" + _.toString + "\"").mkString(",") + "] }"
     }
