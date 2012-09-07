@@ -12,7 +12,7 @@ class ProfileRouter extends Router {
 
   //get("/~edit") = ftl("/profile/edit.ftl")
 
-  post("/?") = {
+  post("/?").and(request.body.isXHR) = {
     currentUser.login := param("n")
     currentUser.email := param("e")
     try {
@@ -22,8 +22,15 @@ class ProfileRouter extends Router {
       case e: ValidationException =>
         flash.update("errors", e.errors)
         currentUser.refresh()
-        sendRedirect(prefix)
+        response.contentType("application/json")
+        "{ errors: [" + e.errors.map("\"" + _.toString + "\"").mkString(",") + "] }"
     }
-    sendRedirect("/profile")
+    response.contentType("application/json")
+    """
+       {
+       msg: "saved",
+       redirect: "/profile"
+       }
+    """
   }
 }

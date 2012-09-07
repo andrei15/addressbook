@@ -15,7 +15,8 @@
 
   <div class="w66">
     <h2>${msg['user.profile']}</h2>
-    <form action="/profile/"
+    <form action="/profile"
+          id="profile"
           class="submission"
           method="post">
 
@@ -48,14 +49,14 @@
       <div class="submits centered" >
         <input type="submit"
                value="${msg['user.profile.edit']}"/>
-        <span>${msg['or']}</span>
-        <a href="/profile">${msg['cancel']}</a>
+        [#--<span>${msg['or']}</span>--]
+        [#--<a href="/profile">${msg['cancel']}</a>--]
       </div>
     </form>
   </div>
   <div class="w33 no-mobiles">
     <div class="centered">
-      <img src="${env.principal.gravatar("128")}"/>
+      <img src="${env.principal.gravatar("256")}"/>
     </div>
   </div>
 </div>
