@@ -15,22 +15,21 @@ class ProfileRouter extends Router {
   post("/?").and(request.body.isXHR) = {
     currentUser.login := param("n")
     currentUser.email := param("e")
+    response.contentType("application/json")
     try {
       currentUser.save()
       setCookie(currentUser)
+      """
+       {
+       "msg": "saved",
+       "redirect": "/profile"
+       }
+      """
     } catch {
       case e: ValidationException =>
         flash.update("errors", e.errors)
         currentUser.refresh()
-        response.contentType("application/json")
-        "{ errors: [" + e.errors.map("\"" + _.toString + "\"").mkString(",") + "] }"
+        "{ \"errors\": [" + e.errors.map("\"" + _.toString + "\"").mkString(",") + "] }"
     }
-    response.contentType("application/json")
-    """
-       {
-       msg: "saved",
-       redirect: "/profile"
-       }
-    """
   }
 }

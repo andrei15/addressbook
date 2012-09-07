@@ -37,7 +37,4 @@ $(function(){
     event.preventDefault();
     return false;
   });
-  $.post("/profile", {"e": "my@my.com", "n":"3"}, function(data) {
-    alert(JSON.stringify(data))
-  }, "json")
 });
