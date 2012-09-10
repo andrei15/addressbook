@@ -61,9 +61,10 @@ package object whiteants {
           if (sha == sha256(ip+u.password())){
             session.update("principal", u)
           }
-          else flash.update("error", new Msg("user.not-found"))
+          else Notice.addError("user.not-found") //flash.update("error", new Msg("user.not-found"))
         case _ =>
-          flash.update("error", new Msg("user.not-found"))
+          Notice.addError("user.not-found")
+        //flash.update("error", new Msg("user.not-found"))
         //sendRedirect("/auth/login")
       }
     }

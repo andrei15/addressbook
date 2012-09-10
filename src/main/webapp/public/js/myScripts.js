@@ -1,3 +1,19 @@
+var arr = new Array()
+var notices = {
+  add: function(notice) {
+    arr.push(notice)
+  },
+  save: function(data) {
+    arr=new Array()
+    if (data.notices) {
+      for (var i in data.notices) {
+        var n = data.notices[i];
+        notices.add(n);
+      }
+    }
+  }
+};
+
 $(function(){
   $("[rel=popup]").each(function() {
     var a = $(this);
@@ -26,18 +42,20 @@ $(function(){
       success: function(data){
         if (data.redirect){
           window.location.replace(data.redirect);
-//          alert(data.msg)
         }
-        if (data.errors) {
-          $.each(data.errors, function(idx, val) {
+        if (data.notices) {
+          notices.save(data);
+          $("#notices").empty();
+          $.each(data.notices, function(idx, n) {
             var li = $("<li></li>");
-            li.html(val);
-            $("#errors").empty().append(li)
+            li.html(n.msg);
+            li.addClass(n.kind);
+            $("#notices").append(li)
           });
         }
       },
+
       error: function(data){
-        //$('#profile').html(data);
         if (data.status == 404)
           alert("No message Available");
         if (data.status == 502)
@@ -48,3 +66,24 @@ $(function(){
     return false;
   });
 });
+
+$(window).unload(function(){
+  if (sessionStorage) {
+    sessionStorage.setItem("notices",JSON.stringify(arr))
+  }
+});
+
+$(window).load(function(){
+  var pathname = window.location.pathname;
+  if(pathname == "/profile"){
+    var variable = JSON.parse(sessionStorage.getItem("notices"));
+    $("#notices").empty();
+    $.each(variable, function(idx, n) {
+      var li = $("<li></li>");
+      li.html(n.msg);
+      li.addClass(n.kind);
+      $("#notices").append(li)
+    });
+  }
+});
+

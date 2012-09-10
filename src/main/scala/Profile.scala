@@ -15,17 +15,13 @@ class ProfileRouter extends Router {
     try {
       currentUser.save()
       setCookie(currentUser)
-      //      notice.addMsg("msg","saved")
-      """
-       {
-      "msg": "saved",
-       "redirect": "/profile"
-       }
-      """
+      'redirect := "/profile"
+      Notice.addInfo("saved")
     } catch {
       case e: ValidationException =>
         currentUser.refresh()
-        "{ \"errors\": [" + e.errors.map("\"" + _.toString + "\"").mkString(",") + "] }"
+        Notice.addErrors(e.errors)
     }
+    Notice.sendJSON("/json.ftl")
   }
 }

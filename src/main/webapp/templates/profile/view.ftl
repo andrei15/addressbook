@@ -49,8 +49,6 @@
       <div class="submits centered" >
         <input type="submit"
                value="${msg['user.profile.edit']}"/>
-        [#--<span>${msg['or']}</span>--]
-        [#--<a href="/profile">${msg['cancel']}</a>--]
       </div>
     </form>
   </div>

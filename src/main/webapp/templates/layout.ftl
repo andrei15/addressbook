@@ -46,7 +46,11 @@
   </div>
 </div>
 <div id="content">
-  <ul id="errors"></ul>
+  <ul id="notices">
+    [#list flash['notices']![] as n]
+      <li class="${n.kind}">${n.message}</li>
+    [/#list]
+  </ul>
 ${main}
 </div>
 <div id="footer" class="clear">

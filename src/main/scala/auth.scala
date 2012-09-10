@@ -17,12 +17,13 @@ class AuthRouter extends Router {
   post("/login") = {
     User.find(param("l").toLowerCase, param("p")) match {
       case Some(u: User) =>
-        //установка cookie
+        //set cookie
         setCookie(u)
         session.update("principal", u)
         redirectWithReturn
       case _ =>
-        flash.update("error", new Msg("user.not-found"))
+        Notice.addError("user.not-found")
+        // flash.update("error", new Msg("user.not-found"))
         sendRedirect("/auth/login")
     }
   }
@@ -36,9 +37,11 @@ class AuthRouter extends Router {
     u.email := param("e")
     try {
       u.save()
+      Notice.addInfo("registered")
     } catch {
       case e: ValidationException =>
-        flash.update("errors", e.errors)
+        Notice.addErrors(e.errors)
+        //flash.update("errors", e.errors)
         sendRedirect("/auth/signup")
     }
     session.update("principal", u)

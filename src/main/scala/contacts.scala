@@ -28,9 +28,10 @@ class ContactsRouter extends Router {
     addressBook.email := param("e")
     try {
       addressBook.save()
+      Notice.addInfo("saved")
     } catch {
       case e: ValidationException =>
-        flash.update("errors", e.errors)
+        Notice.addErrors(e.errors)
         sendRedirect(prefix + "/~new")
     }
     sendRedirect(prefix)
@@ -59,9 +60,10 @@ class ContactsRouter extends Router {
       contact.email := param("e")
       try {
         contact.save()
+        Notice.addInfo("edited")
       } catch {
         case e: ValidationException =>
-          flash.update("errors", e.errors)
+          Notice.addErrors(e.errors)
           sendRedirect(prefix + "/~edit")
       }
       sendRedirect("/contacts")
@@ -71,6 +73,7 @@ class ContactsRouter extends Router {
 
     delete("/?") = {
       contact.DELETE_!()
+      Notice.addInfo("deleted")
       sendRedirect("/contacts")
     }
   }
