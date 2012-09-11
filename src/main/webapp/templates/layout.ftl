@@ -39,7 +39,7 @@
         <span>${env.principal.login}</span>
       </a>
     </div>
-    <div class="logout">
+    <div class="logout centered">
       <a href="/auth/logout">${msg['logout.title']}</a>
     </div>
   [/#if]

@@ -257,3 +257,34 @@ img {
   0 0 8px rgba(0,0,0,.15) inset,
   0 0 16px rgba(0,0,0,.1) inset;
 }
+
+#notices {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  max-width: 50%;
+
+  li {
+    position: relative;
+    list-style: none;
+    min-height: 32px;
+    padding: 8px;
+    margin: 8px;
+    padding-left: 40px;
+    vertical-align: middle;
+    background: rgba(0,0,0, .75);
+    color: white;
+    border-radius: 8px;
+    line-height: 200%;
+    background-position: 4px center;
+    background-repeat: no-repeat;
+
+    &.info {
+      background-image: url("/img/icons/32/info.png");
+    }
+    &.error {
+      background-image: url("/img/icons/32/delete.png");
+    }
+  }
+
+}
