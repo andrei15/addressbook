@@ -26,7 +26,14 @@ var notices = {
           li.remove();
         })
       });
-
+      //Timeout remove notices
+      setTimeout(function() {
+        $("#notices li").animate({
+          "opacity": 0
+        }, 1200, function(){
+          li.remove();
+        });
+      }, 15000);
     })
   }
 };

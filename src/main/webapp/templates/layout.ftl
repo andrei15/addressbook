@@ -20,7 +20,7 @@
   <link href="/css/colorbox.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="/js/jquery.colorbox-min.js">
   </script>
-  <script type="text/javascript" src="/js/myScripts.js">
+  <script type="text/javascript" src="/js/addressbook.js">
   </script>
 </head>
 <body>
@@ -46,9 +46,9 @@
 </div>
 <div id="content">
   <ul id="notices">
-    [#list flash['notices']![] as n]
-      <li class="${n.kind}">${n.message} </li>
-    [/#list]
+  [#list flash['notices']![] as n]
+    <li class="${n.kind}">${n.message} </li>
+  [/#list]
   </ul>
 ${main}
 </div>
