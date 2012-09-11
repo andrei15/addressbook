@@ -1,3 +1,4 @@
+//notices
 var arr = new Array();
 var notices = {
   add: function(notice) {
@@ -12,7 +13,6 @@ var notices = {
       }
     }
   },
-
   init: function() {
     $("#notices li:not(.initialized)").each(function(){
       var li = $(this);
@@ -22,14 +22,30 @@ var notices = {
       handle.click(function() {
         li.animate({
           "opacity": 0
-        }, 300, function(){
+        }, 500, function(){
           li.remove();
         })
       });
+
     })
   }
 };
 
+//remove notices the esc key
+$(document).keyup(function(e) {
+  if (e.keyCode == 27) {
+    $("#notices li").each(function(){
+      var li = $(this);
+      li.animate({
+        "opacity": 0
+      }, 500, function(){
+        li.remove();
+      })
+    })
+  }
+});
+
+//colorBox popup
 $(function(){
   $("[rel=popup]").each(function() {
     var a = $(this);
@@ -43,10 +59,10 @@ $(function(){
       });
     });
   })
-
   notices.init();
 });
 
+//profile edit ajax
 $(function(){
   $("#profile").submit(function(event){
     var $form = $(this);
@@ -73,7 +89,6 @@ $(function(){
           notices.init();
         }
       },
-
       error: function(data){
         if (data.status == 404)
           alert("No message Available");
