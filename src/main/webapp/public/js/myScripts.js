@@ -14,14 +14,19 @@ var notices = {
   },
 
   init: function() {
-    $("#notices li").click(function() {
+    $("#notices li:not(.initialized)").each(function(){
       var li = $(this);
-      li.animate({
-        "opacity": 0
-      }, 300, function(){
-        li.remove();
-      })
-    });
+      li.addClass("initialized");
+      var handle = $("<div class='handle'>&times;</div>");
+      li.append(handle);
+      handle.click(function() {
+        li.animate({
+          "opacity": 0
+        }, 300, function(){
+          li.remove();
+        })
+      });
+    })
   }
 };
 
