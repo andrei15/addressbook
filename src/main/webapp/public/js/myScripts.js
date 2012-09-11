@@ -1,16 +1,27 @@
-var arr = new Array()
+var arr = new Array();
 var notices = {
   add: function(notice) {
     arr.push(notice)
   },
   save: function(data) {
-    arr=new Array()
+    arr=new Array();
     if (data.notices) {
       for (var i in data.notices) {
         var n = data.notices[i];
         notices.add(n);
       }
     }
+  },
+
+  init: function() {
+    $("#notices li").click(function() {
+      var li = $(this);
+      li.animate({
+        "opacity": 0
+      }, 300, function(){
+        li.remove();
+      })
+    });
   }
 };
 
@@ -27,6 +38,8 @@ $(function(){
       });
     });
   })
+
+  notices.init();
 });
 
 $(function(){
@@ -41,10 +54,10 @@ $(function(){
 
       success: function(data){
         if (data.redirect){
+          notices.save(data);
           window.location.replace(data.redirect);
         }
         if (data.notices) {
-          notices.save(data);
           $("#notices").empty();
           $.each(data.notices, function(idx, n) {
             var li = $("<li></li>");
@@ -52,6 +65,7 @@ $(function(){
             li.addClass(n.kind);
             $("#notices").append(li)
           });
+          notices.init();
         }
       },
 
@@ -77,6 +91,7 @@ $(window).load(function(){
   var pathname = window.location.pathname;
   if(pathname == "/profile"){
     var variable = JSON.parse(sessionStorage.getItem("notices"));
+    sessionStorage.clear();
     $("#notices").empty();
     $.each(variable, function(idx, n) {
       var li = $("<li></li>");
@@ -84,6 +99,7 @@ $(window).load(function(){
       li.addClass(n.kind);
       $("#notices").append(li)
     });
+    notices.init();
   }
 });
 

@@ -22,7 +22,6 @@
   </script>
   <script type="text/javascript" src="/js/myScripts.js">
   </script>
-
 </head>
 <body>
 <div id="header">
@@ -48,7 +47,7 @@
 <div id="content">
   <ul id="notices">
     [#list flash['notices']![] as n]
-      <li class="${n.kind}">${n.message}</li>
+      <li class="${n.kind}">${n.message} </li>
     [/#list]
   </ul>
 ${main}
