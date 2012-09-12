@@ -12,7 +12,7 @@
                size="45"
                value="${param['q']!""}"
                autofocus="autofocus"
-               type="text"/>
+               type="search"/>
       </div>
     </div>
   </div>

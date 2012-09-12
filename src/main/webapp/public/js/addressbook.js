@@ -131,16 +131,35 @@ $(window).load(function(){
 });
 
 $(function(){
+
+
+
+
   $(".edform").each(function(){
     var a = $(this);
     var href = a.attr("href");
     var cnt = $(a.attr("data-container"));
     a.click(function (ev) {
+
+      $(".w99").each(function(){
+        var w = $(this);
+        w.removeClass("w99");
+        w.addClass("w50");
+      });
+
       ev.preventDefault();
       $.get(href, {}, function(data){
         cnt.empty().append(data)
       }, "html");
       return false;
     });
+  });
+});
+
+$(function(){
+  $(".w50").each(function(){
+    var w = $(this);
+    w.removeClass("w50");
+    w.addClass("w99");
   });
 });

@@ -3,10 +3,10 @@
 [#assign user = env.principal]
 
 [#assign main]
-<div class="pad margin-top">
-  [#include "search-form.p.ftl"/]
+<div class="pad ">
   <div class="grid">
     <div class="w50">
+      [#include "search-form.p.ftl"/]
       <h2>${msg['contacts']}</h2>
       [#if contacts?size > 0]
         [#list contacts as c]
@@ -37,12 +37,13 @@
       [#else ]
         <p class="no-items">${msg['contacts.empty']}</p>
       [/#if]
+      <div class="centered margin-top margin-bottom clear">
+        <a href="/contacts/~new" class="btn">${msg['contacts.new']}</a>
+      </div>
     </div>
     <div id="edit-container" class="w50"></div>
   </div>
-  <div class="centered margin-top margin-bottom clear">
-    <a href="/contacts/~new" class="btn">${msg['contacts.new']}</a>
-  </div>
+
 </div>
 <div class="clear"></div>
 [/#assign]
