@@ -45,12 +45,7 @@ class ContactsRouter extends Router {
 
     'contact := contact
 
-    get("/?") = {
-      'contacts := AddressBook.findAll(currentUser)
-      ftl("/contacts/list.ftl")
-    }
-
-    get("/~edit") = ftl("/contacts/edit.ftl")
+    get("/~edit").and(request.body.isXHR) = ftl("/contacts/edit.p.ftl")
 
     post("/?") = {
       contact.name := param("n")
@@ -64,9 +59,9 @@ class ContactsRouter extends Router {
       } catch {
         case e: ValidationException =>
           Notice.addErrors(e.errors)
-          sendRedirect(prefix + "/~edit")
+      //    sendRedirect("/contacts")
       }
-      sendRedirect("/contacts")
+       sendRedirect("/contacts")
     }
 
     get ("/~delete") = ftl("/contacts/delete.p.ftl")

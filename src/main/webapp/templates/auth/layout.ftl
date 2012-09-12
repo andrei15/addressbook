@@ -10,7 +10,7 @@
     [/#list]
   </ul>
   [/#if]
-<div class="grid">
+<div class="grid margin-top pad">
   <div class="w66">
     <img src="/img/ab_logo.png"/>
   </div>

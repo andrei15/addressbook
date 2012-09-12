@@ -130,3 +130,17 @@ $(window).load(function(){
   }
 });
 
+$(function(){
+  $(".edform").each(function(){
+    var a = $(this);
+    var href = a.attr("href");
+    var cnt = $(a.attr("data-container"));
+    a.click(function (ev) {
+      ev.preventDefault();
+      $.get(href, {}, function(data){
+        cnt.empty().append(data)
+      }, "html");
+      return false;
+    });
+  });
+});

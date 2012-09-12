@@ -38,7 +38,8 @@ package object whiteants {
     cookies += "auth" -> c
   }
 
-  def requireCookieAuth() {
+  def cookieAuth() {
+    if (!currentUserOption.isEmpty) return
     val cookie = request.cookies.find(_.name == "auth")
     if (!cookie.isEmpty ){
       val c = cookie.get.value
@@ -64,8 +65,6 @@ package object whiteants {
           else Notice.addError("user.not-found") //flash.update("error", new Msg("user.not-found"))
         case _ =>
           Notice.addError("user.not-found")
-        //flash.update("error", new Msg("user.not-found"))
-        //sendRedirect("/auth/login")
       }
     }
   }

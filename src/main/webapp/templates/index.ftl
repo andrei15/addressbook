@@ -8,42 +8,36 @@
     </div>
   </div>
   <div class="w33">
-    <h2>${msg['signup']}</h2>
-    <form class="submission"
-          method="post"
-          action="/auth/signup">
+    <h2>${msg['login']}</h2>
+    <form id="login"
+          action="/auth/login"
+          class="submission"
+          method="post">
       <div class="field-box">
-        <label for="cn">${msg['signup.cn']}</label>
+        <label for="l">${msg['login.cn']}</label>
         <div class="field">
           <div class="input">
-            <input id="cn"
+            <input id="l"
                    type="text"
-                   name="cn"/>
+                   autofocus="autofocus"
+                   name="l"/>
           </div>
         </div>
       </div>
       <div class="field-box">
-        <label for="pswd">${msg['signup.password']}</label>
+        <label for="p">${msg['login.password']}</label>
         <div class="field">
           <div class="input">
-            <input id="pswd"
+            <input id="p"
                    type="password"
                    name="p"/>
           </div>
         </div>
       </div>
-      <div class="field-box">
-        <label for="e">${msg['signup.email']}</label>
-        <div class="field">
-          <div class="input">
-            <input id="e"
-                   type="text"
-                   name="e"/>
-          </div>
-        </div>
-      </div>
       <div class="submits centered">
-        <input type="submit" value="${msg['signup.submit']}"/>
+        <input type="submit" value="${msg['login.submit']}">
+        <span>${msg['or']}</span>
+        <a href="/auth/signup">${msg['signup.submit']}</a>
       </div>
     </form>
   </div>

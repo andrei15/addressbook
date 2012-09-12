@@ -3,11 +3,10 @@ package net.whiteants
 import ru.circumflex._,  web._, freemarker._
 
 class Main extends Router {
+  cookieAuth()
 
   if (!currentUserOption.isEmpty)
     rewrite("/?") = "/contacts"
-  else requireCookieAuth()
-
 
   get("/") = ftl("/index.ftl")
 

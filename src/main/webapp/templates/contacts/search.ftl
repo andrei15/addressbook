@@ -19,11 +19,26 @@
               <a class="mail"
                  href="mailto:${s.email}">${s.email}</a>
             </div>
+            <div class="ctls">
+              <a href="/contacts/${s.id}/~edit"
+                 class="btn edform"
+                 data-container="#edit-container"
+                 title="${msg['contact.edit']}">
+                <img src="/img/pencil.png"/>
+              </a>
+              <a href="/contacts/${s.id}/~delete"
+                 title="${msg['contact.delete']}"
+                 rel="popup"
+                 class="btn inverse">
+                <img src="/img/delete.png"/>
+              </a>
+            </div>
           </div>
         [/#list]
       [#else ]
         <p class="no-items">${msg['contact.search.empty']}</p>
       [/#if]
+      <div id="edit-container" class="w50"></div>
       <div class="centered margin-top margin-bottom">
         <a href="/contacts/" class="btn">${msg['back']}</a>
       </div>

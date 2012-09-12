@@ -12,6 +12,7 @@
       <div class="input">
         <input id="l"
                type="text"
+               autofocus="autofocus"
                name="l"/>
       </div>
     </div>
