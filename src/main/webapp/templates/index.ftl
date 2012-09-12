@@ -1,10 +1,14 @@
 [#ftl]
-
+[#assign auth]
+<a href="/auth/signup" class="btn">
+${msg['signup.submit']}
+</a>
+[/#assign]
 [#assign main]
 <div class="grid margin-top pad">
   <div class="w66">
     <div class="centered">
-        <img src="/img/ab_logo.png">
+      <img src="/img/ab_logo.png">
     </div>
   </div>
   <div class="w33">
@@ -36,8 +40,8 @@
       </div>
       <div class="submits centered">
         <input type="submit" value="${msg['login.submit']}">
-        <span>${msg['or']}</span>
-        <a href="/auth/signup">${msg['signup.submit']}</a>
+      [#--<span>${msg['or']}</span>--]
+      [#--<a href="/auth/signup">${msg['signup.submit']}</a>--]
       </div>
     </form>
   </div>

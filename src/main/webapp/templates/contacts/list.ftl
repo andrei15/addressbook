@@ -5,7 +5,7 @@
 [#assign main]
 <div class="pad ">
   <div class="grid">
-    <div class="w50">
+    <div class="w50 h">
       [#include "search-form.p.ftl"/]
       <h2>${msg['contacts']}</h2>
       [#if contacts?size > 0]

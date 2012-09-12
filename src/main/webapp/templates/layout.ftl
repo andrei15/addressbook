@@ -28,9 +28,7 @@
   <a href="/" class="home"><img src="/img/AB.png"/></a>
   <div class="right-float">
   [#if !env.principal??]
-    <a href="/auth/login" class="btn">
-    ${msg['login.title']}
-    </a>
+  ${auth}
   [#else]
     <div class="userbox">
       <a href="/profile">

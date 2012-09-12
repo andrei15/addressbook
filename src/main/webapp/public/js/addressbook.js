@@ -33,7 +33,7 @@ var notices = {
         }, 1200, function(){
           li.remove();
         });
-      }, 15000);
+      }, 10000);
     })
   }
 };
@@ -131,10 +131,6 @@ $(window).load(function(){
 });
 
 $(function(){
-
-
-
-
   $(".edform").each(function(){
     var a = $(this);
     var href = a.attr("href");

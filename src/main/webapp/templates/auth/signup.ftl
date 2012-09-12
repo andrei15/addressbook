@@ -1,5 +1,9 @@
 [#ftl]
-
+[#assign auth]
+<a href="/auth/login" class="btn">
+${msg['login.title']}
+</a>
+[/#assign]
 [#assign main]
 
 <h2>${msg['signup']}</h2>
