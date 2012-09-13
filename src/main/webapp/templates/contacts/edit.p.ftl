@@ -11,7 +11,8 @@
     <input type="submit"
            value="${msg['contact.edit.submit']}"/>
     <span>${msg['or']}</span>
-    <a href="/contacts">${msg['cancel']}</a>
+    <a href="/contacts">${msg['cancel']}
+    </a>
 
   </div>
 </form>

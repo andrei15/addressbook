@@ -47,6 +47,8 @@ class ContactsRouter extends Router {
 
     get("/~edit").and(request.body.isXHR) = ftl("/contacts/edit.p.ftl")
 
+    get("/?") = ftl("/contacts/view-contact.ftl")
+
     post("/?") = {
       contact.name := param("n")
       contact.surname := param("s")
@@ -59,9 +61,9 @@ class ContactsRouter extends Router {
       } catch {
         case e: ValidationException =>
           Notice.addErrors(e.errors)
-      //    sendRedirect("/contacts")
+        //    sendRedirect("/contacts")
       }
-       sendRedirect("/contacts")
+      sendRedirect("/contacts")
     }
 
     get ("/~delete") = ftl("/contacts/delete.p.ftl")

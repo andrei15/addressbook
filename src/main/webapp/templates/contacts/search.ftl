@@ -20,6 +20,10 @@
                  href="mailto:${s.email}">${s.email}</a>
             </div>
             <div class="ctls">
+              <a href="/contacts/${s.id}"
+                 title="${msg['contact.view']}">
+                <img src="/img/icons/48/search_business_user.png"/>
+              </a>
               <a href="/contacts/${s.id}/~edit"
                  class="btn edform"
                  data-container="#edit-container"

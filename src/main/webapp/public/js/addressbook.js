@@ -137,9 +137,9 @@ $(function(){
     var cnt = $(a.attr("data-container"));
     a.click(function (ev) {
 
-      $(".w99").each(function(){
+      $(".w100").each(function(){
         var w = $(this);
-        w.removeClass("w99");
+        w.removeClass("w100");
         w.addClass("w50");
       });
 
@@ -156,6 +156,6 @@ $(function(){
   $(".w50").each(function(){
     var w = $(this);
     w.removeClass("w50");
-    w.addClass("w99");
+    w.addClass("w100");
   });
 });

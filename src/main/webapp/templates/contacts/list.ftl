@@ -5,7 +5,7 @@
 [#assign main]
 <div class="pad ">
   <div class="grid">
-    <div class="w50 h">
+    <div class="w50">
       [#include "search-form.p.ftl"/]
       <h2>${msg['contacts']}</h2>
       [#if contacts?size > 0]
@@ -19,6 +19,10 @@
                  href="mailto:${c.email}">${c.email}</a>
             </div>
             <div class="ctls">
+              <a href="/contacts/${c.id}"
+                 title="${msg['contact.view']}">
+                <img src="/img/icons/48/search_business_user.png"/>
+              </a>
               <a href="/contacts/${c.id}/~edit"
                  class="btn edform"
                  data-container="#edit-container"
