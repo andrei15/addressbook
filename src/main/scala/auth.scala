@@ -23,7 +23,6 @@ class AuthRouter extends Router {
         redirectWithReturn
       case _ =>
         Notice.addError("user.not-found")
-        // flash.update("error", new Msg("user.not-found"))
         sendRedirect("/auth/login")
     }
   }
@@ -41,7 +40,6 @@ class AuthRouter extends Router {
     } catch {
       case e: ValidationException =>
         Notice.addErrors(e.errors)
-        //flash.update("errors", e.errors)
         sendRedirect("/auth/signup")
     }
     session.update("principal", u)

@@ -1,3 +1,10 @@
+$(function(){
+  editAjax($(".edited"));
+  getEditPanelByClick();
+  hideEditPanel();
+  setColorboxPopup();
+});
+
 //notices
 var arr = new Array();
 var notices = {
@@ -52,12 +59,28 @@ $(document).keyup(function(e) {
   }
 });
 
-//call edit ajax
-$(function(){
-  editAjax($(".edited"))
+$(window).unload(function(){
+  if (sessionStorage) {
+    sessionStorage.setItem("notices",JSON.stringify(arr))
+  }
 });
 
-//edit ajax
+$(window).load(function(){
+  var pathname = window.location.pathname;
+  if(pathname == "/profile" || pathname=="/contacts"){
+    var variable = JSON.parse(sessionStorage.getItem("notices"));
+    sessionStorage.clear();
+    $("#notices").empty();
+    $.each(variable, function(idx, n) {
+      var li = $("<li></li>");
+      li.html(n.msg);
+      li.addClass(n.kind);
+      $("#notices").append(li)
+    });
+    notices.init();
+  }
+});
+
 function editAjax(forms) {
   forms.each(function(){
     var $form = $(this);
@@ -99,8 +122,7 @@ function editAjax(forms) {
   });
 }
 
-//colorBox popup
-$(function(){
+function setColorboxPopup(){
   $("[rel=popup]").each(function() {
     var a = $(this);
     a.click(function(){
@@ -114,58 +136,46 @@ $(function(){
     });
   });
   notices.init();
-});
+}
 
-$(window).unload(function(){
-  if (sessionStorage) {
-    sessionStorage.setItem("notices",JSON.stringify(arr))
-  }
-});
+function hideEditPanel() {
+  $(".w50").each(function(){
+    var w = $(this);
+    w.removeClass("w50");
+    w.addClass("w100");
+  });
+}
 
-$(window).load(function(){
-  var pathname = window.location.pathname;
-  if(pathname == "/profile" || pathname=="/contacts"){
-    var variable = JSON.parse(sessionStorage.getItem("notices"));
-    sessionStorage.clear();
-    $("#notices").empty();
-    $.each(variable, function(idx, n) {
-      var li = $("<li></li>");
-      li.html(n.msg);
-      li.addClass(n.kind);
-      $("#notices").append(li)
-    });
-    notices.init();
-  }
-});
+function showEditPanel() {
+  $(".w100").each(function(){
+    var w = $(this);
+    w.removeClass("w100");
+    w.addClass("w50");
+  });
+}
 
-$(function(){
+function getEditPanelByClick(){
   $(".edform").each(function(){
     var a = $(this);
     var href = a.attr("href");
     var cnt = $(a.attr("data-container"));
     a.click(function (ev) {
 
-      $(".w100").each(function(){
-        var w = $(this);
-        w.removeClass("w100");
-        w.addClass("w50");
-      });
+      showEditPanel()
 
       ev.preventDefault();
       $.get(href, {}, function(data){
         cnt.empty().append(data);
         editAjax($(".edited", cnt));
 
+        $(".hidepanel").click(function(){
+          cnt.empty();
+          hideEditPanel();
+          $("#notices").empty();
+        });
+
       }, "html");
       return false;
     });
   });
-});
-
-$(function(){
-  $(".w50").each(function(){
-    var w = $(this);
-    w.removeClass("w50");
-    w.addClass("w100");
-  });
-});
+}

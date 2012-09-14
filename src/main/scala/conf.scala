@@ -6,7 +6,6 @@ import ru.circumflex._,  freemarker._
 import java.util.Date
 import net.whiteants
 
-
 class FtlConfiguration extends DefaultConfiguration {
   setObjectWrapper(new ScalaObjectWrapper())
   setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER)
