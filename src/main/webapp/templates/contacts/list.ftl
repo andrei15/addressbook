@@ -20,6 +20,7 @@
             </div>
             <div class="ctls">
               <a href="/contacts/${c.id}"
+                 class="btn view"
                  title="${msg['contact.view']}">
                 <img src="/img/icons/48/search_business_user.png"/>
               </a>

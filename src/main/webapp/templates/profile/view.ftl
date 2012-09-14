@@ -1,23 +1,16 @@
 [#ftl]
 
-[#assign errors = flash["errors"]![]/]
 [#assign user = env.principal]
 
 [#assign main]
-  [#if errors?size > 0]
-  <ul>
-    [#list errors as e]
-      <li>${e}</li>
-    [/#list]
-  </ul>
-  [/#if]
+
 <div class="grid pad">
 
   <div class="w66">
     <h2>${msg['user.profile']}</h2>
     <form action="/profile"
           id="profile"
-          class="submission"
+          class="submission edited"
           method="post">
 
       <div class="field-box">

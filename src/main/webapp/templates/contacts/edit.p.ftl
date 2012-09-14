@@ -1,7 +1,7 @@
 [#ftl]
 <form action="/contacts/${contact.id}"
       id="editContact"
-      class="submission"
+      class="submission edited"
       method="post">
   <h2>${msg['contact.edit.title']} ${contact.fullName}</h2>
 

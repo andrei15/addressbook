@@ -52,6 +52,53 @@ $(document).keyup(function(e) {
   }
 });
 
+//call edit ajax
+$(function(){
+  editAjax($(".edited"))
+});
+
+//edit ajax
+function editAjax(forms) {
+  forms.each(function(){
+    var $form = $(this);
+    $form.addClass("initialized");
+    $(this).submit(function(event){
+      var serializedData = $form.serializeArray();
+      $.ajax({
+        url: $form.attr("action"),
+        type: $form.attr("method"),
+        data: serializedData,
+        dataType:"json",
+
+        success: function(data){
+          if (data.redirect){
+            notices.save(data);
+            window.location.replace(data.redirect);
+          }
+          if (data.notices) {
+            $("#notices").empty();
+            $.each(data.notices, function(idx, n) {
+              var li = $("<li></li>");
+              li.html(n.msg);
+              li.addClass(n.kind);
+              $("#notices").append(li)
+            });
+            notices.init();
+          }
+        },
+        error: function(data){
+          if (data.status == 404)
+            alert("No message Available");
+          if (data.status == 502)
+            alert("Server is down")
+        }
+      });
+      event.preventDefault();
+      return false;
+    });
+  });
+}
+
 //colorBox popup
 $(function(){
   $("[rel=popup]").each(function() {
@@ -65,47 +112,8 @@ $(function(){
         close: "&times;"
       });
     });
-  })
-  notices.init();
-});
-
-//profile edit ajax
-$(function(){
-  $("#profile").submit(function(event){
-    var $form = $(this);
-    var serializedData = $form.serializeArray();
-    $.ajax({
-      url: $form.attr("action"),
-      type: $form.attr("method"),
-      data: serializedData,
-      dataType:"json",
-
-      success: function(data){
-        if (data.redirect){
-          notices.save(data);
-          window.location.replace(data.redirect);
-        }
-        if (data.notices) {
-          $("#notices").empty();
-          $.each(data.notices, function(idx, n) {
-            var li = $("<li></li>");
-            li.html(n.msg);
-            li.addClass(n.kind);
-            $("#notices").append(li)
-          });
-          notices.init();
-        }
-      },
-      error: function(data){
-        if (data.status == 404)
-          alert("No message Available");
-        if (data.status == 502)
-          alert("Server is down")
-      }
-    });
-    event.preventDefault();
-    return false;
   });
+  notices.init();
 });
 
 $(window).unload(function(){
@@ -116,7 +124,7 @@ $(window).unload(function(){
 
 $(window).load(function(){
   var pathname = window.location.pathname;
-  if(pathname == "/profile"){
+  if(pathname == "/profile" || pathname=="/contacts"){
     var variable = JSON.parse(sessionStorage.getItem("notices"));
     sessionStorage.clear();
     $("#notices").empty();
@@ -145,7 +153,9 @@ $(function(){
 
       ev.preventDefault();
       $.get(href, {}, function(data){
-        cnt.empty().append(data)
+        cnt.empty().append(data);
+        editAjax($(".edited", cnt));
+
       }, "html");
       return false;
     });

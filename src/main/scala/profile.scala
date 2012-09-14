@@ -11,7 +11,6 @@ class ProfileRouter extends Router {
   post("/?").and(request.body.isXHR) = {
     currentUser.login := param("n")
     currentUser.email := param("e")
-    response.contentType("application/json")
     try {
       currentUser.save()
       setCookie(currentUser)
@@ -22,6 +21,6 @@ class ProfileRouter extends Router {
         currentUser.refresh()
         Notice.addErrors(e.errors)
     }
-    Notice.sendJSON("/json.ftl")
+    sendJSON("/json.ftl")
   }
 }

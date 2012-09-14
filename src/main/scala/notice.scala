@@ -4,10 +4,7 @@ import ru.circumflex._, core._,  web._, freemarker._
 import collection.mutable.ListBuffer
 
 object Notice  {
-  def sendJSON  (templ: String): Nothing = {
-    response.contentType("application/json")
-    ftl(templ)
-  }
+
 
   def notices = flash.getAs[ListBuffer[Notice]]("notices") match {
     case Some(l: ListBuffer[Notice]) =>

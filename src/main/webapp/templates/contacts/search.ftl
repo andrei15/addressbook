@@ -6,8 +6,8 @@
 <div class="pad margin-top">
 
   <div class="grid pad">
-
-    <div class="w66">
+    <div class="w50">
+      [#include "search-form.p.ftl"/]
       <h2>${msg['contact.search']}</h2>
       [#if search?size > 0]
         [#list search as s]
@@ -21,6 +21,7 @@
             </div>
             <div class="ctls">
               <a href="/contacts/${s.id}"
+                 class="btn view"
                  title="${msg['contact.view']}">
                 <img src="/img/icons/48/search_business_user.png"/>
               </a>
@@ -42,17 +43,11 @@
       [#else ]
         <p class="no-items">${msg['contact.search.empty']}</p>
       [/#if]
-      <div id="edit-container" class="w50"></div>
       <div class="centered margin-top margin-bottom">
         <a href="/contacts/" class="btn">${msg['back']}</a>
       </div>
     </div>
-    <div class="w33 no-mobiles">
-      [#include "search-form.p.ftl"/]
-      <div class="centered">
-        <img src="/img/find-contact.png"/>
-      </div>
-    </div>
+    <div id="edit-container" class="w50"></div>
   </div>
   <div class="clear"></div>
 </div>

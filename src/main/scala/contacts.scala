@@ -45,11 +45,11 @@ class ContactsRouter extends Router {
 
     'contact := contact
 
-    get("/~edit").and(request.body.isXHR) = ftl("/contacts/edit.p.ftl")
-
     get("/?") = ftl("/contacts/view-contact.ftl")
 
-    post("/?") = {
+    get("/~edit").and(request.body.isXHR) = ftl("/contacts/edit.p.ftl")
+
+    post("/?").and(request.body.isXHR) = {
       contact.name := param("n")
       contact.surname := param("s")
       contact.phone := param("p")
@@ -57,13 +57,13 @@ class ContactsRouter extends Router {
       contact.email := param("e")
       try {
         contact.save()
+        'redirect := "/contacts"
         Notice.addInfo("edited")
       } catch {
         case e: ValidationException =>
           Notice.addErrors(e.errors)
-        //    sendRedirect("/contacts")
       }
-      sendRedirect("/contacts")
+      sendJSON("/json.ftl")
     }
 
     get ("/~delete") = ftl("/contacts/delete.p.ftl")

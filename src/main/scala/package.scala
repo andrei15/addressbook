@@ -1,6 +1,8 @@
 package net
 
 import ru.circumflex._, core._, web._
+import freemarker._
+import scala.Some
 
 package object whiteants {
 
@@ -68,5 +70,11 @@ package object whiteants {
       }
     }
   }
+
+  def sendJSON  (templ: String): Nothing = {
+    response.contentType("application/json")
+    ftl(templ)
+  }
+
 }
 
