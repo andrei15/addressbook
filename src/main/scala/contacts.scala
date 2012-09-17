@@ -18,7 +18,7 @@ class ContactsRouter extends Router {
     ftl("/contacts/search.ftl")
   }
 
-  post("/?") = {
+  post("/?").and(request.body.isXHR)  = {
     val addressBook = new AddressBook
     addressBook.owner := currentUser
     addressBook.name := param("n")
@@ -28,13 +28,13 @@ class ContactsRouter extends Router {
     addressBook.email := param("e")
     try {
       addressBook.save()
+      'redirect := prefix
       Notice.addInfo("saved")
     } catch {
       case e: ValidationException =>
         Notice.addErrors(e.errors)
-        sendRedirect(prefix + "/~new")
     }
-    sendRedirect(prefix)
+    sendJSON("/json.ftl")
   }
 
   sub("/:id") = {

@@ -22,7 +22,7 @@ class User
   def gravatar(size: String) = "http://www.gravatar.com/avatar/" + md5(email()) +
     "?d=identicon&amp;" + "size=" + size
 
-  def getCookie(ip: String) = login()+":"+sha256(ip+password())
+  def getCookie(ip: String) = login() + ":" + sha256(ip + password())
 }
 
 object User

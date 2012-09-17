@@ -21,12 +21,13 @@ body, div, p, dl, dt, dt, span, h1, h2, h3, h4, h5, h6 {
 
 body {
   font: 14px Helvetica, "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  background: url("../img/dust.png") top left  repeat;
+ // background: url("../img/dust.png") top left  repeat;
+  background-image:url("../img/backgr.png");
 }
 
 a, a:visited {
   text-decoration: none;
-  color: #909ca0;
+  color: #6a7577;
 }
 
 .grid {
@@ -153,7 +154,7 @@ img {
         width: 100%;
         input[type=text], input[type=password] {
           width: 100%;
-          background: #fff;
+          background: #e4e4e4;
           border: 0;
           border-radius: 4px;
           padding: 4px;
@@ -161,6 +162,9 @@ img {
           0 0 4px rgba(0,0,0,.25) inset,
           0 1px 1px #fff;
           font: 14px Monaco, Bitstream Vera Sans Mono, Terminal, Courier New, Courier, monospace;
+          &:focus{
+            background: #fff;
+          }
         }
       }
     }
@@ -172,6 +176,7 @@ img {
       -moz-appearance: none;
       -o-appearance:none;
       .btn;
+     cursor: pointer;
     }
   }
 }
@@ -253,7 +258,7 @@ img {
 
 .content-output {
   position: relative;
-  background-color: white;
+  background-color: #ececec;
   border-radius: 16px;
   box-shadow: 0 0 4px rgba(0,0,0,.25) inset,
   0 0 8px rgba(0,0,0,.15) inset,
@@ -261,10 +266,9 @@ img {
 }
 
 .contactinfo {
-  font-variant: small-caps;
   font-size: 18px;
   position: absolute;
-  padding: 18px
+  padding: 19px
 }
 
 #notices {

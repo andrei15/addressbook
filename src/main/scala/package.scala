@@ -1,8 +1,6 @@
 package net
 
-import ru.circumflex._, core._, web._
-import freemarker._
-import scala.Some
+import ru.circumflex._, core._, web._, freemarker._
 
 package object whiteants {
 
@@ -32,11 +30,11 @@ package object whiteants {
     }
   }
 
-  def setCookie(u:User){
+  def setCookie(u: User){
     var ip = request.remoteIp
     val pos =  ip.lastIndexOf('.')
     if(pos != -1) ip = ip.substring(0, pos)
-    val c = HttpCookie("auth", u.getCookie(ip), path = "/", maxAge = 86400)
+    val c = HttpCookie("auth", u.getCookie(ip), path = "/", maxAge = 2629744)
     cookies += "auth" -> c
   }
 
@@ -48,25 +46,20 @@ package object whiteants {
       var pos = c.indexOf(":")
       var login = ""
       var sha = ""
-      if (pos != -1)
-      {
+      if (pos != -1) {
         login = c.substring(0, pos)
         sha = c.substring(c.indexOf(":") + 1, c.length)
-      }
+      } else return
       var ip = request.remoteIp
       pos = ip.lastIndexOf('.')
       if (pos != -1)
-      {
         ip = ip.substring(0, ip.lastIndexOf('.'))
-      }
       User.findLogin(login) match {
         case Some(u: User) =>
-          if (sha == sha256(ip+u.password())){
+          if (sha == sha256(ip + u.password())){
             session.update("principal", u)
           }
-          else Notice.addError("user.not-found") //flash.update("error", new Msg("user.not-found"))
         case _ =>
-          Notice.addError("user.not-found")
       }
     }
   }

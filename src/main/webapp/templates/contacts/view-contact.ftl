@@ -4,6 +4,7 @@
 <div class="grid pad">
 
   <div class="w50">
+
     <h2>${contact.fullName}</h2>
     <img src="/img/icons/48/mobile_phone.png"/> <span class="contactinfo">${contact.phone}</span>
     <p></p>

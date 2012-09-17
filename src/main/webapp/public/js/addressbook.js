@@ -1,5 +1,5 @@
 $(function(){
-  editAjax($(".edited"));
+  setFormAjax($(".created, .edited, #login, #signup"));
   getEditPanelByClick();
   hideEditPanel();
   setColorboxPopup();
@@ -59,7 +59,7 @@ $(document).keyup(function(e) {
   }
 });
 
-$(window).unload(function(){
+$(window).unload(function() {
   if (sessionStorage) {
     sessionStorage.setItem("notices",JSON.stringify(arr))
   }
@@ -67,7 +67,7 @@ $(window).unload(function(){
 
 $(window).load(function(){
   var pathname = window.location.pathname;
-  if(pathname == "/profile" || pathname=="/contacts"){
+  if(pathname == "/profile" || pathname.indexOf("contacts")){
     var variable = JSON.parse(sessionStorage.getItem("notices"));
     sessionStorage.clear();
     $("#notices").empty();
@@ -81,8 +81,8 @@ $(window).load(function(){
   }
 });
 
-function editAjax(forms) {
-  forms.each(function(){
+function setFormAjax(forms) {
+  forms.each(function() {
     var $form = $(this);
     $form.addClass("initialized");
     $(this).submit(function(event){
@@ -122,7 +122,7 @@ function editAjax(forms) {
   });
 }
 
-function setColorboxPopup(){
+function setColorboxPopup() {
   $("[rel=popup]").each(function() {
     var a = $(this);
     a.click(function(){
@@ -154,7 +154,7 @@ function showEditPanel() {
   });
 }
 
-function getEditPanelByClick(){
+function getEditPanelByClick() {
   $(".edform").each(function(){
     var a = $(this);
     var href = a.attr("href");
@@ -166,7 +166,7 @@ function getEditPanelByClick(){
       ev.preventDefault();
       $.get(href, {}, function(data){
         cnt.empty().append(data);
-        editAjax($(".edited", cnt));
+        setFormAjax($(".edited", cnt));
 
         $(".hidepanel").click(function(){
           cnt.empty();

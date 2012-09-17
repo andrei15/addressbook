@@ -1,15 +1,7 @@
 [#ftl]
 
 [#assign main]
-  [#assign errors = flash['errors']![]/]
 
-  [#if errors?size > 0]
-  <ul>
-    [#list errors as e]
-      <li>${e}</li>
-    [/#list]
-  </ul>
-  [/#if]
 <div class="grid margin-top pad">
   <div class="w66">
     <img src="/img/ab_logo.png"/>
