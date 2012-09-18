@@ -8,19 +8,13 @@ class ProfileRouter extends Router {
 
   get("/?") = ftl("/profile/view.ftl")
 
-  post("/?").and(request.body.isXHR) = {
+  post("/?") = partial {
+    partial.recovers.append (() => currentUser.refresh())
     currentUser.login := param("n")
     currentUser.email := param("e")
-    try {
-      currentUser.save()
-      setCookie(currentUser)
-      'redirect := "/profile"
-      Notice.addInfo("saved")
-    } catch {
-      case e: ValidationException =>
-        currentUser.refresh()
-        Notice.addErrors(e.errors)
-    }
-    sendJSON("/json.ftl")
+    currentUser.save()
+    setCookie(currentUser)
+    'redirect := "/profile"
+    Notice.addInfo("saved")
   }
 }

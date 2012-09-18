@@ -14,7 +14,7 @@ class AuthRouter extends Router {
     sendRedirect("/")
   }
 
-  post("/login").and(request.body.isXHR) = {
+  post("/login") = partial {
     User.find(param("l").toLowerCase, param("p")) match {
       case Some(u: User) =>
         //set cookie
@@ -24,25 +24,18 @@ class AuthRouter extends Router {
       case _ =>
         Notice.addError("user.not-found")
     }
-    sendJSON("/json.ftl")
   }
 
   get("/signup/?") = ftl("/auth/signup.ftl")
 
-  post("/signup").and(request.body.isXHR) = {
+  post("/signup") = partial {
     val u = new User
     u.login := param("l")
     u.password := param("p")
     u.email := param("e")
-    try {
-      u.save()
-      session.update("principal", u)
-      'redirect := flash.getAs[String]("returnTo").getOrElse("/")
-      Notice.addInfo("registered")
-    } catch {
-      case e: ValidationException =>
-        Notice.addErrors(e.errors)
-    }
-    sendJSON("/json.ftl")
+    u.save()
+    session.update("principal", u)
+    'redirect := flash.getAs[String]("returnTo").getOrElse("/")
+    Notice.addInfo("registered")
   }
 }

@@ -55,12 +55,12 @@ object User
       .unique()
 }
 
-class AddressBook
-  extends Record[Long, AddressBook]
-  with IdentityGenerator[Long, AddressBook] {
+class Contacts
+  extends Record[Long, Contacts]
+  with IdentityGenerator[Long, Contacts] {
 
   def PRIMARY_KEY = id
-  def relation = AddressBook
+  def relation = Contacts
 
   val id = "id".BIGINT.NOT_NULL.AUTO_INCREMENT
   val owner = "owner".BIGINT.NOT_NULL.REFERENCES(User).ON_DELETE(CASCADE)
@@ -76,9 +76,9 @@ class AddressBook
     "?d=identicon&amp;" + "size=" + size
 }
 
-object AddressBook
-  extends AddressBook
-  with Table[Long, AddressBook] {
+object Contacts
+  extends Contacts
+  with Table[Long, Contacts] {
 
   validation
     .notEmpty(_.name)
@@ -86,15 +86,15 @@ object AddressBook
     .pattern(_.email, Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$"), "syntax")
     .pattern(_.phone, Pattern.compile("^(8|\\+[0-9]{1,4}) *-? *[\\(]?[0-9]{3,6}[\\)]?( *-? *[0-9]){5,}$"), "syntax")
 
-  val ab = AddressBook AS "ab"
+  val ab = Contacts AS "ab"
 
-  def findAll(user: User): Seq[AddressBook] =
+  def findAll(user: User): Seq[Contacts] =
     SELECT(ab.*)
       .FROM(ab)
       .WHERE(ab.owner IS user)
       .list()
 
-  def userSearch(user: User, param: String): Seq[AddressBook] =  {
+  def userSearch(user: User, param: String): Seq[Contacts] = {
     val paramList = param.split(" ").map(_.trim).filter(_ != "")
     val p = AND()
     paramList.foreach { param =>
@@ -113,7 +113,7 @@ object AddressBook
 
   def fetch(id: String) = {
     try {
-      AddressBook.get(id.toLong).getOrElse(sendError(404))
+      Contacts.get(id.toLong).getOrElse(sendError(404))
     } catch {
       case e: Exception => sendError(404)
     }

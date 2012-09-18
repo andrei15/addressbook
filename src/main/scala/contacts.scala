@@ -7,41 +7,37 @@ class ContactsRouter extends Router {
   requireAuth()
 
   get("/?") = {
-    'contacts := AddressBook.findAll(currentUser)
+    'contacts := Contacts.findAll(currentUser)
     ftl("/contacts/list.ftl")
   }
 
   get("/~new") = ftl("/contacts/new.ftl")
 
   get("/search/?") = {
-    'search := AddressBook.userSearch(currentUser,param("q"))
+    'search := Contacts.userSearch(currentUser,param("q"))
     ftl("/contacts/search.ftl")
   }
 
-  post("/?").and(request.body.isXHR)  = {
-    val addressBook = new AddressBook
-    addressBook.owner := currentUser
-    addressBook.name := param("n")
-    addressBook.surname := param("s")
-    addressBook.phone := param("p")
-    addressBook.address := param("a")
-    addressBook.email := param("e")
-    try {
-      addressBook.save()
-      'redirect := prefix
-      Notice.addInfo("saved")
-    } catch {
-      case e: ValidationException =>
-        Notice.addErrors(e.errors)
-    }
-    sendJSON("/json.ftl")
+  post("/?")  = partial {
+    val contact = new Contacts
+    contact.owner := currentUser
+    contact.name := param("n")
+    contact.surname := param("s")
+    contact.phone := param("p")
+    contact.address := param("a")
+    contact.email := param("e")
+    contact.save()
+    'redirect := prefix
+    Notice.addInfo("saved")
   }
 
   sub("/:id") = {
 
-    val contact = AddressBook.fetch(param("id"))
+    val contact = Contacts.fetch(param("id"))
     if (contact.owner() != currentUser)
       sendError(404)
+
+    partial.recovers.append (() => contact.refresh())
 
     'contact := contact
 
@@ -49,21 +45,15 @@ class ContactsRouter extends Router {
 
     get("/~edit").and(request.body.isXHR) = ftl("/contacts/edit.p.ftl")
 
-    post("/?").and(request.body.isXHR) = {
+    post("/?") = partial {
       contact.name := param("n")
       contact.surname := param("s")
       contact.phone := param("p")
       contact.address := param("a")
       contact.email := param("e")
-      try {
-        contact.save()
-        'redirect := "/contacts"
-        Notice.addInfo("edited")
-      } catch {
-        case e: ValidationException =>
-          Notice.addErrors(e.errors)
-      }
-      sendJSON("/json.ftl")
+      contact.save()
+      'redirect := "/contacts"
+      Notice.addInfo("edited")
     }
 
     get ("/~delete") = ftl("/contacts/delete.p.ftl")

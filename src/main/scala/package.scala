@@ -1,6 +1,7 @@
 package net
 
 import ru.circumflex._, core._, web._, freemarker._
+import collection.mutable.ListBuffer
 
 package object whiteants {
 
@@ -30,7 +31,7 @@ package object whiteants {
     }
   }
 
-  def setCookie(u: User){
+  def setCookie(u: User) {
     var ip = request.remoteIp
     val pos =  ip.lastIndexOf('.')
     if(pos != -1) ip = ip.substring(0, pos)
@@ -41,7 +42,7 @@ package object whiteants {
   def cookieAuth() {
     if (!currentUserOption.isEmpty) return
     val cookie = request.cookies.find(_.name == "auth")
-    if (!cookie.isEmpty ){
+    if (!cookie.isEmpty ) {
       val c = cookie.get.value
       var pos = c.indexOf(":")
       var login = ""
@@ -56,7 +57,7 @@ package object whiteants {
         ip = ip.substring(0, ip.lastIndexOf('.'))
       User.findLogin(login) match {
         case Some(u: User) =>
-          if (sha == sha256(ip + u.password())){
+          if (sha == sha256(ip + u.password())) {
             session.update("principal", u)
           }
         case _ =>
@@ -64,9 +65,30 @@ package object whiteants {
     }
   }
 
-  def sendJSON  (templ: String): Nothing = {
+  def sendJSON (templ: String): Nothing = {
     response.contentType("application/json")
     ftl(templ)
+  }
+
+  object partial {
+
+    val recovers = new ListBuffer[() => Unit]
+
+    def apply(actions: => Unit): Nothing = {
+      if (!request.body.isXHR) sendError(404)
+      try {
+        actions
+      } catch {
+        case e: ValidationException =>
+          Notice.addErrors(e.errors)
+          recovers.foreach(_.apply())
+        case e: Exception =>
+          recovers.foreach(_.apply())
+          throw e
+      }
+      sendJSON("/json.ftl")
+    }
+
   }
 
 }
