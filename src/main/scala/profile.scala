@@ -28,7 +28,7 @@ class ProfileRouter extends Router {
     val oldPassword = sha256(param("oldPassword"))
     val newPassword = param("newPassword")
     val confirmPassword = param("confirmPassword")
-    if((currentUser.password() == oldPassword) && (newPassword == confirmPassword)) {
+    if((currentUser.password() == oldPassword) && (newPassword == confirmPassword) && !newPassword.isEmpty) {
       currentUser.password :=  User.getSha256Password(newPassword)
       currentUser.save()
       setCookie(currentUser)

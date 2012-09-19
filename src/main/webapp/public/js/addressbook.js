@@ -1,6 +1,6 @@
 $(function(){
   setFormAjax($(".created, .edited, #login, #signup"));
-  getEditPanelByClick();
+  getEditPanelByClick($(".edform, .editpassw"));
   hideEditPanel();
   setColorboxPopup();
   getEditPasswordByClick()
@@ -155,36 +155,9 @@ function showEditPanel() {
   });
 }
 
-function getEditPanelByClick() {
-  $(".edform").each(function(){
+function getEditPanelByClick(btnClass) {
+  $(btnClass).each(function(){
     var a = $(this);
-    var href = a.attr("href");
-    var cnt = $(a.attr("data-container"));
-    a.click(function (ev) {
-
-      showEditPanel()
-
-      ev.preventDefault();
-      $.get(href, {}, function(data){
-        cnt.empty().append(data);
-        setFormAjax($(".edited", cnt));
-
-        $(".hidepanel").click(function(){
-          cnt.empty();
-          hideEditPanel();
-          $("#notices").empty();
-        });
-
-      }, "html");
-      return false;
-    });
-  });
-}
-
-function getEditPasswordByClick() {
-  $(".editpassw").each(function(){
-    var a = $(this);
-    a.addClass("initialized");
     var href = a.attr("href");
     var cnt = $(a.attr("data-container"));
     a.click(function (ev) {

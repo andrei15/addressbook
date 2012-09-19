@@ -56,14 +56,13 @@
         <div class="submits centered" >
           <input type="submit"
                  value="${msg['user.profile.edit']}"/>
+          <a href="/profile/~edit-password"
+             class="btn editpassw"
+             data-container="#editPasswordContainer">
+          ${msg['user.password.edit']}
+          </a>
         </div>
       </form>
-
-      <a href="/profile/~edit-password"
-         class="btn editpassw"
-         data-container="#editPasswordContainer">
-      ${msg['user.password.edit']}
-      </a>
     </div>
     <div id="editPasswordContainer" class="w50"></div>
   </div>
