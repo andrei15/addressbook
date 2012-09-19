@@ -22,6 +22,15 @@
   </script>
   <script type="text/javascript" src="/js/addressbook.js">
   </script>
+  <script type="text/javascript">
+    window.___gcfg = {lang: 'ru'};
+
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+  </script>
 </head>
 <body>
 <div id="header">
@@ -49,6 +58,7 @@
   [/#list]
   </ul>
 ${main}
+  <g:plusone annotation="inline"></g:plusone>
 </div>
 <div id="footer" class="clear">
   <span>${msg['poweredBy']} <a href="http://circumflex.ru" target="_blank">Circumflex</a></span>

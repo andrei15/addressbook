@@ -20,7 +20,7 @@ class AuthRouter extends Router {
         //set cookie
         setCookie(u)
         session.update("principal", u)
-        'redirect := flash.getAs[String]("returnTo").getOrElse("/") //redirectWithReturn
+        'redirect := redirectWithReturn
       case _ =>
         Notice.addError("user.not-found")
     }
@@ -29,13 +29,17 @@ class AuthRouter extends Router {
   get("/signup/?") = ftl("/auth/signup.ftl")
 
   post("/signup") = partial {
+    val passw = param("p")
     val u = new User
     u.login := param("l")
-    u.password := param("p")
+    u.password := ""
+    if (!passw.isEmpty)
+      u.password := User.getSha256Password(passw)
     u.email := param("e")
     u.save()
+    setCookie(u)
     session.update("principal", u)
-    'redirect := flash.getAs[String]("returnTo").getOrElse("/")
+    'redirect := redirectWithReturn
     Notice.addInfo("registered")
   }
 }

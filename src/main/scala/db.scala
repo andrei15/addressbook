@@ -23,6 +23,8 @@ class User
     "?d=identicon&amp;" + "size=" + size
 
   def getCookie(ip: String) = login() + ":" + sha256(ip + password())
+
+  def getSha256Password(password: String) = sha256(password)
 }
 
 object User
@@ -45,7 +47,7 @@ object User
     SELECT(u.*)
       .FROM(u)
       .add(u.login EQ login)
-      .add(u.password EQ password)
+      .add(u.password EQ sha256(password))
       .unique()
 
   def findLogin(login: String): Option[User] =

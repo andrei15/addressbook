@@ -14,7 +14,7 @@ class ContactsRouter extends Router {
   get("/~new") = ftl("/contacts/new.ftl")
 
   get("/search/?") = {
-    'search := Contacts.userSearch(currentUser,param("q"))
+    'search := Contacts.userSearch(currentUser, param("q"))
     ftl("/contacts/search.ftl")
   }
 
@@ -37,7 +37,7 @@ class ContactsRouter extends Router {
     if (contact.owner() != currentUser)
       sendError(404)
 
-    partial.recovers.append (() => contact.refresh())
+    partial.addRecovers(() => contact.refresh())
 
     'contact := contact
 

@@ -14,10 +14,12 @@ package object whiteants {
 
   def currentUser = currentUserOption.get
 
-  def redirectWithReturn = {
-    val returnTo = flash.getAs[String]("returnTo").getOrElse("/")
-    sendRedirect(returnTo)
-  }
+  //  def redirectWithReturn = {
+  //    val returnTo = flash.getAs[String]("returnTo").getOrElse("/")
+  //    sendRedirect(returnTo)
+  //  }
+
+  def redirectWithReturn =  flash.getAs[String]("returnTo").getOrElse("/")
 
   def requireAuth() {
     if (currentUserOption.isEmpty) {
@@ -32,10 +34,14 @@ package object whiteants {
   }
 
   def setCookie(u: User) {
-    var ip = request.remoteIp
-    val pos =  ip.lastIndexOf('.')
-    if(pos != -1) ip = ip.substring(0, pos)
-    val c = HttpCookie("auth", u.getCookie(ip), path = "/", maxAge = 2629744)
+    val ip = {
+      val pos = request.remoteIp.lastIndexOf('.')
+      if (pos != -1)
+        request.remoteIp.substring(0, pos)
+      else
+        request.remoteIp
+    }
+    val c = HttpCookie("auth", u.getCookie(ip), path = "/", maxAge = 31 * 24 * 60 *60)
     cookies += "auth" -> c
   }
 
@@ -44,17 +50,17 @@ package object whiteants {
     val cookie = request.cookies.find(_.name == "auth")
     if (!cookie.isEmpty ) {
       val c = cookie.get.value
-      var pos = c.indexOf(":")
-      var login = ""
-      var sha = ""
-      if (pos != -1) {
-        login = c.substring(0, pos)
-        sha = c.substring(c.indexOf(":") + 1, c.length)
-      } else return
-      var ip = request.remoteIp
-      pos = ip.lastIndexOf('.')
-      if (pos != -1)
-        ip = ip.substring(0, ip.lastIndexOf('.'))
+      val pos = c.indexOf(":")
+      if (pos == -1) return
+      val login = c.substring(0, pos)
+      val sha = c.substring(pos + 1, c.length)
+      val ip = {
+        val pos = request.remoteIp.lastIndexOf('.')
+        if (pos != -1)
+          request.remoteIp.substring(0, pos)
+        else
+          request.remoteIp
+      }
       User.findLogin(login) match {
         case Some(u: User) =>
           if (sha == sha256(ip + u.password())) {
@@ -74,6 +80,9 @@ package object whiteants {
 
     val recovers = new ListBuffer[() => Unit]
 
+    def addRecovers(element:() => Unit) {
+      recovers.append(element)
+    }
     def apply(actions: => Unit): Nothing = {
       if (!request.body.isXHR) sendError(404)
       try {
