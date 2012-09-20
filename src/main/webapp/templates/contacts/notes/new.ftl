@@ -1,7 +1,6 @@
 [#ftl]
 
 [#assign main]
-
 <div class="grid">
   <div class="w33">
     <form id="newNote"
