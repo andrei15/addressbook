@@ -71,6 +71,9 @@ class Contacts
   val phone = "phone".TEXT.NOT_NULL
   val email = "email".TEXT.NOT_NULL
   val address = "address".TEXT.NOT_NULL("")
+  val _notes = "notes".HTML.NOT_NULL("<notes/>")
+
+  lazy val notes = (new Notes(this)).loadString(_notes())
 
   def fullName = surname() + " " + name()
 

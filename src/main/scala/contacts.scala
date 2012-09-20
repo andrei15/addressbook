@@ -63,5 +63,28 @@ class ContactsRouter extends Router {
       Notice.addInfo("deleted")
       sendRedirect("/contacts")
     }
+
+    sub("/notes") = {
+
+      get("/~new") = ftl("/contacts/notes/new.ftl")
+
+      post("/?")  = partial {
+        val note = new Note(contact.notes)
+        note._title := param("t")
+        //note.path := //load file text note
+        // TODO
+        contact.notes.add(note)
+        contact._notes := contact.notes.toXml
+        contact.save()
+        'redirect := prefix + note.uuid
+        Notice.addInfo("saved")
+      }
+
+      sub(":uuid") = {
+        //        val note = contact.notes.getByUuid(param("uuid")).getOrElse(sendError(404))
+        //        'note := note
+        get("/?") = ftl("/contacts/notes/view-notes.ftl")
+      }
+    }
   }
 }
