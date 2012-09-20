@@ -30,6 +30,14 @@
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
     })();
   </script>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+  </script>
 </head>
 <body>
 <div id="header">
@@ -57,10 +65,17 @@
   [/#list]
   </ul>
 ${main}
-  <g:plusone annotation="inline"></g:plusone>
 </div>
 <div id="footer" class="clear">
   <span>${msg['poweredBy']} <a href="http://circumflex.ru" target="_blank">Circumflex</a></span>
 </div>
+<ul class="subfooter">
+  <li>
+    <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true"></div>
+  </li>
+  <li>
+    <g:plusone annotation="inline"></g:plusone>
+  </li>
+</ul>
 </body>
 </html>

@@ -1,6 +1,6 @@
 [#ftl]
 
-<form action="/contacts/search"
+<form action="/contacts/"
       class="submission right-float"
       method="get">
   <div class="field-box">

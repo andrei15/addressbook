@@ -7,16 +7,16 @@ class ContactsRouter extends Router {
   requireAuth()
 
   get("/?") = {
-    'contacts := Contacts.findAll(currentUser)
+    if (!param("q").isEmpty) {
+      'contacts := Contacts.userSearch(currentUser, param("q"))
+    }
+    else {
+      'contacts := Contacts.findAll(currentUser)
+    }
     ftl("/contacts/list.ftl")
   }
 
   get("/~new") = ftl("/contacts/new.ftl")
-
-  get("/search/?") = {
-    'search := Contacts.userSearch(currentUser, param("q"))
-    ftl("/contacts/search.ftl")
-  }
 
   post("/?")  = partial {
     val contact = new Contacts
