@@ -1,8 +1,10 @@
 [#ftl]
 
 [#assign main]
+
 <div class="grid">
-  <div class="w33">
+  <div class="w50">
+    <h2>${msg['contact.note.new']}</h2>
     <form id="newNote"
           action="/contacts/${contact.id}/notes"
           class="submission created"
@@ -23,15 +25,13 @@
 
       <div class="field-box">
         <label for="n">${msg['contact.notes.content']}</label>
-        <div class="field">
+        <div class="textarea">
           <div class="input">
             <textarea id="n"
                       rows="10"
-                      cols="51"
-                      wrap="on"
+                      cols="79"
                      form="newNote"
-                     name="n">
-            </textarea>
+                     name="n"></textarea>
           </div>
         </div>
       </div>
@@ -44,9 +44,9 @@
       </div>
     </form>
   </div>
-  <div class="w66 no-mobiles">
+  <div class="w50 no-mobiles">
     <div class="centered">
-      <img src="/img/new-contact.png"/>
+      <img src="/img/icons/128/note.png"/>
     </div>
   </div>
 </div>

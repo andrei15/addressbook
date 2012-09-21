@@ -1,6 +1,7 @@
 package net.whiteants
 
 import ru.circumflex._, core._, web._, freemarker._
+import org.apache.commons.io.FileUtils
 
 class ContactsRouter extends Router {
 
@@ -18,7 +19,7 @@ class ContactsRouter extends Router {
 
   get("/~new") = ftl("/contacts/new.ftl")
 
-  post("/?")  = partial {
+  post("/?") = partial {
     val contact = new Contacts
     contact.owner := currentUser
     contact.name := param("n")
@@ -66,23 +67,35 @@ class ContactsRouter extends Router {
 
     sub("/notes") = {
 
-      get("/~new") = ftl("/contacts/notes/new.ftl")
-
-      post("/?")  = partial {
-        val note = new Note(contact.notes)
-        note._title := param("t")
-        //note.path := //load file text note
-        // TODO
-        contact.notes.add(note)
-        contact._notes := contact.notes.toXml
-        contact.save()
-        'redirect := prefix + note.uuid
-        Notice.addInfo("saved")
+      get("/?") = {
+        val notes = contact.notes.children.toList
+        'notes := notes
+        ftl("/contacts/notes/list.ftl")
       }
 
-      sub(":uuid") = {
-        //        val note = contact.notes.getByUuid(param("uuid")).getOrElse(sendError(404))
-        //        'note := note
+      get("/~new") = ftl("/contacts/notes/new.ftl")
+
+      post("/?") = partial {
+        val note = new Note(contact.notes)
+        val title = param("t")
+        if (!title.isEmpty) {
+          note._title := param("t")
+          FileUtils.writeStringToFile(note.path, param("n"))
+          contact.notes.add(note)
+          contact._notes := contact.notes.toXml
+          contact.save()
+          'redirect := prefix + "/" + note.uuid
+          Notice.addInfo("saved")
+        }
+        else Notice.addError("contact.notes.title.empty")
+      }
+
+      sub("/:uuid") = {
+
+        val note = contact.notes.getByUuid(param("uuid")).getOrElse(sendError(404))
+        'note := note
+        'textNote := FileUtils.readFileToString(note.path)
+
         get("/?") = ftl("/contacts/notes/view-notes.ftl")
       }
     }

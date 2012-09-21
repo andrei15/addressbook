@@ -3,7 +3,7 @@
 [#assign main]
 <div class="grid pad">
 
-  <div class="w50">
+  <div class="w50 hide50">
 
     <h2>${contact.fullName}</h2>
     <img src="/img/icons/48/mobile_phone.png"/> <span class="contactinfo">${contact.phone}</span>
@@ -23,6 +23,10 @@
          rel="popup"
          class="btn inverse">
       ${msg['contact.delete']}
+      </a>
+      <a href="/contacts/${contact.id}/notes"
+         class="btn">
+      ${msg['notes.title']}
       </a>
     </div>
   </div>

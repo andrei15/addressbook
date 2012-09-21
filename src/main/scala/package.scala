@@ -14,11 +14,6 @@ package object whiteants {
 
   def currentUser = currentUserOption.get
 
-  //  def redirectWithReturn = {
-  //    val returnTo = flash.getAs[String]("returnTo").getOrElse("/")
-  //    sendRedirect(returnTo)
-  //  }
-
   def redirectWithReturn =  flash.getAs[String]("returnTo").getOrElse("/")
 
   def requireAuth() {

@@ -10,16 +10,13 @@ class Notes(val contact: Contacts) extends ListHolder[Note] { notes =>
     case "note" => new Note(notes)
   }
 
-//  def getByUuid(uuid: String): Option[Note] = notes.contact._notes.uuid match {
-//    case Some(n: Note) => Some(n)
-//    case _ => None
-//  }
+  def getByUuid(uuid: String) = children.find(_.uuid == uuid)
+
 }
 
-class Note(@transient val notes: Notes)
-  extends StructHolder {
+class Note(@transient val notes: Notes) extends StructHolder {
 
-  val baseDir = new File("/var/addressbook/" + notes.contact.owner.value.get.id()) // TODO: Implement me
+  val baseDir = new File("/var/addressbook/" + notes.contact.owner.value.get.id())
 
   def elemName = "note"
 
@@ -32,8 +29,7 @@ class Note(@transient val notes: Notes)
     _uuid()
   }
 
-  def path = new File(baseDir, uuid)
-
+  lazy val path = new File(baseDir, uuid)
 
   val files = new ListHolder[FileDesctiption] {
     def elemName = "files"
@@ -44,6 +40,7 @@ class Note(@transient val notes: Notes)
 }
 
 class FileDesctiption extends StructHolder {
+
   def elemName = "file"
 
   val _uuid = attr("uuid")
@@ -51,6 +48,7 @@ class FileDesctiption extends StructHolder {
     _uuid := randomUUID
     _uuid()
   }
+
   val _ext = attr("ext")
   def ext = _ext.getOrElse("")
 

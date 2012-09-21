@@ -3,7 +3,6 @@ $(function(){
   getEditPanelByClick($(".edform, .editpassw"));
   hideEditPanel();
   setColorboxPopup();
-  getEditPasswordByClick()
 });
 
 //notices
@@ -140,18 +139,22 @@ function setColorboxPopup() {
 }
 
 function hideEditPanel() {
-  $(".w50").each(function(){
+  $(".hide50").each(function(){
     var w = $(this);
     w.removeClass("w50");
+    w.removeClass("hide50");
     w.addClass("w100");
+    w.addClass("hide100");
   });
 }
 
 function showEditPanel() {
-  $(".w100").each(function(){
+  $(".hide100").each(function(){
     var w = $(this);
     w.removeClass("w100");
+    w.removeClass("hide100");
     w.addClass("w50");
+    w.addClass("hide50");
   });
 }
 
