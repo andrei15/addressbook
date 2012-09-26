@@ -2,7 +2,7 @@
 <h2>${msg['login']}</h2>
 <form id ="login"
       action="/auth/login"
-      class="submission"
+      class="submission partial"
       method="post">
   <div class="field-box">
     <label for="l">${msg['login.cn']}</label>

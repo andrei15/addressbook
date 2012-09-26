@@ -24,18 +24,13 @@
                  title="${msg['contact.notes.view']}">
                 <img src="/img/icons/48/note_book.png"/>
               </a>
-              <a href="/contacts/${c.id}/notes/~new"
-                 class="btn note"
-                 title="${msg['contact.note']}">
-                <img src="/img/icons/48/note_accept.png"/>
-              </a>
               <a href="/contacts/${c.id}"
                  class="btn view"
                  title="${msg['contact.view']}">
                 <img src="/img/icons/48/search_business_user.png"/>
               </a>
               <a href="/contacts/${c.id}/~edit"
-                 class="btn edform"
+                 class="btn editpanel"
                  data-container="#edit-container"
                  title="${msg['contact.edit']}">
                 <img src="/img/pencil.png"/>
@@ -60,7 +55,6 @@
   </div>
 
 </div>
-<div class="clear"></div>
 [/#assign]
 
 [#include "layout.ftl"/]

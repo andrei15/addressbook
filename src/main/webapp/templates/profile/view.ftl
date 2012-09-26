@@ -11,7 +11,7 @@
       <h2>${msg['user.profile']}</h2>
       <form action="/profile"
             id="profile"
-            class="submission edited"
+            class="submission partial"
             method="post">
 
         <div class="field-box">
@@ -57,7 +57,7 @@
           <input type="submit"
                  value="${msg['user.profile.edit']}"/>
           <a href="/profile/~edit-password"
-             class="btn editpassw"
+             class="btn editpanel"
              data-container="#editPasswordContainer">
           ${msg['user.password.edit']}
           </a>
@@ -68,7 +68,6 @@
   </div>
 
 </div>
-<div class="clear"></div>
 [/#assign]
 
 [#include "layout.ftl"/]

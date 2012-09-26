@@ -2,6 +2,7 @@ package net.whiteants
 
 import ru.circumflex._, ru.circumflex.core._, orm._, web._, xml._
 import java.io.File
+import org.apache.commons.io.FileUtils
 
 class Notes(val contact: Contacts) extends ListHolder[Note] { notes =>
   def elemName = "notes"
@@ -37,6 +38,8 @@ class Note(@transient val notes: Notes) extends StructHolder {
       case "file" => new FileDesctiption
     }
   }
+
+  def getNote = FileUtils.readFileToString(path)
 }
 
 class FileDesctiption extends StructHolder {
@@ -52,4 +55,5 @@ class FileDesctiption extends StructHolder {
   val _ext = attr("ext")
   def ext = _ext.getOrElse("")
 
+  def fileName = uuid + "." + ext
 }

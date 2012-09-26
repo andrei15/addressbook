@@ -7,7 +7,7 @@
   <div class="w33">
     <h2>${msg['contact.new.title']}</h2>
     <form action="/contacts"
-          class="submission created"
+          class="submission partial"
           method="post">
       [#include "edit-base.ftl"/]
       <div class="submits centered">
@@ -24,7 +24,6 @@
     </div>
   </div>
 </div>
-<div class="clear"></div>
 [/#assign]
 
 [#include "layout.ftl"/]

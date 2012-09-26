@@ -2,6 +2,8 @@ package net
 
 import ru.circumflex._, core._, web._, freemarker._
 import collection.mutable.ListBuffer
+import java.io.File
+import org.apache.commons.io.FileUtils
 
 package object whiteants {
 

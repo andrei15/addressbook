@@ -1,6 +1,6 @@
 $(function(){
-  setFormAjax($(".created, .edited, #login, #signup"));
-  getEditPanelByClick($(".edform, .editpassw"));
+  setFormAjax($(".partial"));
+  getEditPanelByClick($(".editpanel"));
   hideEditPanel();
   setColorboxPopup();
 });
@@ -170,7 +170,7 @@ function getEditPanelByClick(btnClass) {
       ev.preventDefault();
       $.get(href, {}, function(data){
         cnt.empty().append(data);
-        setFormAjax($(".edited", cnt));
+        setFormAjax($(".partial", cnt));
 
         $(".hidepanel").click(function(){
           cnt.empty();

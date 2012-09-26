@@ -8,7 +8,7 @@ ${msg['login.title']}
 
 <h2>${msg['signup']}</h2>
 <form id ="signup"
-      class="submission"
+      class="submission partial"
       method="post"
       action="/auth/signup">
   <div class="field-box">

@@ -15,7 +15,7 @@
     [/#if]
     <div class="centered margin-top margin-bottom clear">
       <a href="/contacts/${contact.id}/~edit"
-         class="btn edform"
+         class="btn editpanel"
          data-container="#edit-container">
       ${msg['contact.edit']}
       </a>
@@ -34,7 +34,6 @@
   <div id="edit-container" class="w50"></div>
 
 </div>
-<div class="clear"></div>
 [/#assign]
 
 [#include "layout.ftl"/]

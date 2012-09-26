@@ -11,6 +11,7 @@ class FtlConfiguration extends DefaultConfiguration {
   setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER)
   setNumberFormat("0.##")
   setSharedVariable("env", env)
+  setSharedVariable("me", MarkevenDirective)
 }
 
 object env {

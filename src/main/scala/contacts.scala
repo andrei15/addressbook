@@ -2,6 +2,9 @@ package net.whiteants
 
 import ru.circumflex._, core._, web._, freemarker._
 import org.apache.commons.io.FileUtils
+import org.apache.commons.fileupload.FileItem
+import org.apache.commons.fileupload.disk.DiskFileItemFactory
+import java.io.File
 
 class ContactsRouter extends Router {
 
@@ -42,7 +45,7 @@ class ContactsRouter extends Router {
 
     'contact := contact
 
-    get("/?") = ftl("/contacts/view-contact.ftl")
+    get("/?") = ftl("/contacts/view.ftl")
 
     get("/~edit").and(request.body.isXHR) = ftl("/contacts/edit.p.ftl")
 
@@ -65,6 +68,43 @@ class ContactsRouter extends Router {
       sendRedirect("/contacts")
     }
 
+    def editNote(note: Note) {
+      if (!request.body.isMultipart) sendError(404)
+      request.body.parseFileItems(new DiskFileItemFactory()).foreach { fi =>
+        if (fi.isFormField) {
+          ctx.update(fi.getFieldName, fi.getString("utf-8"))
+        } else
+          ctx.update(fi.getFieldName, fi)
+      }
+      val title = ctx.getString("t").getOrElse(sendError(404))
+      val noteParam = ctx.getString("n").getOrElse(sendError(404))
+      if (!title.isEmpty) {
+        note._title := title
+        FileUtils.writeStringToFile(note.path, noteParam)
+        ctx.getAs[FileItem]("file").map { fi =>
+          if (!fi.getName.isEmpty) {
+            val uploadFile = fi.getName
+            val file = new FileDesctiption
+            note.files.add(file)
+            val i = uploadFile.lastIndexOf(".")
+            if (i != -1) {
+              val ext = uploadFile.substring(i + 1)
+              file._ext := ext
+              try {
+                fi.write(new File(note.baseDir, file.fileName))
+              } catch {
+                case e: Exception => Notice.addError("Error")
+              }
+            }
+          }
+        }
+        contact._notes := contact.notes.toXml
+        contact.save()
+        Notice.addInfo("saved")
+      }
+      else Notice.addError("contact.notes.title.empty")
+    }
+
     sub("/notes") = {
 
       get("/?") = {
@@ -75,28 +115,45 @@ class ContactsRouter extends Router {
 
       get("/~new") = ftl("/contacts/notes/new.ftl")
 
-      post("/?") = partial {
+      post("/?") = {
         val note = new Note(contact.notes)
-        val title = param("t")
-        if (!title.isEmpty) {
-          note._title := param("t")
-          FileUtils.writeStringToFile(note.path, param("n"))
-          contact.notes.add(note)
-          contact._notes := contact.notes.toXml
-          contact.save()
-          'redirect := prefix + "/" + note.uuid
-          Notice.addInfo("saved")
-        }
-        else Notice.addError("contact.notes.title.empty")
+        contact.notes.add(note)
+        editNote(note)
+        if (Notice.hasErrors)
+          sendRedirect(prefix + "/~new")
+        else sendRedirect(prefix)
       }
 
       sub("/:uuid") = {
 
         val note = contact.notes.getByUuid(param("uuid")).getOrElse(sendError(404))
         'note := note
-        'textNote := FileUtils.readFileToString(note.path)
 
-        get("/?") = ftl("/contacts/notes/view-notes.ftl")
+        get("/?") = ftl("/contacts/notes/view.ftl")
+
+        get("/~edit") = ftl("/contacts/notes/edit.ftl")
+
+        post("/?") = {
+          editNote(note)
+          if (Notice.hasErrors)
+            sendRedirect(prefix + note.uuid + "/~edit")
+          else sendRedirect(prefix)
+        }
+
+        get("/~delete") = ftl("/contacts/notes/delete.p.ftl")
+
+        delete("/?") = {
+          FileUtils.deleteQuietly(note.path)
+          note.files.children.map { file =>
+            FileUtils.deleteQuietly(new File(note.baseDir, file.fileName))
+          }
+          contact.notes.delete(note)
+          contact._notes := contact.notes.toXml
+          contact.save()
+          Notice.addInfo("deleted")
+          sendRedirect("/contacts/" + contact.id() +"/notes/")
+        }
+
       }
     }
   }

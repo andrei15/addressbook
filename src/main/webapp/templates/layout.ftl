@@ -22,6 +22,7 @@
   </script>
   <script type="text/javascript" src="/js/addressbook.js">
   </script>
+  [#--
   <script type="text/javascript">
     window.___gcfg = {lang: 'ru'};
     (function() {
@@ -38,6 +39,7 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
   </script>
+  --]
 </head>
 <body>
 <div id="header">

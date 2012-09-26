@@ -1,12 +1,11 @@
 [#ftl]
 
 [#assign main]
-
-<div class="grid">
+<div class="grid pad">
   <div class="w50">
-    <h2>${msg['contact.note.new']}</h2>
-    <form id="newNote"
-          action="/contacts/${contact.id}/notes"
+    <h2>${msg['contact.note.edit']}</h2>
+    <form id ="editNote"
+          action="/contacts/${contact.id}/notes/${note.uuid}"
           class="submission"
           method="post"
           enctype="multipart/form-data">
@@ -19,6 +18,7 @@
                    name="t"
                    size="25"
                    autofocus="autofocus"
+                   value="${note.title!""}"
                    type="text"/>
           </div>
         </div>
@@ -31,28 +31,23 @@
             <textarea id="n"
                       rows="10"
                       cols="79"
-                      form="newNote"
-                      name="n"></textarea>
+                      form="editNote"
+                      name="n">${note.getNote!""}
+            </textarea>
           </div>
         </div>
       </div>
       [#include "file-upload.ftl"/]
+
       <div class="submits centered">
         <input type="submit"
-               value="${msg['notes.new']}"/>
+               value="${msg['notes.edit']}"/>
         <span>${msg['or']}</span>
-        <a href="/contacts/${contact.id}/notes">${msg['cancel']}</a>
+        <a href="/contacts/${contact.id}/notes/${note.uuid}">${msg['cancel']}</a>
       </div>
     </form>
-
-  </div>
-  <div class="w50 no-mobiles">
-    <div class="centered">
-      <img src="/img/icons/128/note.png"/>
-    </div>
   </div>
 </div>
-
 [/#assign]
 
 [#include "layout.ftl"/]

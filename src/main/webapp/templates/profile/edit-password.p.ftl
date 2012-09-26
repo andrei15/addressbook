@@ -1,6 +1,6 @@
 [#ftl]
 <form action="/profile/~edit-password"
-      class="submission edited"
+      class="submission partial"
       method="post">
   <h2>${msg['user.password.edit']}</h2>
 
@@ -43,7 +43,7 @@
     <input type="submit"
            value="${msg['contact.edit.submit']}"/>
     <span>${msg['or']}</span>
-    <a href="#"
+    <a href="javascript:;"
        class="hidepanel">${msg['cancel']}
     </a>
 

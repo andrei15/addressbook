@@ -27,6 +27,8 @@ object Notice  {
       notices.append(new Notice("error", e.toString()))
     }
   }
+
+  def hasErrors = !notices.find(_.kind == "error").isEmpty
 }
 
 class Notice(val kind: String, val message: String)

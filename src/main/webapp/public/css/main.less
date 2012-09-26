@@ -37,7 +37,13 @@ a, a:visited {
     .w50 { width: 50%; }
     .w66 { width: 67%; }
     .w100 { width: 100%; }
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
   }
+}
 
 @media screen and (max-width: 640px) {
   .no-mobiles { display: none; }
@@ -149,6 +155,8 @@ img {
       width:100%;
       padding: 4px;
 
+      textarea { width: 100%; }
+
       .input {
         dispay: table-cell;
         width: 100%;
@@ -249,20 +257,21 @@ img {
     }
   }
   .notes {
+    display: inline-block;
     padding: 8px;
     height: 32px;
     position: relative;
     margin: 8px;
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0,0,0,.15),
-    0 2px 4px rgba(0,0,0,.2);
+                0 2px 4px rgba(0,0,0,.2);
 
-    .bkg-v(#E8E38B, #ccc);
+    .bkg-v(#f4e783, #dbcf75);
 
     .title {
       font-variant: small-caps;
       font-size: 18px;
-      margin-top: 6px;
+      margin-top: 7px;
     }
 
     .ctls {
@@ -292,8 +301,8 @@ img {
     margin: 8px;
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0,0,0,.15),
-    0 2px 4px rgba(0,0,0,.2);
-    .bkg-v(#E8E38B, #ccc);
+                0 2px 4px rgba(0,0,0,.2);
+    .bkg-v(#f4e783, #dbcf75);
 
     .title {
       font-variant: small-caps;
@@ -301,7 +310,36 @@ img {
       margin-top: 6px;
       padding: 4px;
     }
+    .note {
+      font-variant: small-caps;
+      font-size: 14px;
+      margin-top: 4px;
+      padding: 4px;
+    }
+    .files {
+      font-size: 10px;
+      margin-top: 6px;
+      padding: 4px;
+    }
+    .ctls {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index:2;
 
+      a {
+        margin-left: 4px;
+        float: left;
+        display: block;
+        padding: 0 4px;
+        height: 32px;
+        line-height: 32px;
+        img {
+          vertical-align: middle;
+          max-width: 24px;
+        }
+      }
+    }
   }
 }
 
