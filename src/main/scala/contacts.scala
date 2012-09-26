@@ -89,6 +89,7 @@ class ContactsRouter extends Router {
             val i = uploadFile.lastIndexOf(".")
             if (i != -1) {
               val ext = uploadFile.substring(i + 1)
+              file._originalName := uploadFile.substring(0, i)
               file._ext := ext
               try {
                 fi.write(new File(note.baseDir, file.fileName))
@@ -129,7 +130,17 @@ class ContactsRouter extends Router {
         val note = contact.notes.getByUuid(param("uuid")).getOrElse(sendError(404))
         'note := note
 
-        get("/?") = ftl("/contacts/notes/view.ftl")
+        get("/?") = {
+          if (!param("f").isEmpty) {
+            try{
+              response.contentType("")
+              sendFile(new File(note.baseDir, param("f")))
+            } catch {
+              case e:  Exception =>
+            }
+          }
+          ftl("/contacts/notes/view.ftl")
+        }
 
         get("/~edit") = ftl("/contacts/notes/edit.ftl")
 
@@ -153,7 +164,6 @@ class ContactsRouter extends Router {
           Notice.addInfo("deleted")
           sendRedirect("/contacts/" + contact.id() +"/notes/")
         }
-
       }
     }
   }

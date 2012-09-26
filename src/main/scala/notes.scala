@@ -52,8 +52,13 @@ class FileDesctiption extends StructHolder {
     _uuid()
   }
 
+  val _originalName = attr("originalName")
+  def originalName = _originalName.getOrElse("")
+
   val _ext = attr("ext")
   def ext = _ext.getOrElse("")
 
   def fileName = uuid + "." + ext
+
+  def originalFileName = originalName + "." + ext
 }

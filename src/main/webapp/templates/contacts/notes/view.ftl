@@ -6,16 +6,14 @@
     <h2>${contact.fullName}</h2>
     <div class="notesview">
       <div class="title">${note.title}</div>
-      <div class="note">${note.getNote}</div>
-
+      <div class="note">${note.getNote!""}</div>
       [#if note.files.children?size > 0]
         [#list note.files.children as file]
           <div class="files">
-          ${file.fileName}
+            <a href="/contacts/${contact.id}/notes/${note.uuid}/?f=${file.fileName}" target="_blank">${file.originalFileName}</a>
           </div>
         [/#list]
       [/#if]
-
       <div class="ctls">
         <a href="/contacts/${contact.id}/notes/${note.uuid}/~edit"
            class="btn"
