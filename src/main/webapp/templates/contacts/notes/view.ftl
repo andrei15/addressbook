@@ -10,7 +10,8 @@
       [#if note.files.children?size > 0]
         [#list note.files.children as file]
           <div class="files">
-            <a href="/contacts/${contact.id}/notes/${note.uuid}/?f=${file.fileName}" target="_blank">${file.originalFileName}</a>
+            <a href="/contacts/${contact.id}/notes/${note.uuid}/file/${file.uuid}/">${file.originalFileName}</a>
+            <a href="/contacts/${contact.id}/notes/${note.uuid}/file/${file.uuid}/~filedelete" rel="popup">&times</a>
           </div>
         [/#list]
       [/#if]

@@ -12,7 +12,6 @@ class Notes(val contact: Contacts) extends ListHolder[Note] { notes =>
   }
 
   def getByUuid(uuid: String) = children.find(_.uuid == uuid)
-
 }
 
 class Note(@transient val notes: Notes) extends StructHolder {
@@ -40,6 +39,10 @@ class Note(@transient val notes: Notes) extends StructHolder {
   }
 
   def getNote = FileUtils.readFileToString(path)
+
+  def find(uuid: String) = {
+    files.children.find(_.uuid == uuid).get
+  }
 }
 
 class FileDesctiption extends StructHolder {

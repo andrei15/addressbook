@@ -131,14 +131,6 @@ class ContactsRouter extends Router {
         'note := note
 
         get("/?") = {
-          if (!param("f").isEmpty) {
-            try{
-              response.contentType("")
-              sendFile(new File(note.baseDir, param("f")))
-            } catch {
-              case e:  Exception =>
-            }
-          }
           ftl("/contacts/notes/view.ftl")
         }
 
@@ -147,7 +139,7 @@ class ContactsRouter extends Router {
         post("/?") = {
           editNote(note)
           if (Notice.hasErrors)
-            sendRedirect(prefix + note.uuid + "/~edit")
+            sendRedirect(prefix + "/~edit")
           else sendRedirect(prefix)
         }
 
@@ -164,6 +156,34 @@ class ContactsRouter extends Router {
           Notice.addInfo("deleted")
           sendRedirect("/contacts/" + contact.id() +"/notes/")
         }
+
+        sub("/file") = {
+
+          sub("/:fileUuid") = {
+
+            val originalFileName = note.find(param("fileUuid")).originalFileName
+            val fileName = note.find(param("fileUuid")).fileName
+            'fileName := fileName
+            'fileUuid := param("fileUuid")
+            'originalFileName := originalFileName
+
+            get("/?") = {
+              sendFile(new File(note.baseDir, fileName), originalFileName)
+            }
+
+            get("/~filedelete") = ftl("/contacts/notes/delete-file.p.ftl")
+
+            delete("/?") = {
+              note.files.delete(note.find(param("fileUuid")))
+              FileUtils.deleteQuietly(new File(note.baseDir, fileName))
+              contact._notes := contact.notes.toXml
+              contact.save()
+              Notice.addInfo("deleted")
+              sendRedirect("/contacts/" + contact.id() +"/notes/" + note.uuid)
+            }
+          }
+        }
+
       }
     }
   }
