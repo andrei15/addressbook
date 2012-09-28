@@ -11,7 +11,9 @@
         [#list note.files.children as file]
           <div class="files">
             <a href="/contacts/${contact.id}/notes/${note.uuid}/file/${file.uuid}/">${file.originalFileName}</a>
-            <a href="/contacts/${contact.id}/notes/${note.uuid}/file/${file.uuid}/~filedelete" rel="popup">&times</a>
+            <a href="/contacts/${contact.id}/notes/${note.uuid}/file/${file.uuid}/~filedelete" rel="popup">
+              <img src="/img/icons/16/delete.png"/>
+            </a>
           </div>
         [/#list]
       [/#if]

@@ -20,7 +20,7 @@ class ContactsRouter extends Router {
     ftl("/contacts/list.ftl")
   }
 
-  get("/~new") = ftl("/contacts/new.ftl")
+  get("/~new") = ftl("/contacts/new.p.ftl")
 
   post("/?") = partial {
     val contact = new Contacts
@@ -114,7 +114,9 @@ class ContactsRouter extends Router {
         ftl("/contacts/notes/list.ftl")
       }
 
-      get("/~new") = ftl("/contacts/notes/new.ftl")
+      get("/~new") = {
+        ftl("/contacts/notes/new.p.ftl")
+      }
 
       post("/?") = {
         val note = new Note(contact.notes)
@@ -134,7 +136,7 @@ class ContactsRouter extends Router {
           ftl("/contacts/notes/view.ftl")
         }
 
-        get("/~edit") = ftl("/contacts/notes/edit.ftl")
+        get("/~edit") = ftl("/contacts/notes/edit.p.ftl")
 
         post("/?") = {
           editNote(note)
@@ -160,9 +162,9 @@ class ContactsRouter extends Router {
         sub("/file") = {
 
           sub("/:fileUuid") = {
-
-            val originalFileName = note.find(param("fileUuid")).originalFileName
-            val fileName = note.find(param("fileUuid")).fileName
+            val file = note.find(param("fileUuid"))
+            val originalFileName = file.originalFileName
+            val fileName = file.fileName
             'fileName := fileName
             'fileUuid := param("fileUuid")
             'originalFileName := originalFileName
@@ -174,16 +176,15 @@ class ContactsRouter extends Router {
             get("/~filedelete") = ftl("/contacts/notes/delete-file.p.ftl")
 
             delete("/?") = {
-              note.files.delete(note.find(param("fileUuid")))
+              note.files.delete(file)
               FileUtils.deleteQuietly(new File(note.baseDir, fileName))
               contact._notes := contact.notes.toXml
               contact.save()
               Notice.addInfo("deleted")
-              sendRedirect("/contacts/" + contact.id() +"/notes/" + note.uuid)
+              sendRedirect("/contacts/" + contact.id() + "/notes/" + note.uuid)
             }
           }
         }
-
       }
     }
   }

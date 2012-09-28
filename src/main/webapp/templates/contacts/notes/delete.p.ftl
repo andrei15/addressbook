@@ -12,6 +12,6 @@
            class="btn inverse"
            value="${msg['contact.delete.submit']}">
     <span>${msg['or']}</span>
-    <a href="/contacts/${contact.id}/notes/">${msg['cancel']}</a>
+    <a href="/contacts/${contact.id}/notes/${note.uuid}">${msg['cancel']}</a>
   </div>
 </form>
