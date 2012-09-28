@@ -9,7 +9,7 @@
           class="submission"
           method="post"
           enctype="multipart/form-data">
-      [#include "edit-base.ftl"/]
+      [#include "edit-base.p.ftl"/]
       <div class="submits centered">
         <input type="submit"
                value="${msg['notes.edit']}"/>

@@ -2,7 +2,7 @@
 
 [#assign main]
 
-<div class="grid margin-top pad">
+<div class="grid pad">
   <div class="w66">
     <img src="/img/ab_logo.png"/>
   </div>

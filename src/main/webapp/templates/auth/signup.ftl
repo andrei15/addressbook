@@ -1,18 +1,20 @@
 [#ftl]
+
 [#assign auth]
-<a href="/auth/login" class="btn">
+<a href="/auth/login"
+   class="btn">
 ${msg['login.title']}
 </a>
 [/#assign]
-[#assign main]
 
+[#assign main]
 <h2>${msg['signup']}</h2>
 <form id ="signup"
       class="submission partial"
       method="post"
       action="/auth/signup">
   <div class="field-box">
-    <label for="l">${msg['signup.cn']}</label>
+    <label for="l">${msg['user.cn']}</label>
     <div class="field">
       <div class="input">
         <input id="l"
@@ -23,7 +25,7 @@ ${msg['login.title']}
     </div>
   </div>
   <div class="field-box">
-    <label for="p">${msg['signup.password']}</label>
+    <label for="p">${msg['user.password']}</label>
     <div class="field">
       <div class="input">
         <input id="p"
@@ -33,7 +35,7 @@ ${msg['login.title']}
     </div>
   </div>
   <div class="field-box">
-    <label for="e">${msg['signup.email']}</label>
+    <label for="e">${msg['user.email']}</label>
     <div class="field">
       <div class="input">
         <input id="e"

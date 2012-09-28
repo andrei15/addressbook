@@ -22,31 +22,32 @@
   </script>
   <script type="text/javascript" src="/js/addressbook.js">
   </script>
-[#--
-<script type="text/javascript">
-  window.___gcfg = {lang: 'ru'};
-  (function() {
-    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/plusone.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
-</script>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-</script>
---]
+  <script type="text/javascript">
+    $(function(){
+      var cache = jQuery.ajaxSettings.cache;
+      jQuery.ajaxSettings.cache = true;
+      jQuery.getScript('https://apis.google.com/js/plusone.js', function() {
+        var s = document.getElementsByTagName('script')[0];
+      });
+    })
+  </script>
+  <script type="text/javascript">
+    $(function(){
+      var cache = jQuery.ajaxSettings.cache;
+      jQuery.ajaxSettings.cache = true;
+      jQuery.getScript('http://connect.facebook.net/ru_RU/all.js', function() {
+        FB.init({status: true, cookie: true, xfbml: true});
+      });
+      jQuery.ajaxSettings.cache = cache;
+    })
+  </script>
 </head>
 <body>
 <div id="header">
   <a href="/" class="home"><img src="/img/AB.png"/></a>
   <div class="right-float">
   [#if !env.principal??]
-  ${auth}
+  ${auth!}
   [#else]
     <div class="userbox">
       <a href="/profile">
@@ -68,16 +69,27 @@
   </ul>
 ${main}
 </div>
-<div id="footer" class="clear">
-  <span>${msg['poweredBy']} <a href="http://circumflex.ru" target="_blank">Circumflex</a></span>
+<div id="footer">
+  <div>
+    <span>${msg['poweredBy']}</span>
+    <a href="http://circumflex.ru"
+       target="_blank">
+    ${msg['cx']}
+    </a>
+  </div>
+  <ul class="subfooter">
+    <li>
+      <div class="fb-like"
+           data-send="false"
+           data-layout="button_count"
+           data-width="450"
+           data-show-faces="true">
+      </div>
+    </li>
+    <li>
+      <g:plusone annotation="inline"></g:plusone>
+    </li>
+  </ul>
 </div>
-<ul class="subfooter">
-  <li>
-    <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true"></div>
-  </li>
-  <li>
-    <g:plusone annotation="inline"></g:plusone>
-  </li>
-</ul>
 </body>
 </html>

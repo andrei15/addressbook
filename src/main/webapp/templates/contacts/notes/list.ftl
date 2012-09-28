@@ -5,7 +5,7 @@
 <div class="pad ">
   <div class="grid">
     <div class="w50">
-      <h2>${msg['notes']}: ${contact.fullName}</h2>
+      <h2>${msg['notes']}: ${contact.title}</h2>
       [#if notes?size > 0]
         [#list notes as n]
           <a href="/contacts/${contact.id}/notes/${n.uuid}"

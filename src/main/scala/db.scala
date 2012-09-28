@@ -57,12 +57,12 @@ object User
       .unique()
 }
 
-class Contacts
-  extends Record[Long, Contacts]
-  with IdentityGenerator[Long, Contacts] {
+class Contact
+  extends Record[Long, Contact]
+  with IdentityGenerator[Long, Contact] {
 
   def PRIMARY_KEY = id
-  def relation = Contacts
+  def relation = Contact
 
   val id = "id".BIGINT.NOT_NULL.AUTO_INCREMENT
   val owner = "owner".BIGINT.NOT_NULL.REFERENCES(User).ON_DELETE(CASCADE)
@@ -75,15 +75,15 @@ class Contacts
 
   lazy val notes = (new Notes(this)).loadString(_notes())
 
-  def fullName = surname() + " " + name()
+  def title = surname() + " " + name()
 
   def gravatar(size: String) = "http://www.gravatar.com/avatar/" + md5(email()) +
     "?d=identicon&amp;" + "size=" + size
 }
 
-object Contacts
-  extends Contacts
-  with Table[Long, Contacts] {
+object Contact
+  extends Contact
+  with Table[Long, Contact] {
 
   validation
     .notEmpty(_.name)
@@ -91,22 +91,25 @@ object Contacts
     .pattern(_.email, Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$"), "syntax")
     .pattern(_.phone, Pattern.compile("^(8|\\+[0-9]{1,4}) *-? *[\\(]?[0-9]{3,6}[\\)]?( *-? *[0-9]){5,}$"), "syntax")
 
-  val ab = Contacts AS "ab"
+  val ab = Contact AS "ab"
 
-  def findAll(user: User): Seq[Contacts] =
+  def findAll(user: User): Seq[Contact] =
     SELECT(ab.*)
       .FROM(ab)
       .WHERE(ab.owner IS user)
       .list()
 
-  def userSearch(user: User, param: String): Seq[Contacts] = {
+  def userSearch(user: User, param: String): Seq[Contact] = {
     val paramList = param.split(" ").map(_.trim).filter(_ != "")
     val p = AND()
     paramList.foreach { param =>
       val prm = param + "%"
-      val or = OR(ab.name LLIKE prm, ab.surname LLIKE prm,
-        ab.email LLIKE prm, ab.phone LLIKE prm,
-        ab.address LLIKE prm)
+      val or = OR()
+        .add(ab.name LLIKE prm)
+        .add(ab.surname LLIKE prm)
+        .add(ab.email LLIKE prm)
+        .add(ab.phone LLIKE prm)
+        .add(ab.address LLIKE prm)
       p.add(or)
     }
     SELECT(ab.*)
@@ -118,7 +121,7 @@ object Contacts
 
   def fetch(id: String) = {
     try {
-      Contacts.get(id.toLong).getOrElse(sendError(404))
+      Contact.get(id.toLong).getOrElse(sendError(404))
     } catch {
       case e: Exception => sendError(404)
     }

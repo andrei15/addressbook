@@ -44,7 +44,7 @@
            value="${msg['contact.edit.submit']}"/>
     <span>${msg['or']}</span>
     <a href="javascript:;"
-       class="hidepanel">${msg['cancel']}
+       class="hide-panel">${msg['cancel']}
     </a>
 
   </div>

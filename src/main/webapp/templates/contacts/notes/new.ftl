@@ -1,7 +1,8 @@
 [#ftl]
 
-[#assign main]
+[#assign note = {} /]
 
+[#assign main]
 <div class="grid">
   <div class="w50">
     <h2>${msg['contact.note.new']}</h2>
@@ -10,7 +11,7 @@
           class="submission"
           method="post"
           enctype="multipart/form-data">
-      [#include "edit-base.ftl"/]
+      [#include "edit-base.p.ftl"/]
       <div class="submits centered">
         <input type="submit"
                value="${msg['notes.new']}"/>

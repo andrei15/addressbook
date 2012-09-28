@@ -7,7 +7,7 @@
 <div class="pad ">
   <div class="grid">
 
-    <div class="w50">
+    <div class="w100">
       <h2>${msg['user.profile']}</h2>
       <form action="/profile"
             id="profile"
@@ -57,7 +57,7 @@
           <input type="submit"
                  value="${msg['user.profile.edit']}"/>
           <a href="/profile/~edit-password"
-             class="btn editpanel"
+             class="btn edit-panel"
              data-container="#editPasswordContainer">
           ${msg['user.password.edit']}
           </a>

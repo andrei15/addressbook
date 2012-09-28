@@ -1,11 +1,13 @@
 [#ftl]
+
 [#assign auth]
 <a href="/auth/signup" class="btn">
 ${msg['signup.submit']}
 </a>
 [/#assign]
+
 [#assign main]
-<div class="grid margin-top pad">
+<div class="grid pad">
   <div class="w66">
     <div class="centered">
       <img src="/img/ab_logo.png">

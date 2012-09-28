@@ -1,9 +1,15 @@
 $(function(){
-  setFormAjax($(".partial"));
-  getEditPanelByClick($(".editpanel"));
-  hideEditPanel();
-  setColorboxPopup();
+  ui.init()
 });
+
+var ui = {
+  init: function(ctx) {
+    notices.init();
+    initAjaxForms(ctx);
+    initPanelEditForm(ctx);
+    initColorbox();
+  }
+};
 
 //notices
 var arr = new Array();
@@ -12,7 +18,7 @@ var notices = {
     arr.push(notice)
   },
   save: function(data) {
-    arr=new Array();
+    arr = new Array();
     if (data.notices) {
       for (var i in data.notices) {
         var n = data.notices[i];
@@ -42,12 +48,9 @@ var notices = {
         });
       }, 10000);
     })
-  }
-};
+  },
 
-//remove notices the esc key
-$(document).keyup(function(e) {
-  if (e.keyCode == 27) {
+  removeAll: function() {
     $("#notices li").each(function(){
       var li = $(this);
       li.animate({
@@ -56,6 +59,13 @@ $(document).keyup(function(e) {
         li.remove();
       })
     })
+  }
+};
+
+//remove notices the esc key
+$(document).keyup(function(e) {
+  if (e.keyCode == 27) {
+    notices.removeAll()
   }
 });
 
@@ -77,12 +87,12 @@ $(window).load(function(){
       li.addClass(n.kind);
       $("#notices").append(li)
     });
-    notices.init();
+    ui.init($("body"))
   }
 });
 
-function setFormAjax(forms) {
-  forms.each(function() {
+function initAjaxForms(ctx) {
+  $(".partial", ctx).each(function() {
     var $form = $(this);
     $form.addClass("initialized");
     $(this).submit(function(event){
@@ -122,7 +132,7 @@ function setFormAjax(forms) {
   });
 }
 
-function setColorboxPopup() {
+function initColorbox() {
   $("[rel=popup]").each(function() {
     var a = $(this);
     a.click(function(){
@@ -131,48 +141,31 @@ function setColorboxPopup() {
         title:" ",
         opacity:"0.75",
         href: a.attr("href"),
-        close: "&times;"
+        close: "&times;",
+        onComplete: function() {
+          $(".close").each(function(){
+            $(this).click($.colorbox.close)
+          });
+        }
       });
     });
   });
   notices.init();
 }
 
-function hideEditPanel() {
-  $(".hide50").each(function(){
-    var w = $(this);
-    w.removeClass("w50");
-    w.removeClass("hide50");
-    w.addClass("w100");
-    w.addClass("hide100");
-  });
-}
-
-function showEditPanel() {
-  $(".hide100").each(function(){
-    var w = $(this);
-    w.removeClass("w100");
-    w.removeClass("hide100");
-    w.addClass("w50");
-    w.addClass("hide50");
-  });
-}
-
-function getEditPanelByClick(btnClass) {
-  $(btnClass).each(function(){
+function initPanelEditForm(ctx) {
+  $(".edit-panel", ctx).each(function(){
     var a = $(this);
     var href = a.attr("href");
     var cnt = $(a.attr("data-container"));
     a.click(function (ev) {
-
-      showEditPanel()
-
+      showEditPanel();
       ev.preventDefault();
       $.get(href, {}, function(data){
         cnt.empty().append(data);
-        setFormAjax($(".partial", cnt));
+        initAjaxForms($(".partial", cnt));
 
-        $(".hidepanel").click(function(){
+        $(".hide-panel").click(function(){
           cnt.empty();
           hideEditPanel();
           $("#notices").empty();
@@ -182,4 +175,28 @@ function getEditPanelByClick(btnClass) {
       return false;
     });
   });
+
+  function hideEditPanel() {
+    $(".w50:last-child").each(function(){
+      var w = $(this);
+      w.addClass("hidden");
+    });
+    $(".w50:not(hidden)").each(function(){
+      $(this)
+        .removeClass("w50")
+        .addClass("w100")
+    });
+  }
+
+  function showEditPanel() {
+    $(".w50").each(function(){
+      var w = $(this);
+      w.removeClass("hidden");
+    });
+    $(".w100").each(function(){
+      $(this)
+        .removeClass("w100")
+        .addClass("w50")
+    })
+  }
 }

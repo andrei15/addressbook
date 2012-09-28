@@ -1,7 +1,9 @@
 [#ftl]
 
+[#assign __base = "/contacts/${contact.id}/notes/${note.uuid}"/]
+
 <form class="submission pad"
-      action="/contacts/${contact.id}/notes/${note.uuid}">
+      action="${__base}">
   <h2>${msg['notes.delete.title']}</h2>
   <div class="pad">
   [#include "/locale/notes.delete.ftl"/]
@@ -12,6 +14,6 @@
            class="btn inverse"
            value="${msg['contact.delete.submit']}">
     <span>${msg['or']}</span>
-    <a href="/contacts/${contact.id}/notes/${note.uuid}">${msg['cancel']}</a>
+    <a href="${__base}">${msg['cancel']}</a>
   </div>
 </form>

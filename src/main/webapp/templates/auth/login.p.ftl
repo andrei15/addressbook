@@ -1,11 +1,12 @@
 [#ftl]
+
 <h2>${msg['login']}</h2>
 <form id ="login"
       action="/auth/login"
       class="submission partial"
       method="post">
   <div class="field-box">
-    <label for="l">${msg['login.cn']}</label>
+    <label for="l">${msg['user.cn']}</label>
     <div class="field">
       <div class="input">
         <input id="l"
@@ -16,7 +17,7 @@
     </div>
   </div>
   <div class="field-box">
-    <label for="p">${msg['login.password']}</label>
+    <label for="p">${msg['user.password']}</label>
     <div class="field">
       <div class="input">
         <input id="p"

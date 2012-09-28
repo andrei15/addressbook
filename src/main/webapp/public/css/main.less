@@ -30,6 +30,14 @@ a, a:visited {
   color: #6a7577;
 }
 
+p img {
+  vertical-align: middle;
+}
+
+.hidden {
+  display: none;
+}
+
 .grid {
   > * { float: left; }
     box-sizing: border-box;
@@ -37,6 +45,10 @@ a, a:visited {
     .w50 { width: 50%; }
     .w66 { width: 67%; }
     .w100 { width: 100%; }
+
+    .w50 + .w50.hidden {
+      width: 100%;
+    }
 
   &:after {
     content: '';
@@ -62,6 +74,12 @@ h2 {
   padding: 4px;
   font-size: 24px;
   border-bottom: 1px solid #aaa;
+}
+h3 {
+  margin: 8px 0;
+  padding: 4px;
+  font-size: 20px;
+  border-bottom: 1px dashed #ccc;
 }
 
 .centered { text-align: center; }
@@ -118,6 +136,22 @@ img {
   max-width: 100%;
 }
 
+.btn-group {
+  .btn {
+    margin-left: 4px;
+    float: left;
+    display: block;
+    margin: 4px 2px;
+    padding: 0 4px;
+    height: 32px;
+    line-height: 32px;
+    img {
+      vertical-align: middle;
+      max-width: 24px;
+    }
+  }
+}
+
 .btn {
   display: inline-block;
   font-size: 16px;
@@ -136,9 +170,6 @@ img {
 
   &.inverse {
     .bkg-v(#c23030, #e23030);
-  }
-  &.view {
-    .bkg-v(#909ca0, #909ca0);
   }
 }
 
@@ -201,7 +232,7 @@ img {
     }
   }
 
-  .contact {
+  .pill {
     padding: 8px;
     height: 32px;
     position: relative;
@@ -232,7 +263,7 @@ img {
       font-style: italic;
     }
 
-    .mail {
+    a[href^='mailto:'] {
       color: #555;
     }
 
@@ -295,7 +326,7 @@ img {
     }
   }
 
-  .notesview {
+  .noteview {
     padding: 8px;
     position: relative;
     margin: 8px;
@@ -305,18 +336,19 @@ img {
     .bkg-v(#f4e783, #dbcf75);
 
     .title {
+      margin-top: 8px;
+      text-align: center;
       font-variant: small-caps;
-      font-size: 18px;
+      font-size: 22px;
     }
     .note {
-      font-variant: small-caps;
-      font-size: 14px;
-      margin-top: 4px;
+      margin-top: 8px;
+      font-size: 16px;
       padding: 4px;
     }
     .files {
       display: inline;
-      font-size: 10px;
+      font-size: 14px;
       margin-top: 6px;
       padding: 4px;
 
@@ -326,29 +358,14 @@ img {
 
        img {
          vertical-align: middle;
-         max-width: 9px;
        }
      }
     }
-    .ctls {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      z-index:2;
+  }
 
-      a {
-        margin-left: 4px;
-        float: left;
-        display: block;
-        padding: 0 4px;
-        height: 32px;
-        line-height: 32px;
-        img {
-          vertical-align: middle;
-          max-width: 24px;
-        }
-      }
-    }
+  hr {
+    border-style: solid;
+    border-color: #aaa;
   }
 }
 
@@ -365,12 +382,6 @@ img {
   box-shadow: 0 0 4px rgba(0,0,0,.25) inset,
               0 0 8px rgba(0,0,0,.15) inset,
               0 0 16px rgba(0,0,0,.1) inset;
-}
-
-.contactinfo {
-  font-size: 18px;
-  position: absolute;
-  padding: 19px
 }
 
 #notices {
@@ -415,7 +426,12 @@ img {
   }
 }
 .subfooter {
+  float: right;
+  margin-right:5%;
   li {
+    overflow: hidden;
+    width: 180px;
+    float: left;
     list-style-type: none;
     margin-bottom: 10px;
   }

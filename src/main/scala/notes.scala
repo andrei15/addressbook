@@ -4,7 +4,7 @@ import ru.circumflex._, ru.circumflex.core._, orm._, web._, xml._
 import java.io.File
 import org.apache.commons.io.FileUtils
 
-class Notes(val contact: Contacts) extends ListHolder[Note] { notes =>
+class Notes(val contact: Contact) extends ListHolder[Note] { notes =>
   def elemName = "notes"
 
   def read = {
@@ -38,10 +38,14 @@ class Note(@transient val notes: Notes) extends StructHolder {
     }
   }
 
-  def getNote = FileUtils.readFileToString(path)
+  def plainText = if(path.exists && path.isFile) {
+    FileUtils.readFileToString(path)
+  } else ""
+
+  def html = markeven.toHtml(plainText)
 
   def find(uuid: String) = {
-    files.children.find(_.uuid == uuid).get
+    files.children.find(_.uuid == uuid)
   }
 }
 

@@ -1,5 +1,5 @@
 [#ftl]
 
 [@me]
-Если вы продолжите файл <strong>${originalFileName}</strong> будет безвозвратно удален.
+Если вы продолжите файл <strong>${file.originalFileName}</strong> будет безвозвратно удален.
 [/@me]

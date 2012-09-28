@@ -12,18 +12,18 @@ class ContactsRouter extends Router {
 
   get("/?") = {
     if (!param("q").isEmpty) {
-      'contacts := Contacts.userSearch(currentUser, param("q"))
+      'contacts := Contact.userSearch(currentUser, param("q"))
     }
     else {
-      'contacts := Contacts.findAll(currentUser)
+      'contacts := Contact.findAll(currentUser)
     }
     ftl("/contacts/list.ftl")
   }
 
-  get("/~new") = ftl("/contacts/new.p.ftl")
+  get("/~new") = ftl("/contacts/new.ftl")
 
   post("/?") = partial {
-    val contact = new Contacts
+    val contact = new Contact
     contact.owner := currentUser
     contact.name := param("n")
     contact.surname := param("s")
@@ -37,7 +37,7 @@ class ContactsRouter extends Router {
 
   sub("/:id") = {
 
-    val contact = Contacts.fetch(param("id"))
+    val contact = Contact.fetch(param("id"))
     if (contact.owner() != currentUser)
       sendError(404)
 
@@ -47,7 +47,7 @@ class ContactsRouter extends Router {
 
     get("/?") = ftl("/contacts/view.ftl")
 
-    get("/~edit").and(request.body.isXHR) = ftl("/contacts/edit.p.ftl")
+    get("/~edit").and(request.body.isXHR) = ftl("/contacts/edit.ftl")
 
     post("/?") = partial {
       contact.name := param("n")
@@ -115,7 +115,7 @@ class ContactsRouter extends Router {
       }
 
       get("/~new") = {
-        ftl("/contacts/notes/new.p.ftl")
+        ftl("/contacts/notes/new.ftl")
       }
 
       post("/?") = {
@@ -136,7 +136,7 @@ class ContactsRouter extends Router {
           ftl("/contacts/notes/view.ftl")
         }
 
-        get("/~edit") = ftl("/contacts/notes/edit.p.ftl")
+        get("/~edit") = ftl("/contacts/notes/edit.ftl")
 
         post("/?") = {
           editNote(note)
@@ -161,21 +161,17 @@ class ContactsRouter extends Router {
 
         sub("/file") = {
 
-          sub("/:fileUuid") = {
-            val file = note.find(param("fileUuid"))
-            val originalFileName = file.originalFileName
-            val fileName = file.fileName
-            'fileName := fileName
-            'fileUuid := param("fileUuid")
-            'originalFileName := originalFileName
+          sub("/:uuid") = {
+            val file = note.find(param("uuid")).getOrElse(sendError(404))
+            'file := file
 
-            get("/?") = sendFile(new File(note.baseDir, fileName), originalFileName)
+            get("/?") = sendFile(new File(note.baseDir, file.fileName), file.originalFileName)
 
-            get("/~filedelete") = ftl("/contacts/notes/delete-file.p.ftl")
+            get("/~delete") = ftl("/contacts/notes/delete-file.p.ftl")
 
             delete("/?") = {
               note.files.delete(file)
-              FileUtils.deleteQuietly(new File(note.baseDir, fileName))
+              FileUtils.deleteQuietly(new File(note.baseDir, file.fileName))
               contact._notes := contact.notes.toXml
               contact.save()
               Notice.addInfo("deleted")

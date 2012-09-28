@@ -9,7 +9,7 @@
     <form action="/contacts"
           class="submission partial"
           method="post">
-      [#include "edit-base.ftl"/]
+      [#include "edit-base.p.ftl"/]
       <div class="submits centered">
         <input type="submit"
                value="${msg['contact.new']}"/>
