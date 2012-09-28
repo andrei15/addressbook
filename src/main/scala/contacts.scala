@@ -156,7 +156,7 @@ class ContactsRouter extends Router {
           contact._notes := contact.notes.toXml
           contact.save()
           Notice.addInfo("deleted")
-          sendRedirect("/contacts/" + contact.id() +"/notes/")
+          sendRedirect("/contacts/" + contact.id() + "/notes/")
         }
 
         sub("/file") = {
@@ -169,9 +169,7 @@ class ContactsRouter extends Router {
             'fileUuid := param("fileUuid")
             'originalFileName := originalFileName
 
-            get("/?") = {
-              sendFile(new File(note.baseDir, fileName), originalFileName)
-            }
+            get("/?") = sendFile(new File(note.baseDir, fileName), originalFileName)
 
             get("/~filedelete") = ftl("/contacts/notes/delete-file.p.ftl")
 
