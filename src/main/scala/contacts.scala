@@ -116,7 +116,7 @@ class ContactsRouter extends Router {
         val note = new Note(contact.notes)
         contact.notes.add(note)
         editNote(note)
-        if (!Notice.hasErrors)
+        if (Notice.hasErrors)
           sendRedirect(prefix + "/~new")
         else sendRedirect(prefix)
       }
