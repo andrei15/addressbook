@@ -197,6 +197,7 @@ function initPanelEditForm(ctx) {
     $(".w100").each(function () {
       $(this)
         .removeClass("w100")
+        .removeClass("hidden")
         .addClass("w50")
     })
   }
