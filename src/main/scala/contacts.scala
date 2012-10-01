@@ -74,8 +74,8 @@ class ContactsRouter extends Router {
         } else
           ctx.update(fi.getFieldName, fi)
       }
-      val title = ctx.getString("t").getOrElse(sendError(404))
-      val noteParam = ctx.getString("n").getOrElse(sendError(404))
+      val title = ctx.getString("t").getOrElse("")
+      val noteParam = ctx.getString("n").getOrElse("")
       if (!title.isEmpty) {
         note._title := title
         FileUtils.writeStringToFile(note.path, noteParam)
@@ -110,9 +110,7 @@ class ContactsRouter extends Router {
         ftl("/contacts/notes/list.ftl")
       }
 
-      get("/~new") = {
-        ftl("/contacts/notes/new.ftl")
-      }
+      get("/~new") = ftl("/contacts/notes/new.ftl")
 
       post("/?") = {
         val note = new Note(contact.notes)
@@ -127,9 +125,7 @@ class ContactsRouter extends Router {
         val note = contact.notes.getByUuid(param("uuid")).getOrElse(sendError(404))
         'note := note
 
-        get("/?") = {
-          ftl("/contacts/notes/view.ftl")
-        }
+        get("/?") = ftl("/contacts/notes/view.ftl")
 
         get("/~edit") = ftl("/contacts/notes/edit.ftl")
 

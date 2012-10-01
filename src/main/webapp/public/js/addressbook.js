@@ -71,7 +71,7 @@ $(document).keyup(function (e) {
 
 $(window).unload(function () {
   if (sessionStorage) {
-    sessionStorage.setItem("notices", JSON.stringify(arr))
+    sessionStorage.setItem("notices", JSON.stringify(arr));
   }
 });
 
@@ -87,7 +87,6 @@ $(window).load(function () {
       li.addClass(n.kind);
       $("#notices").append(li)
     });
-    ui.init($("body"))
   }
 });
 
@@ -165,7 +164,7 @@ function initPanelEditForm(ctx) {
       ev.preventDefault();
       $.get(href, {}, function (data) {
         cnt.empty().append(data);
-        initAjaxForms($(".partial", cnt));
+        initAjaxForms(cnt);
 
         $(".hide-panel").click(function () {
           cnt.empty();

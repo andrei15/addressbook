@@ -93,7 +93,6 @@ package object whiteants {
       }
       sendJSON("/json.ftl")
     }
-
   }
 
 }
