@@ -13,8 +13,7 @@ class ContactsRouter extends Router {
   get("/?") = {
     if (!param("q").isEmpty) {
       'contacts := Contact.userSearch(currentUser, param("q"))
-    }
-    else {
+    } else {
       'contacts := Contact.findAll(currentUser)
     }
     ftl("/contacts/list.ftl")
@@ -36,7 +35,6 @@ class ContactsRouter extends Router {
   }
 
   sub("/:id") = {
-
     val contact = Contact.fetch(param("id"))
     if (contact.owner() != currentUser)
       sendError(404)
@@ -60,7 +58,7 @@ class ContactsRouter extends Router {
       Notice.addInfo("edited")
     }
 
-    get ("/~delete") = ftl("/contacts/delete.p.ftl")
+    get("/~delete") = ftl("/contacts/delete.p.ftl")
 
     delete("/?") = {
       contact.DELETE_!()
@@ -102,12 +100,10 @@ class ContactsRouter extends Router {
         contact._notes := contact.notes.toXml
         contact.save()
         Notice.addInfo("saved")
-      }
-      else Notice.addError("contact.notes.title.empty")
+      } else Notice.addError("contact.notes.title.empty")
     }
 
     sub("/notes") = {
-
       get("/?") = {
         val notes = contact.notes.children.toList
         'notes := notes
@@ -128,7 +124,6 @@ class ContactsRouter extends Router {
       }
 
       sub("/:uuid") = {
-
         val note = contact.notes.getByUuid(param("uuid")).getOrElse(sendError(404))
         'note := note
 
@@ -160,7 +155,6 @@ class ContactsRouter extends Router {
         }
 
         sub("/file") = {
-
           sub("/:uuid") = {
             val file = note.find(param("uuid")).getOrElse(sendError(404))
             'file := file

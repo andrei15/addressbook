@@ -4,7 +4,7 @@ import ru.circumflex._, ru.circumflex.core._, orm._, web._, xml._
 import java.io.File
 import org.apache.commons.io.FileUtils
 
-class Notes(val contact: Contact) extends ListHolder[Note] { notes =>
+class Notes(val contact: Contact) extends ListHolder[Note] {notes =>
   def elemName = "notes"
 
   def read = {
@@ -21,9 +21,11 @@ class Note(@transient val notes: Notes) extends StructHolder {
   def elemName = "note"
 
   val _title = attr("title")
+
   def title = _title.getOrElse("")
 
   val _uuid = attr("uuid").set(randomUUID)
+
   def uuid = _uuid.getOrElse {
     _uuid := randomUUID
     _uuid()
@@ -33,12 +35,13 @@ class Note(@transient val notes: Notes) extends StructHolder {
 
   val files = new ListHolder[FileDesctiption] {
     def elemName = "files"
+
     def read = {
       case "file" => new FileDesctiption
     }
   }
 
-  def plainText = if(path.exists && path.isFile) {
+  def plainText = if (path.exists && path.isFile) {
     FileUtils.readFileToString(path)
   } else ""
 
@@ -54,15 +57,18 @@ class FileDesctiption extends StructHolder {
   def elemName = "file"
 
   val _uuid = attr("uuid")
+
   def uuid = _uuid.getOrElse {
     _uuid := randomUUID
     _uuid()
   }
 
   val _originalName = attr("originalName")
+
   def originalName = _originalName.getOrElse("")
 
   val _ext = attr("ext")
+
   def ext = _ext.getOrElse("")
 
   def fileName = uuid + "." + ext

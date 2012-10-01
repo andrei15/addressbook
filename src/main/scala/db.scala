@@ -62,6 +62,7 @@ class Contact
   with IdentityGenerator[Long, Contact] {
 
   def PRIMARY_KEY = id
+
   def relation = Contact
 
   val id = "id".BIGINT.NOT_NULL.AUTO_INCREMENT

@@ -2,8 +2,6 @@ package net
 
 import ru.circumflex._, core._, web._, freemarker._
 import collection.mutable.ListBuffer
-import java.io.File
-import org.apache.commons.io.FileUtils
 
 package object whiteants {
 
@@ -16,7 +14,7 @@ package object whiteants {
 
   def currentUser = currentUserOption.get
 
-  def redirectWithReturn =  flash.getAs[String]("returnTo").getOrElse("/")
+  def redirectWithReturn = flash.getAs[String]("returnTo").getOrElse("/")
 
   def requireAuth() {
     if (currentUserOption.isEmpty) {
@@ -38,14 +36,14 @@ package object whiteants {
       else
         request.remoteIp
     }
-    val c = HttpCookie("auth", u.getCookie(ip), path = "/", maxAge = 31 * 24 * 60 *60)
+    val c = HttpCookie("auth", u.getCookie(ip), path = "/", maxAge = 31 * 24 * 60 * 60)
     cookies += "auth" -> c
   }
 
   def cookieAuth() {
     if (!currentUserOption.isEmpty) return
     val cookie = request.cookies.find(_.name == "auth")
-    if (!cookie.isEmpty ) {
+    if (!cookie.isEmpty) {
       val c = cookie.get.value
       val pos = c.indexOf(":")
       if (pos == -1) return
@@ -68,7 +66,7 @@ package object whiteants {
     }
   }
 
-  def sendJSON (templ: String): Nothing = {
+  def sendJSON(templ: String): Nothing = {
     response.contentType("application/json")
     ftl(templ)
   }
@@ -77,9 +75,10 @@ package object whiteants {
 
     val recovers = new ListBuffer[() => Unit]
 
-    def addRecovers(element:() => Unit) {
+    def addRecovers(element: () => Unit) {
       recovers.append(element)
     }
+
     def apply(actions: => Unit): Nothing = {
       if (!request.body.isXHR) sendError(404)
       try {

@@ -9,7 +9,7 @@ ${msg['login.title']}
 
 [#assign main]
 <h2>${msg['signup']}</h2>
-<form id ="signup"
+<form id="signup"
       class="submission partial"
       method="post"
       action="/auth/signup">

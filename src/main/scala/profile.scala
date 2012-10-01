@@ -11,15 +11,14 @@ class ProfileRouter extends Router {
   get("/?") = ftl("/profile/view.ftl")
 
   post("/?") = partial {
-    if(currentUser.password() == sha256(param("p"))) {
+    if (currentUser.password() == sha256(param("p"))) {
       currentUser.login := param("n")
       currentUser.email := param("e")
       currentUser.save()
       setCookie(currentUser)
       'redirect := "/profile"
       Notice.addInfo("saved")
-    }
-    else Notice.addInfo("user.password.error")
+    } else Notice.addInfo("user.password.error")
   }
 
   get("/~edit-password").and(request.body.isXHR) = ftl("/profile/edit-password.p.ftl")
@@ -28,13 +27,12 @@ class ProfileRouter extends Router {
     val oldPassword = sha256(param("oldPassword"))
     val newPassword = param("newPassword")
     val confirmPassword = param("confirmPassword")
-    if((currentUser.password() == oldPassword) && (newPassword == confirmPassword) && !newPassword.isEmpty) {
-      currentUser.password :=  User.getSha256Password(newPassword)
+    if ((currentUser.password() == oldPassword) && (newPassword == confirmPassword) && !newPassword.isEmpty) {
+      currentUser.password := User.getSha256Password(newPassword)
       currentUser.save()
       setCookie(currentUser)
       'redirect := "/profile"
       Notice.addInfo("saved")
-    }
-    else Notice.addInfo("user.password.error")
+    } else Notice.addInfo("user.password.error")
   }
 }

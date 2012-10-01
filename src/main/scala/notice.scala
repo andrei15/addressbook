@@ -1,9 +1,9 @@
 package net.whiteants
 
-import ru.circumflex._, core._,  web._, freemarker._
+import ru.circumflex._, core._, web._, freemarker._
 import collection.mutable.ListBuffer
 
-object Notice  {
+object Notice {
   def notices = flash.getAs[ListBuffer[Notice]]("notices") match {
     case Some(l: ListBuffer[Notice]) =>
       flash.update("notices", l)

@@ -1,7 +1,7 @@
 package net.whiteants
 
 import _root_.freemarker.template._
-import ru.circumflex._,  freemarker._
+import ru.circumflex._, freemarker._
 
 import java.util.Date
 import net.whiteants
@@ -16,5 +16,6 @@ class FtlConfiguration extends DefaultConfiguration {
 
 object env {
   def now = new Date
+
   def principal = whiteants.currentUserOption
 }

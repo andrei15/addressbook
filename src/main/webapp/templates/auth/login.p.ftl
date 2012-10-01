@@ -1,7 +1,7 @@
 [#ftl]
 
 <h2>${msg['login']}</h2>
-<form id ="login"
+<form id="login"
       action="/auth/login"
       class="submission partial"
       method="post">
