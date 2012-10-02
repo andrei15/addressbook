@@ -4,8 +4,7 @@
 <div class="grid pad">
   <div class="w100">
     <h2>${msg['contact.note.edit']}</h2>
-    <form id ="editNote"
-          action="/contacts/${contact.id}/notes/${note.uuid}"
+    <form action="/contacts/${contact.id}/notes/${note.uuid}"
           class="submission"
           method="post"
           enctype="multipart/form-data">

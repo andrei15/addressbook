@@ -6,8 +6,7 @@
 <div class="grid">
   <div class="w100">
     <h2>${msg['contact.note.new']}</h2>
-    <form id="newNote"
-          action="/contacts/${contact.id}/notes"
+    <form action="/contacts/${contact.id}/notes"
           class="submission"
           method="post"
           enctype="multipart/form-data">

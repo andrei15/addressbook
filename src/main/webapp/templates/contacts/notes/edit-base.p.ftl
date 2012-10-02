@@ -20,7 +20,6 @@
       <textarea id="n"
                 rows="10"
                 cols="79"
-                form="editNote"
                 name="n">${note.plainText!""}</textarea>
     </div>
   </div>

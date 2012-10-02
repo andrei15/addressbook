@@ -1,8 +1,13 @@
 [#ftl]
 
 [#assign main]
-
 <div class="pad ">
+  <div class="right-align">
+    <a href="/contacts/${contact.id}/notes/~new"
+       class="btn">
+    ${msg['notes.new']}
+    </a>
+  </div>
   <div class="grid">
     <div class="w66">
       <h2>${msg['notes']}: ${contact.title}</h2>
