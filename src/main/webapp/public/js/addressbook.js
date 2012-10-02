@@ -1,5 +1,5 @@
 $(function () {
-  ui.init()
+  ui.init();
 });
 
 var ui = {
@@ -15,7 +15,7 @@ var ui = {
 var arr = new Array();
 var notices = {
   add: function (notice) {
-    arr.push(notice)
+    arr.push(notice);
   },
   save: function (data) {
     arr = new Array();
@@ -120,7 +120,7 @@ function initAjaxForms(ctx) {
               var li = $("<li></li>");
               li.html(n.msg);
               li.addClass(n.kind);
-              $("#notices").append(li)
+              $("#notices").append(li);
             });
             notices.init();
           }
@@ -130,7 +130,7 @@ function initAjaxForms(ctx) {
             alert("No message Available");
           }
           if (data.status == 502) {
-            alert("Server is down")
+            alert("Server is down");
           }
         }
       });
@@ -153,7 +153,7 @@ function initColorbox() {
         onComplete: function () {
           ui.init($("#cboxLoadedContent"));
           $(".close").each(function () {
-            $(this).click($.colorbox.close)
+            $(this).click($.colorbox.close);
           });
         }
       });
@@ -193,7 +193,7 @@ function initPanelEditForm(ctx) {
     $(".w50:not(hidden)").each(function () {
       $(this)
         .removeClass("w50")
-        .addClass("w100")
+        .addClass("w100");
     });
   }
 
@@ -206,7 +206,7 @@ function initPanelEditForm(ctx) {
       $(this)
         .removeClass("w100")
         .removeClass("hidden")
-        .addClass("w50")
+        .addClass("w50");
     })
   }
 }
