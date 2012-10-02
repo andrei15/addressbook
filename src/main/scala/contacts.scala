@@ -61,8 +61,13 @@ class ContactsRouter extends Router {
     get("/~delete").and(request.body.isXHR) = ftl("/contacts/delete.p.ftl")
 
     delete("/?") = partial {
+      contact.notes.get.map { note =>
+        FileUtils.deleteQuietly(note.path)
+        note.files.children.map { file =>
+          FileUtils.deleteQuietly(new File(note.baseDir, file.fileName))
+        }
+      }
       contact.DELETE_!()
-      // TODO Delete all notes
       Notice.addInfo("deleted")
       'redirect := "/contacts"
     }

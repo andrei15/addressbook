@@ -12,6 +12,8 @@ class Notes(val contact: Contact) extends ListHolder[Note] {notes =>
   }
 
   def getByUuid(uuid: String) = children.find(_.uuid == uuid)
+
+  def get = children
 }
 
 class Note(@transient val notes: Notes) extends StructHolder {
