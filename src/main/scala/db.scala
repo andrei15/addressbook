@@ -4,15 +4,33 @@ import ru.circumflex._, ru.circumflex.core._, orm._, web._
 import java.util.Date
 import java.util.regex.Pattern
 
-class User
-  extends Record[Long, User]
-  with IdentityGenerator[Long, User] {
+trait BaseRecord[R <: BaseRecord[R]]
+  extends Record[Long, R]
+  with IdentityGenerator[Long, R] {this: R =>
 
   def PRIMARY_KEY = id
 
+  val id = "id".BIGINT.NOT_NULL.AUTO_INCREMENT
+}
+
+trait BaseTable[R <: BaseRecord[R]]
+  extends BaseRecord[R]
+  with Table[Long, R] {this: R =>
+
+  def fetch(id: String): R = fetchOption(id).getOrElse(sendError(404))
+
+  def fetchOption(id: String): Option[R] = try {
+    get(id.trim.toLong)
+  } catch {
+    case e: NumberFormatException => None
+  }
+}
+
+class User
+  extends BaseRecord[User] {
+
   def relation = User
 
-  val id = "id".BIGINT.NOT_NULL.AUTO_INCREMENT
   val login = "login".TEXT.NOT_NULL.addSetter(_.toLowerCase)
   val password = "password".TEXT.NOT_NULL
   val email = "email".TEXT.NOT_NULL
@@ -22,14 +40,12 @@ class User
   def gravatar(size: String) = "http://www.gravatar.com/avatar/" + md5(email()) +
     "?d=identicon&amp;" + "size=" + size
 
-  def getCookie(ip: String) = login() + ":" + sha256(ip + password())
-
   def getSha256Password(password: String) = sha256(password)
 }
 
 object User
   extends User
-  with Table[Long, User] {
+  with BaseTable[User] {
 
   val loginUnique = UNIQUE(login)
   val emailUnique = UNIQUE(email)
@@ -58,14 +74,10 @@ object User
 }
 
 class Contact
-  extends Record[Long, Contact]
-  with IdentityGenerator[Long, Contact] {
-
-  def PRIMARY_KEY = id
+  extends BaseRecord[Contact] {
 
   def relation = Contact
 
-  val id = "id".BIGINT.NOT_NULL.AUTO_INCREMENT
   val owner = "owner".BIGINT.NOT_NULL.REFERENCES(User).ON_DELETE(CASCADE)
   val name = "name".TEXT.NOT_NULL
   val surname = "surname".TEXT.NOT_NULL
@@ -84,7 +96,7 @@ class Contact
 
 object Contact
   extends Contact
-  with Table[Long, Contact] {
+  with BaseTable[Contact] {
 
   validation
     .notEmpty(_.name)
@@ -118,14 +130,7 @@ object Contact
       .FROM(ab)
       .add(ab.owner IS user)
       .add(p)
+      .ORDER_BY(ab.surname)
       .list()
-  }
-
-  def fetch(id: String) = {
-    try {
-      Contact.get(id.toLong).getOrElse(sendError(404))
-    } catch {
-      case e: Exception => sendError(404)
-    }
   }
 }

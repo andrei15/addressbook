@@ -14,8 +14,6 @@ package object whiteants {
 
   def currentUser = currentUserOption.get
 
-  def redirectWithReturn = flash.getAs[String]("returnTo").getOrElse("/")
-
   def requireAuth() {
     if (currentUserOption.isEmpty) {
       if (request.method == "get") {
@@ -28,16 +26,12 @@ package object whiteants {
     }
   }
 
-  def setCookie(u: User) {
-    val ip = {
-      val pos = request.remoteIp.lastIndexOf('.')
-      if (pos != -1)
-        request.remoteIp.substring(0, pos)
-      else
-        request.remoteIp
-    }
-    val c = HttpCookie("auth", u.getCookie(ip), path = "/", maxAge = 31 * 24 * 60 * 60)
-    cookies += "auth" -> c
+  def getIpForCookie = {
+    val pos = request.remoteIp.lastIndexOf('.')
+    if (pos != -1)
+      request.remoteIp.substring(0, pos)
+    else
+      request.remoteIp
   }
 
   def cookieAuth() {
@@ -49,13 +43,7 @@ package object whiteants {
       if (pos == -1) return
       val login = c.substring(0, pos)
       val sha = c.substring(pos + 1, c.length)
-      val ip = {
-        val pos = request.remoteIp.lastIndexOf('.')
-        if (pos != -1)
-          request.remoteIp.substring(0, pos)
-        else
-          request.remoteIp
-      }
+      val ip = getIpForCookie
       User.findLogin(login) match {
         case Some(u: User) =>
           if (sha == sha256(ip + u.password())) {

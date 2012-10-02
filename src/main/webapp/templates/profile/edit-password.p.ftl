@@ -3,13 +3,12 @@
       class="submission partial"
       method="post">
   <h2>${msg['user.password.edit']}</h2>
-
   <div class="field-box">
-    <label for="oldPassword">${msg['user.password.old']}</label>
+    <label for="op">${msg['user.password.old']}</label>
     <div class="field">
       <div class="input">
-        <input id="oldPassword"
-               name="oldPassword"
+        <input id="op"
+               name="op"
                size="25"
                autofocus="autofocus"
                type="text"/>
@@ -17,28 +16,27 @@
     </div>
   </div>
   <div class="field-box">
-    <label for="newPassword">${msg['user.password.new']}</label>
+    <label for="np">${msg['user.password.new']}</label>
     <div class="field">
       <div class="input">
-        <input id="newPassword"
-               name="newPassword"
+        <input id="np"
+               name="np"
                size="25"
                type="text"/>
       </div>
     </div>
   </div>
   <div class="field-box">
-    <label for="confirmPassword">${msg['user.password.confirm']}</label>
+    <label for="cp">${msg['user.password.confirm']}</label>
     <div class="field">
       <div class="input">
-        <input id="confirmPassword"
-               name="confirmPassword"
+        <input id="cp"
+               name="cp"
                size="25"
                type="text"/>
       </div>
     </div>
   </div>
-
   <div class="submits centered">
     <input type="submit"
            value="${msg['contact.edit.submit']}"/>

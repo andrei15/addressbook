@@ -1,9 +1,8 @@
 [#ftl]
 
 [#assign main]
-
 <div class="grid pad">
-  <div class="w50">
+  <div class="w100">
     <h2>${msg['contact.note.edit']}</h2>
     <form id ="editNote"
           action="/contacts/${contact.id}/notes/${note.uuid}"

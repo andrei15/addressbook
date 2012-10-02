@@ -65,7 +65,8 @@ var notices = {
 //remove notices the esc key
 $(document).keyup(function (e) {
   if (e.keyCode == 27) {
-    notices.removeAll()
+    notices.removeAll();
+    $(".hide-panel").click();
   }
 });
 
@@ -77,7 +78,7 @@ $(window).unload(function () {
 });
 
 $(window).load(function () {
-  var noticeNotAjax = $("#notices").html()
+  var noticeNotAjax = $("#notices").html();
   var pathname = window.location.pathname;
   if (pathname == "/profile" || pathname.indexOf("contacts")) {
     var variable = JSON.parse(sessionStorage.getItem("notices"));
@@ -93,7 +94,6 @@ $(window).load(function () {
   if (pathname.indexOf("notes")) {
     $("#notices").append(noticeNotAjax);
   }
-  noticeNotAjax.clear();
 });
 
 function initAjaxForms(ctx) {
@@ -150,6 +150,7 @@ function initColorbox() {
         href: a.attr("href"),
         close: "&times;",
         onComplete: function () {
+          ui.init($("#cboxLoadedContent"));
           $(".close").each(function () {
             $(this).click($.colorbox.close)
           });

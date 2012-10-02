@@ -4,7 +4,7 @@
 
 [#assign main]
 <div class="grid">
-  <div class="w50">
+  <div class="w100">
     <h2>${msg['contact.note.new']}</h2>
     <form id="newNote"
           action="/contacts/${contact.id}/notes"
@@ -19,12 +19,6 @@
         <a href="/contacts/${contact.id}/notes">${msg['cancel']}</a>
       </div>
     </form>
-
-  </div>
-  <div class="w50 no-mobiles">
-    <div class="centered">
-      <img src="/img/icons/128/note.png"/>
-    </div>
   </div>
 </div>
 

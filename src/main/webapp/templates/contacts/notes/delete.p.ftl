@@ -2,7 +2,7 @@
 
 [#assign __base = "/contacts/${contact.id}/notes/${note.uuid}"/]
 
-<form class="submission pad"
+<form class="submission pad partial"
       action="${__base}">
   <h2>${msg['notes.delete.title']}</h2>
   <div class="pad">

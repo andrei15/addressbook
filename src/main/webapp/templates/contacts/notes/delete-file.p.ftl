@@ -1,6 +1,6 @@
 [#ftl]
 
-<form class="submission pad"
+<form class="submission pad partial"
       action="/contacts/${contact.id}/notes/${note.uuid}/file/${file.uuid}/">
   <h2>${msg['notes.file.delete']}</h2>
   <div class="pad">

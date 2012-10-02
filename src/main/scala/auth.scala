@@ -1,6 +1,19 @@
 package net.whiteants
 
 import ru.circumflex._, core._, web._, freemarker._
+import scala.Some
+
+object auth {
+  def returnTo = flash.getAs[String]("returnTo").getOrElse("/")
+
+  def getCookieValue(ip: String, user: User) = user.login() + ":" + sha256(ip + user.password())
+
+  def setCookie(user: User) {
+    val ip = getIpForCookie
+    val c = HttpCookie("auth", getCookieValue(ip, user), path = "/", maxAge = 31 * 24 * 60 * 60)
+    cookies += "auth" -> c
+  }
+}
 
 class AuthRouter extends Router {
 
@@ -18,9 +31,9 @@ class AuthRouter extends Router {
     User.find(param("l").toLowerCase, param("p")) match {
       case Some(u: User) =>
         //set cookie
-        setCookie(u)
+        auth.setCookie(u)
         session.update("principal", u)
-        'redirect := redirectWithReturn
+        'redirect := auth.returnTo
       case _ =>
         Notice.addError("user.not-found")
     }
@@ -29,17 +42,17 @@ class AuthRouter extends Router {
   get("/signup/?") = ftl("/auth/signup.ftl")
 
   post("/signup") = partial {
-    val passw = param("p")
+    val passw = param("p").trim
     val u = new User
     u.login := param("l")
-    u.password := ""
-    if (!passw.isEmpty)
-      u.password := User.getSha256Password(passw)
+    if (passw == "")
+      throw new ValidationException("User.password.empty")
+    u.password := User.getSha256Password(passw)
     u.email := param("e")
     u.save()
-    setCookie(u)
+    auth.setCookie(u)
     session.update("principal", u)
-    'redirect := redirectWithReturn
+    'redirect := auth.returnTo
     Notice.addInfo("registered")
   }
 }
