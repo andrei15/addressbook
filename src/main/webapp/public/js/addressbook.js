@@ -94,6 +94,7 @@ $(window).load(function () {
   if (pathname.indexOf("notes")) {
     $("#notices").append(noticeNotAjax);
   }
+  notices.init();
 });
 
 function initAjaxForms(ctx) {

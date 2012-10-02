@@ -1,7 +1,6 @@
 package net.whiteants
 
 import ru.circumflex._, core._, web._, freemarker._
-import scala.Some
 
 object auth {
   def returnTo = flash.getAs[String]("returnTo").getOrElse("/")
@@ -10,8 +9,8 @@ object auth {
 
   def setCookie(user: User) {
     val ip = getIpForCookie
-    val c = HttpCookie("auth", getCookieValue(ip, user), path = "/", maxAge = 31 * 24 * 60 * 60)
-    cookies += "auth" -> c
+    val c = HttpCookie("ab-auth", getCookieValue(ip, user), path = "/", maxAge = 31 * 24 * 60 * 60)
+    cookies += "ab-auth" -> c
   }
 }
 
@@ -22,13 +21,13 @@ class AuthRouter extends Router {
   get("/logout") = {
     session.remove("principal")
     //remove cookie
-    val c = HttpCookie("auth", "", path = "/", maxAge = 0)
-    cookies += "auth" -> c
+    val c = HttpCookie("ab-auth", "", path = "/", maxAge = 0)
+    cookies += "ab-auth" -> c
     sendRedirect("/")
   }
 
   post("/login") = partial {
-    User.find(param("l").toLowerCase, param("p")) match {
+    User.find(param("l").trim.toLowerCase, param("p").trim) match {
       case Some(u: User) =>
         //set cookie
         auth.setCookie(u)
@@ -44,11 +43,11 @@ class AuthRouter extends Router {
   post("/signup") = partial {
     val passw = param("p").trim
     val u = new User
-    u.login := param("l")
+    u.login := param("l").trim
     if (passw == "")
       throw new ValidationException("User.password.empty")
     u.password := User.getSha256Password(passw)
-    u.email := param("e")
+    u.email := param("e").trim
     u.save()
     auth.setCookie(u)
     session.update("principal", u)

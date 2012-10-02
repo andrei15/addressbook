@@ -11,9 +11,9 @@ class ProfileRouter extends Router {
   get("/?") = ftl("/profile/view.ftl")
 
   post("/?") = partial {
-    if (currentUser.password() == sha256(param("p"))) {
-      currentUser.login := param("n")
-      currentUser.email := param("e")
+    if (currentUser.password() == sha256(param("p").trim)) {
+      currentUser.login := param("n").trim
+      currentUser.email := param("e").trim
       currentUser.save()
       auth.setCookie(currentUser)
       'redirect := "/profile"

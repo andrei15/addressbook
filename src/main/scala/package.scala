@@ -36,7 +36,7 @@ package object whiteants {
 
   def cookieAuth() {
     if (!currentUserOption.isEmpty) return
-    val cookie = request.cookies.find(_.name == "auth")
+    val cookie = request.cookies.find(_.name == "ab-auth")
     if (!cookie.isEmpty) {
       val c = cookie.get.value
       val pos = c.indexOf(":")

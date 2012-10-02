@@ -12,7 +12,7 @@ class ContactsRouter extends Router {
 
   get("/?") = {
     if (!param("q").trim.isEmpty) {
-      'contacts := Contact.userSearch(currentUser, param("q"))
+      'contacts := Contact.userSearch(currentUser, param("q").trim)
     } else {
       'contacts := Contact.findAll(currentUser)
     }
@@ -24,14 +24,14 @@ class ContactsRouter extends Router {
   post("/?") = partial {
     val contact = new Contact
     contact.owner := currentUser
-    contact.name := param("n")
-    contact.surname := param("s")
-    contact.phone := param("p")
-    contact.address := param("a")
-    contact.email := param("e")
+    contact.name := param("n").trim
+    contact.surname := param("s").trim
+    contact.phone := param("p").trim
+    contact.address := param("a").trim
+    contact.email := param("e").trim
     contact.save()
-    'redirect := prefix
     Notice.addInfo("saved")
+    'redirect := prefix
   }
 
   sub("/:id") = {
@@ -48,14 +48,14 @@ class ContactsRouter extends Router {
     get("/~edit").and(request.body.isXHR) = ftl("/contacts/edit.p.ftl")
 
     post("/?") = partial {
-      contact.name := param("n")
-      contact.surname := param("s")
-      contact.phone := param("p")
-      contact.address := param("a")
-      contact.email := param("e")
+      contact.name := param("n").trim
+      contact.surname := param("s").trim
+      contact.phone := param("p").trim
+      contact.address := param("a").trim
+      contact.email := param("e").trim
       contact.save()
-      'redirect := "/contacts"
       Notice.addInfo("edited")
+      'redirect := "/contacts"
     }
 
     get("/~delete").and(request.body.isXHR) = ftl("/contacts/delete.p.ftl")
@@ -82,7 +82,7 @@ class ContactsRouter extends Router {
           } else
             ctx.update(fi.getFieldName, fi)
         }
-        val title = ctx.getString("t").getOrElse("")
+        val title = ctx.getString("t").getOrElse("").trim
         val noteParam = ctx.getString("n").getOrElse("")
         if (!title.isEmpty) {
           note._title := title
