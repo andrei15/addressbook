@@ -72,10 +72,12 @@ $(document).keyup(function (e) {
 $(window).unload(function () {
   if (sessionStorage) {
     sessionStorage.setItem("notices", JSON.stringify(arr));
+    $("#notices").empty();
   }
 });
 
 $(window).load(function () {
+  var noticeNotAjax = $("#notices").html()
   var pathname = window.location.pathname;
   if (pathname == "/profile" || pathname.indexOf("contacts")) {
     var variable = JSON.parse(sessionStorage.getItem("notices"));
@@ -88,6 +90,10 @@ $(window).load(function () {
       $("#notices").append(li)
     });
   }
+  if (pathname.indexOf("notes")) {
+    $("#notices").append(noticeNotAjax);
+  }
+  noticeNotAjax.clear();
 });
 
 function initAjaxForms(ctx) {

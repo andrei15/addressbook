@@ -33,11 +33,11 @@ class Note(@transient val notes: Notes) extends StructHolder {
 
   lazy val path = new File(baseDir, uuid)
 
-  val files = new ListHolder[FileDesctiption] {
+  val files = new ListHolder[FileDescription] {
     def elemName = "files"
 
     def read = {
-      case "file" => new FileDesctiption
+      case "file" => new FileDescription
     }
   }
 
@@ -52,7 +52,7 @@ class Note(@transient val notes: Notes) extends StructHolder {
   }
 }
 
-class FileDesctiption extends StructHolder {
+class FileDescription extends StructHolder {
 
   def elemName = "file"
 

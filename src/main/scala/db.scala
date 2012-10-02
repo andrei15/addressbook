@@ -98,6 +98,7 @@ object Contact
     SELECT(ab.*)
       .FROM(ab)
       .WHERE(ab.owner IS user)
+      .ORDER_BY(ab.surname)
       .list()
 
   def userSearch(user: User, param: String): Seq[Contact] = {

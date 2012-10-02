@@ -82,7 +82,7 @@ class ContactsRouter extends Router {
         ctx.getAs[FileItem]("file").map { fi =>
           if (!fi.getName.isEmpty) {
             val uploadFile = fi.getName
-            val file = new FileDesctiption
+            val file = new FileDescription
             note.files.add(file)
             val i = uploadFile.lastIndexOf(".")
             if (i != -1) {

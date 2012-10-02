@@ -1,6 +1,7 @@
 [#ftl]
 
 [#assign main]
+
 <div class="grid pad">
   <div class="w50">
     <h2>${msg['contact.note.edit']}</h2>
