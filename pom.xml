@@ -17,6 +17,9 @@
     <cx.messages.name>msg</cx.messages.name>
     <orm.connection.url>jdbc:h2:contactsdb</orm.connection.url>
     <ftl.configuration>net.whiteants.FtlConfiguration</ftl.configuration>
+    <mail.host>smtp.gmail.com</mail.host>
+    <mail.port>587</mail.port>
+    <mail.tls>true</mail.tls>
   </properties>
 
   <dependencies>
@@ -43,6 +46,11 @@
     <dependency>
       <groupId>ru.circumflex</groupId>
       <artifactId>circumflex-xml</artifactId>
+      <version>${cx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ru.circumflex</groupId>
+      <artifactId>circumflex-mail</artifactId>
       <version>${cx.version}</version>
     </dependency>
     <dependency>

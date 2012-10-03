@@ -7,6 +7,12 @@
   <h2>${contact.title}</h2>
   <div class="noteview">
     <div class="btn-group right-float">
+      <a href="${__base}/~email"
+         class="btn"
+         rel="popup"
+         title="${msg['contact.notes.view']}">
+        <img src="/img/icons/24/mail_receive.png"/>
+      </a>
       <a href="${__base}/~edit"
          class="btn"
          title="${msg['contact.notes.view']}">

@@ -1,6 +1,6 @@
 package net.whiteants
 
-import ru.circumflex._, core._, web._, freemarker._
+import ru.circumflex._, core._, web._, freemarker._, mail._
 import org.apache.commons.io.FileUtils
 import org.apache.commons.fileupload.FileItem
 import org.apache.commons.fileupload.disk.DiskFileItemFactory
@@ -137,6 +137,23 @@ class ContactsRouter extends Router {
           if (Notice.hasErrors)
             sendRedirect(prefix + "/~edit")
           else sendRedirect(prefix)
+        }
+
+        get("/~email") = {
+          ftl("/contacts/notes/send-email.ftl")
+        }
+
+        post("/~email") = partial {
+          val msg = new MailMessage
+          msg.setSubject(param("t").trim)
+          msg.setHtml(markeven.toHtml(param("n").trim))
+          msg.addTo(param("e").trim)
+          val msgs = MailWorker.send(msg)
+          if (msgs.size > 0)
+            Notice.addError("mail.send.fail")
+          else
+            Notice.addInfo("mail.send.success")
+          'redirect := prefix
         }
 
         get("/~delete").and(request.body.isXHR) = ftl("/contacts/notes/delete.p.ftl")
