@@ -117,7 +117,7 @@ object Contact
     val paramList = param.split(" ").map(_.trim).filter(_ != "")
     val p = AND()
     paramList.foreach { param =>
-      val prm = param + "%"
+      val prm = "%" + param + "%"
       val or = OR()
         .add(ab.name LLIKE prm)
         .add(ab.surname LLIKE prm)
