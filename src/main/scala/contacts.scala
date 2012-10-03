@@ -140,7 +140,7 @@ class ContactsRouter extends Router {
         }
 
         get("/~email") = {
-          ftl("/contacts/notes/send-email.ftl")
+          ftl("/contacts/notes/send-email.p.ftl")
         }
 
         post("/~email") = partial {
