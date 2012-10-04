@@ -14,15 +14,15 @@
 </form>
 
 <script type="text/javascript">
-  $(function(){
+  $(function() {
     var input = $("#file");
     var prompt = $("#prompt");
     var form = $("#uploader-form");
 
-    prompt.click(function () {
+    prompt.click(function() {
       input.click();
     });
-    input.change(function () {
+    input.change(function() {
       form.submit();
     })
   });
