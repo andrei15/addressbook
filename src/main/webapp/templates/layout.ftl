@@ -12,15 +12,15 @@
         type="text/css"
         media="screen, projection"
         href="/css/main.less"/>
-  <link rel="icon" type="image/png" href="/img/favicon.png"/>
-  <script type="text/javascript" src="/js/jquery.min.js">
+  <link rel="icon" type="image/png" href="${env.public("/img/favicon.png")}"/>
+  <script type="text/javascript" src="${env.public("/js/jquery.min.js")}">
   </script>
-  <script type="text/javascript" src="/js/less-1.3.0.min.js">
+  <script type="text/javascript" src="${env.public("/js/less-1.3.0.min.js")}">
   </script>
   <link href="/css/colorbox.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="/js/jquery.colorbox-min.js">
+  <script type="text/javascript" src="${env.public("/js/jquery.colorbox-min.js")}">
   </script>
-  <script type="text/javascript" src="/js/addressbook.js">
+  <script type="text/javascript" src="${env.public("/js/addressbook.js")}">
   </script>
   <script type="text/javascript">
     $(function(){

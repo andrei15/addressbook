@@ -8,6 +8,7 @@ var ui = {
     initAjaxForms(ctx);
     initPanelEditForm(ctx);
     initColorbox();
+    initUploads(ctx);
   }
 };
 
@@ -209,4 +210,25 @@ function initPanelEditForm(ctx) {
         .addClass("w50");
     })
   }
+}
+
+function initUploads(ctx) {
+  $(".file-uploader", ctx).each(function(){
+    var fileUploader = $(this);
+    var form = fileUploader.parents("form");
+    var frame = $("iframe", fileUploader)[0];
+    $(document).data("form", form);
+
+    $(frame).load(function(){
+      var innerDocument = frame.contentWindow.document;
+      var body = $("body", innerDocument);
+      $("input[name=uuid], input[name=originalName], input[name=ext]", form).remove();
+      var uuid = $("input[name=uuid]", body);
+      form.append(uuid);
+      var ext = $("input[name=ext]", body);
+      form.append(ext);
+      var on = $("input[name=originalName]", body);
+      form.append(on);
+    });
+  });
 }

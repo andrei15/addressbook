@@ -11,7 +11,7 @@
           method="post"
           enctype="multipart/form-data">
       [#include "edit-base.p.ftl"/]
-      <div class="submits centered">
+      <div class="submits centered margin-top">
         <input type="submit"
                value="${msg['notes.new']}"/>
         <span>${msg['or']}</span>

@@ -18,5 +18,8 @@
     <dispatcher>INCLUDE</dispatcher>
     <dispatcher>ERROR</dispatcher>
   </filter-mapping>
+  <listener>
+    <listener-class>net.whiteants.SessionUploadsFilesCleaner</listener-class>
+  </listener>
 
 </web-app>

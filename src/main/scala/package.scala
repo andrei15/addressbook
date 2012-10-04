@@ -2,10 +2,18 @@ package net
 
 import ru.circumflex._, core._, web._, freemarker._
 import collection.mutable.ListBuffer
+import java.io.File
 
 package object whiteants {
 
   val log = new Logger("net.whiteants")
+
+  val uploadsDir = new File(
+    cx.getAs[String]("ab.uploadsDir")
+      .getOrElse("/var/addressbook/uploads")
+  )
+
+  def publicRoot = new File("src/main/webapp/public")
 
   def currentUserOption: Option[User] = session.get("principal") match {
     case Some(u: User) => Some(u)

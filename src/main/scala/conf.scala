@@ -3,8 +3,8 @@ package net.whiteants
 import _root_.freemarker.template._
 import ru.circumflex._, freemarker._
 
+import java.io.File
 import java.util.Date
-import net.whiteants
 
 class FtlConfiguration extends DefaultConfiguration {
   setObjectWrapper(new ScalaObjectWrapper())
@@ -17,5 +17,14 @@ class FtlConfiguration extends DefaultConfiguration {
 object env {
   def now = new Date
 
-  def principal = whiteants.currentUserOption
+  def principal = currentUserOption
+
+  def public(res: String) = {
+    val f = new File(publicRoot, res.replaceFirst("^/", ""))
+    if (f.exists && f.isFile)
+      res + "?" + f.lastModified
+    else res
+  }
 }
+
+object DefaultUploader extends FileUploader

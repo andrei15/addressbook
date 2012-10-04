@@ -24,11 +24,7 @@
     </div>
   </div>
 </div>
-<div class="field-box">
-  <label for="file">${msg['contact.notes.file']}</label>
-  <div class="field">
-    <input id="file"
-           type="file"
-           name="file"/>
-  </div>
+<div class="file-uploader">
+  <iframe src="/svc/~upload">
+  </iframe>
 </div>

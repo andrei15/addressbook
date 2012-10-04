@@ -84,25 +84,24 @@ class ContactsRouter extends Router {
         }
         val title = ctx.getString("t").getOrElse("").trim
         val noteParam = ctx.getString("n").getOrElse("")
+
         if (!title.isEmpty) {
           note._title := title
           FileUtils.writeStringToFile(note.path, noteParam)
-          ctx.getAs[FileItem]("file").map { fi =>
-            if (!fi.getName.isEmpty) {
-              val uploadFile = fi.getName
-              val file = new FileDescription
-              note.files.add(file)
-              val i = uploadFile.lastIndexOf(".")
-              if (i != -1) {
-                val ext = uploadFile.substring(i + 1)
-                file._originalName := uploadFile.substring(0, i)
-                file._ext := ext
-                try {
-                  fi.write(new File(note.baseDir, file.fileName))
-                } catch {
-                  case e: Exception => Notice.addError("Error")
-                }
-              }
+
+          if (param("uuid") != "") {
+            val fd = new FileDescription
+            fd._uuid := param("uuid")
+            fd._ext := param("ext")
+            fd._originalName := param("originalName")
+            note.files.add(fd)
+            try {
+              val dir = new File(uploadsDir, request.session.id.getOrElse(""))
+              val srcFile = new File(dir, fd.fileName)
+              var destFile = new File(note.baseDir, fd.fileName)
+              FileUtils.moveFile(srcFile, destFile)
+            } catch {
+              case e: Exception => Notice.addError("Error")
             }
           }
           contact._notes := contact.notes.toXml
@@ -191,5 +190,6 @@ class ContactsRouter extends Router {
         }
       }
     }
+
   }
 }

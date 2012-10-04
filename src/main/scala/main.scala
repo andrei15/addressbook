@@ -17,4 +17,6 @@ class Main extends Router {
 
   sub("/profile") = new ProfileRouter
 
+  sub("/svc") = new SvcRouter
+
 }

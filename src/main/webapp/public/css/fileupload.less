@@ -1,0 +1,72 @@
+
+#content {
+  width: 100% !important;
+  margin: 0 ! important;
+  overflow: hidden ! important;
+}
+
+body {
+  background: white;
+  margin: 0 !important;
+  width: 100%;
+
+  .upload-pill {
+    padding: 8px;
+    height: 48px;
+    width: 100%;
+    position: relative;
+
+    .icon {
+      height: 32px;
+      width: 32px;
+      display: inline-block;
+      vertical-align: middle;
+      padding: 8px 0;
+    }
+
+    .title {
+      display: inline-block;
+    }
+
+    .ctls {
+      position: absolute;
+      top: 16px;
+      right: 24px;
+      z-index:2;
+
+      a {
+        margin-left: 4px;
+        float: left;
+        display: block;
+        padding: 0 4px;
+        height: 32px;
+        line-height: 32px;
+      }
+    }
+  }
+}
+
+form {
+  margin: 0;
+}
+
+#file-box {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 64px;
+  overflow: hidden;
+
+  input[type=file] {
+    opacity: 0;
+  }
+}
+
+#prompt {
+  text-align: center;
+  height: 64px;
+  line-height: 64px;
+  font-size: 20px;
+  color: #009944;
+  font-family: Georgia;
+}
