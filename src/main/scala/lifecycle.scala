@@ -10,5 +10,6 @@ class SessionUploadsFilesCleaner extends HttpSessionListener {
   def sessionDestroyed(se: HttpSessionEvent) {
     FileUtils.deleteQuietly(new File(uploadsDir, se.getSession.getId))
   }
+
   def sessionCreated(se: HttpSessionEvent) {}
 }

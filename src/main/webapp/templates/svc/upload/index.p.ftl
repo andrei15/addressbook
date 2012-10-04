@@ -7,6 +7,7 @@
       enctype="multipart/form-data">
   <div id="file-box">
     <div id="prompt">${msg['upload.file']}</div>
+    <div id="sizeinfo">${msg['upload.file.size']}</div>
     <input id="file"
            type="file"
            name="file"/>
