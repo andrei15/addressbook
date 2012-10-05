@@ -98,7 +98,7 @@ class ContactsRouter extends Router {
             try {
               val dir = new File(uploadsDir, request.session.id.getOrElse(""))
               val srcFile = new File(dir, fd.fileName)
-              var destFile = new File(note.baseDir, fd.fileName)
+              val destFile = new File(note.baseDir, fd.fileName)
               FileUtils.moveFile(srcFile, destFile)
             } catch {
               case e: Exception => Notice.addError("Error")
@@ -170,6 +170,7 @@ class ContactsRouter extends Router {
         }
 
         sub("/file") = {
+
           sub("/:uuid") = {
             val file = note.find(param("uuid")).getOrElse(sendError(404))
             'file := file

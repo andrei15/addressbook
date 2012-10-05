@@ -4,7 +4,6 @@ import ru.circumflex._, core._, web._, freemarker._
 
 class SvcRouter extends Router {
 
-
   get("/~upload") = {
     'uuid := randomUUID
     ftl("/svc/upload/index.p.ftl")

@@ -1,0 +1,52 @@
+body, div, p, dl, dt, dt, span, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+.bkg-v(@top, @bottom) {
+  background: url("/img/noise.png") top left repeat,
+  -webkit-gradient(linear, left top, left bottom, from(@top), to(@bottom)) repeat-x, @bottom;
+  background: url("/img/noise.png") top left repeat,
+  -moz-linear-gradient(top, @top, @bottom) repeat-x @bottom;
+  background: url("/img/noise.png") top left repeat,
+  -o-linear-gradient(top, @top, @bottom) repeat-x @bottom;
+}
+
+body {
+  background-color: #e8e8e8;
+}
+
+#header {
+  background: url("../img/dust.png") repeat;
+  position: relative;
+  height: auto;
+  width: 95%;
+  margin: auto;
+  border-radius: 100px;
+  border-bottom-left-radius: 300px;
+  border-bottom-right-radius: 300px;
+
+  box-shadow: 0 1px 2px rgba(0,0,0,.1),
+              0 4px 8px rgba(0,0,0,.4);
+
+  .title {
+    font-size: 55px;
+    font-family: Georgia;
+    font-weight: bold;
+    text-align: center;
+    padding: 32px;
+  }
+
+  .info {
+    font-size: 35px;
+    font-family: helvetica;
+    text-align: center;
+    padding: 32px;
+  }
+
+  img {
+    display:block;
+    margin:0 auto;
+    padding: 32px;
+  }
+
+}
