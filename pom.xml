@@ -136,6 +136,9 @@
         <artifactId>maven-cx-plugin</artifactId>
         <version>${cx.version}</version>
         <configuration>
+          <templatesRoot>src/main/webapp/templates</templatesRoot>
+          <sourcePath>/static</sourcePath>
+          <targetDir>src/main/webapp/public/html</targetDir>
           <packages>
             <package>net.whiteants</package>
           </packages>

@@ -1,3 +1,4 @@
+[#ftl]
 <!doctype html>
 <html>
 <head>
@@ -5,7 +6,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"/>
-  <title>Адресная книга</title>
+  <title>${msg['site.title']}</title>
   <link id="theme-css"
         rel="stylesheet/less"
         type="text/css"
@@ -20,14 +21,6 @@
   </script>
 </head>
 <body>
-<div id="header">
-  <div class="title">
-    500
-  </div>
-  <div class="info">
-    <span>Внутренняя ошибка сервера.</span>
-  </div>
-  <a href="/" class="home"><img src="/img/AB.png"/></a>
-</div>
+${main}
 </body>
 </html>

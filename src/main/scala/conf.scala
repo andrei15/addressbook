@@ -1,17 +1,17 @@
 package net.whiteants
 
-import _root_.freemarker.template._
+import _root_.freemarker.cache.FileTemplateLoader
 import ru.circumflex._, freemarker._
 
 import java.io.File
 import java.util.Date
 
 class FtlConfiguration extends DefaultConfiguration {
-  setObjectWrapper(new ScalaObjectWrapper())
-  setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER)
   setNumberFormat("0.##")
   setSharedVariable("env", env)
   setSharedVariable("me", MarkevenDirective)
+  addLoader(new FileTemplateLoader(new File("src/main/webapp/templates")))
+  _root_.freemarker.log.Logger.selectLoggerLibrary(_root_.freemarker.log.Logger.LIBRARY_SLF4J)
 }
 
 object env {
