@@ -7,9 +7,8 @@
   <div class="w100">
     <h2>${msg['contact.note.new']}</h2>
     <form action="/contacts/${contact.id}/notes"
-          class="submission"
-          method="post"
-          enctype="multipart/form-data">
+          class="submission partial"
+          method="post">
       [#include "edit-base.p.ftl"/]
       <div class="submits centered margin-top">
         <input type="submit"

@@ -75,20 +75,11 @@ class ContactsRouter extends Router {
     sub("/notes") = {
 
       def editNote(note: Note) {
-        if (!request.body.isMultipart) sendError(404)
-        request.body.parseFileItems(new DiskFileItemFactory()).foreach { fi =>
-          if (fi.isFormField) {
-            ctx.update(fi.getFieldName, fi.getString("utf-8"))
-          } else
-            ctx.update(fi.getFieldName, fi)
-        }
-        val title = ctx.getString("t").getOrElse("").trim
-        val noteParam = ctx.getString("n").getOrElse("")
-
+        val title = param("t").trim
+        val noteParam = param("n").trim
         if (!title.isEmpty) {
           note._title := title
           FileUtils.writeStringToFile(note.path, noteParam)
-
           if (param("uuid") != "") {
             val fd = new FileDescription
             fd._uuid := param("uuid")
@@ -114,13 +105,11 @@ class ContactsRouter extends Router {
 
       get("/~new") = ftl("/contacts/notes/new.ftl")
 
-      post("/?") = {
+      post("/?") = partial {
         val note = new Note(contact.notes)
         contact.notes.add(note)
         editNote(note)
-        if (Notice.hasErrors)
-          sendRedirect(prefix + "/~new")
-        else sendRedirect(prefix)
+        if (!Notice.hasErrors) 'redirect := prefix
       }
 
       sub("/:uuid") = {
@@ -131,11 +120,9 @@ class ContactsRouter extends Router {
 
         get("/~edit") = ftl("/contacts/notes/edit.ftl")
 
-        post("/?") = {
+        post("/?") = partial {
           editNote(note)
-          if (Notice.hasErrors)
-            sendRedirect(prefix + "/~edit")
-          else sendRedirect(prefix)
+          if (!Notice.hasErrors) 'redirect := prefix
         }
 
         get("/~email") = {

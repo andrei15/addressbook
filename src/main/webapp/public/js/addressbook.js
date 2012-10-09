@@ -79,7 +79,6 @@ $(window).unload(function() {
 });
 
 $(window).load(function() {
-  var noticeNotAjax = $("#notices").html();
   var pathname = window.location.pathname;
   if (pathname == "/profile" || pathname.indexOf("contacts")) {
     var variable = JSON.parse(sessionStorage.getItem("notices"));
@@ -91,9 +90,6 @@ $(window).load(function() {
       li.addClass(n.kind);
       $("#notices").append(li)
     });
-  }
-  if (pathname.indexOf("notes")) {
-    $("#notices").append(noticeNotAjax);
   }
   notices.init();
 });

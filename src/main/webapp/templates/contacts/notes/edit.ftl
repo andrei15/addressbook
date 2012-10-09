@@ -5,9 +5,8 @@
   <div class="w100">
     <h2>${msg['contact.note.edit']}</h2>
     <form action="/contacts/${contact.id}/notes/${note.uuid}"
-          class="submission"
-          method="post"
-          enctype="multipart/form-data">
+          class="submission partial"
+          method="post">
       [#include "edit-base.p.ftl"/]
       <div class="submits centered margin-top">
         <input type="submit"
