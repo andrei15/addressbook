@@ -4,6 +4,8 @@ import ru.circumflex._, core._, web._, freemarker._
 
 class SvcRouter extends Router {
 
+  if (currentUserOption.isEmpty) sendError(404)
+
   get("/~upload") = {
     'uuid := randomUUID
     ftl("/svc/upload/index.p.ftl")

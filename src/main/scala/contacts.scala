@@ -2,8 +2,6 @@ package net.whiteants
 
 import ru.circumflex._, core._, web._, freemarker._, mail._
 import org.apache.commons.io.FileUtils
-import org.apache.commons.fileupload.FileItem
-import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import java.io.File
 
 class ContactsRouter extends Router {
@@ -178,6 +176,5 @@ class ContactsRouter extends Router {
         }
       }
     }
-
   }
 }
