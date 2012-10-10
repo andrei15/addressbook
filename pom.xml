@@ -16,7 +16,17 @@
     <cx.router>net.whiteants.Main</cx.router>
     <cx.messages.name>msg</cx.messages.name>
     <orm.connection.url>jdbc:h2:contactsdb</orm.connection.url>
+    <orm.configuration>net.whiteants.db$slave$</orm.configuration>
     <ftl.configuration>net.whiteants.FtlConfiguration</ftl.configuration>
+
+    <db.slave.url>${orm.connection.url}</db.slave.url>
+    <db.slave.username>${orm.connection.username}</db.slave.username>
+    <db.slave.password>${orm.connection.password}</db.slave.password>
+
+    <db.master.url>${orm.connection.url}</db.master.url>
+    <db.master.username>${orm.connection.username}</db.master.username>
+    <db.master.password>${orm.connection.password}</db.master.password>
+
     <mail.host>smtp.gmail.com</mail.host>
     <mail.port>587</mail.port>
     <mail.tls>true</mail.tls>
@@ -90,6 +100,15 @@
       <version>1.3.168</version>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>master</id>
+      <properties>
+        <orm.configuration>net.whiteants.db$master$</orm.configuration>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>

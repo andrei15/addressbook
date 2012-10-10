@@ -1,6 +1,6 @@
 package net.whiteants
 
-import ru.circumflex._, core._, web._, freemarker._, mail._
+import ru.circumflex._, core._, web._, orm._, freemarker._, mail._
 import org.apache.commons.io.FileUtils
 import java.io.File
 
@@ -27,7 +27,9 @@ class ContactsRouter extends Router {
     contact.phone := param("p").trim
     contact.address := param("a").trim
     contact.email := param("e").trim
-    contact.save()
+    using(db.master) {
+      contact.save()
+    }
     Notice.addInfo("saved")
     'redirect := prefix
   }
@@ -51,7 +53,9 @@ class ContactsRouter extends Router {
       contact.phone := param("p").trim
       contact.address := param("a").trim
       contact.email := param("e").trim
-      contact.save()
+      using(db.master) {
+        contact.save()
+      }
       Notice.addInfo("edited")
       'redirect := "/contacts"
     }
@@ -65,7 +69,9 @@ class ContactsRouter extends Router {
           FileUtils.deleteQuietly(new File(note.baseDir, file.fileName))
         }
       }
-      contact.DELETE_!()
+      using(db.master) {
+        contact.DELETE_!()
+      }
       Notice.addInfo("deleted")
       'redirect := "/contacts"
     }
@@ -94,7 +100,9 @@ class ContactsRouter extends Router {
             }
           }
           contact._notes := contact.notes.toXml
-          contact.save()
+          using(db.master) {
+            contact.save()
+          }
           Notice.addInfo("saved")
         } else Notice.addError("contact.notes.title.empty")
       }
@@ -149,7 +157,9 @@ class ContactsRouter extends Router {
           }
           contact.notes.delete(note)
           contact._notes := contact.notes.toXml
-          contact.save()
+          using(db.master) {
+            contact.save()
+          }
           Notice.addInfo("deleted")
           'redirect := "/contacts/" + contact.id() + "/notes/"
         }
@@ -162,13 +172,15 @@ class ContactsRouter extends Router {
 
             get("/?") = sendFile(new File(note.baseDir, file.fileName), file.originalFileName)
 
-            get("/~delete") = ftl("/contacts/notes/delete-file.p.ftl")
+            get("/~delete").and(request.body.isXHR) = ftl("/contacts/notes/delete-file.p.ftl")
 
             delete("/?") = partial {
               note.files.delete(file)
               FileUtils.deleteQuietly(new File(note.baseDir, file.fileName))
               contact._notes := contact.notes.toXml
-              contact.save()
+              using(db.master) {
+                contact.save()
+              }
               Notice.addInfo("deleted")
               'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid
             }

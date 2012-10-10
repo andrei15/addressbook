@@ -1,6 +1,6 @@
 package net.whiteants
 
-import ru.circumflex._, core._, web._, freemarker._
+import ru.circumflex._, core._, web._, orm._, freemarker._
 
 object auth {
   def returnTo = flash.getAs[String]("returnTo").getOrElse("/")
@@ -48,7 +48,9 @@ class AuthRouter extends Router {
       throw new ValidationException("User.password.empty")
     u.password := User.getSha256Password(passw)
     u.email := param("e").trim
-    u.save()
+    using(db.master) {
+      u.save()
+    }
     auth.setCookie(u)
     session.update("principal", u)
     'redirect := auth.returnTo

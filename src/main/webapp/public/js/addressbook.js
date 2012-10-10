@@ -100,6 +100,11 @@ function initAjaxForms(ctx) {
     $form.addClass("initialized");
     $(this).submit(function(event) {
       var serializedData = $form.serializeArray();
+      var obj = {
+        'name': "__",
+        "value": new Date().toString()
+      };
+      serializedData.push(obj);
       $.ajax({
         url: $form.attr("action"),
         type: $form.attr("method"),

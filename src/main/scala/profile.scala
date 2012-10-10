@@ -1,6 +1,6 @@
 package net.whiteants
 
-import ru.circumflex._, core._, web._, freemarker._
+import ru.circumflex._, core._, web._, freemarker._, orm._
 
 class ProfileRouter extends Router {
 
@@ -14,7 +14,10 @@ class ProfileRouter extends Router {
     if (currentUser.password() == sha256(param("p").trim)) {
       currentUser.login := param("n").trim
       currentUser.email := param("e").trim
-      currentUser.save()
+      val _cuser = currentUser
+      using(db.master) {
+        _cuser.save()
+      }
       auth.setCookie(currentUser)
       'redirect := "/profile"
       Notice.addInfo("saved")
@@ -29,7 +32,10 @@ class ProfileRouter extends Router {
     val confirmPassword = param("cp").trim
     if ((currentUser.password() == oldPassword) && (newPassword == confirmPassword) && !newPassword.isEmpty) {
       currentUser.password := User.getSha256Password(newPassword)
-      currentUser.save()
+      val _cuser = currentUser
+      using(db.master) {
+        _cuser.save()
+      }
       auth.setCookie(currentUser)
       'redirect := "/profile"
       Notice.addInfo("saved")
