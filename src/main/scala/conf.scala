@@ -2,7 +2,6 @@ package net.whiteants
 
 import _root_.freemarker.cache.FileTemplateLoader
 import ru.circumflex._, core._, freemarker._, orm._
-
 import java.io.File
 import java.util.Date
 
