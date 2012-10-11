@@ -79,18 +79,15 @@ $(window).unload(function() {
 });
 
 $(window).load(function() {
-  var pathname = window.location.pathname;
-  if (pathname == "/profile" || pathname.indexOf("contacts")) {
-    var variable = JSON.parse(sessionStorage.getItem("notices"));
-    sessionStorage.clear();
-    $("#notices").empty();
-    $.each(variable, function(idx, n) {
-      var li = $("<li></li>");
-      li.html(n.msg);
-      li.addClass(n.kind);
-      $("#notices").append(li)
-    });
-  }
+  var variable = JSON.parse(sessionStorage.getItem("notices"));
+  sessionStorage.clear();
+  $("#notices").empty();
+  $.each(variable, function(idx, n) {
+    var li = $("<li></li>");
+    li.html(n.msg);
+    li.addClass(n.kind);
+    $("#notices").append(li)
+  });
   notices.init();
 });
 
