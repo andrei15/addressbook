@@ -112,7 +112,7 @@ class ContactsRouter extends Router {
       get("/~new") = ftl("/contacts/notes/new.ftl")
 
       post("/?") = partial {
-        val note = new No te(contact.notes)
+        val note = new Note(contact.notes)
         contact.notes.add(note)
         editNote(note)
         if (!Notice.hasErrors) 'redirect := prefix
