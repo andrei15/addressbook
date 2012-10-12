@@ -31,7 +31,6 @@ class SvcRouter extends Router {
       val p = expr[String]("Contact.name")
       val query = param("q").trim.toSql(p)
       'res := query.list.mkString("\n")
-
       sendJSON("/svc/admin/query.ftl")
     }
   }
