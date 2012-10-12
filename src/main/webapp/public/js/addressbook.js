@@ -123,6 +123,7 @@ function initAjaxForms(ctx) {
             });
             notices.init();
           }
+          $(document).trigger("partial-load.ui", data)
         },
         error: function(data) {
           if (data.status == 404) {

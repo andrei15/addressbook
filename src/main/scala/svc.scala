@@ -1,6 +1,6 @@
 package net.whiteants
 
-import ru.circumflex._, core._, web._, freemarker._
+import ru.circumflex._, core._, web._, orm._, freemarker._
 
 class SvcRouter extends Router {
 
@@ -21,5 +21,17 @@ class SvcRouter extends Router {
         Notice.addErrors(e.errors)
     }
     ftl("/svc/upload/done.ftl")
+  }
+
+  sub("/admin") = {
+
+    get("/?") = ftl("/svc/admin/admin.ftl")
+
+    post("/query") = {
+      val p = expr[String]("Contact.name")
+      val query = param("q").trim.toSql(p)
+      'res := query.list.mkString("\n")
+      sendJSON("/svc/admin/query.ftl")
+    }
   }
 }
