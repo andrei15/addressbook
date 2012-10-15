@@ -4,6 +4,7 @@ import _root_.freemarker.cache.FileTemplateLoader
 import ru.circumflex._, core._, freemarker._, orm._
 import java.io.File
 import java.util.Date
+import markeven.{Renderer, MarkevenConf}
 
 class FtlConfiguration extends DefaultConfiguration {
   setNumberFormat("0.##")
@@ -12,6 +13,26 @@ class FtlConfiguration extends DefaultConfiguration {
   addLoader(new FileTemplateLoader(new File("src/main/webapp/templates")))
   _root_.freemarker.log.Logger.selectLoggerLibrary(_root_.freemarker.log.Logger.LIBRARY_SLF4J)
 }
+
+class ABMarkevenConf(val notes: Notes) extends MarkevenConf {
+  def resolveLink(id: String) = {
+    notes.getByUuid(id) match {
+      case Some(note: Note) =>
+        val uuid = note.uuid
+        val linkCreate = new LinkCreate(uuid, note)
+        Some(linkCreate.create())
+      case _ => None
+    }
+  }
+
+  def resolveMedia(id: String) = {
+
+  }
+  def resolveFragment(id: String) = None
+}
+
+class NoteRenderer(val notes: Notes)
+  extends Renderer(new ABMarkevenConf(notes))
 
 object env {
   def now = new Date

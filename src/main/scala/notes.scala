@@ -43,11 +43,23 @@ class Note(@transient val notes: Notes) extends StructHolder {
     }
   }
 
+  val resources = new ListHolder[Res] {
+    def elemName = "resources"
+
+    def read = {
+      case "link" => new LinkRes
+      case "video" => new VideoRes
+      case "img" => new ImgRes
+    }
+  }
+
   def plainText = if (path.exists && path.isFile) {
     FileUtils.readFileToString(path)
   } else ""
 
-  def html = markeven.toHtml(plainText)
+  lazy val renderer = new NoteRenderer(this.notes)
+
+  def html = renderer.toHtml(plainText)
 
   def find(uuid: String) = {
     files.children.find(_.uuid == uuid)
@@ -76,4 +88,20 @@ class FileDescription extends StructHolder {
   def fileName = uuid + "." + ext
 
   def originalFileName = originalName + "." + ext
+}
+
+class Res extends StructHolder {
+  def elemName = "resource"
+}
+
+class LinkRes extends Res {
+
+}
+
+class VideoRes extends Res {
+
+}
+
+class ImgRes extends Res {
+
 }
