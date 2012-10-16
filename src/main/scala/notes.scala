@@ -4,6 +4,7 @@ import ru.circumflex._, ru.circumflex.core._, orm._, web._, xml._
 import java.io.{Writer, File}
 import markeven.LinkDef
 import org.apache.commons.io.FileUtils
+import java.util.regex.Pattern
 
 class Notes(val contact: Contact) extends ListHolder[Note] {notes =>
   def elemName = "notes"
@@ -102,10 +103,15 @@ trait Res extends StructHolder {
 
   val _title = attr("title")
   def title = _title.getOrElse("")
+
+  def updateFromParams()
 }
 
 class LinkRes extends Res {
   def elemName = "link"
+  def updateFromParams() {
+    _url := param("url")
+  }
 }
 
 class VideoRes extends Res {
@@ -118,8 +124,34 @@ class VideoRes extends Res {
       w.write("frameborder=\"0\">" + title + "</iframe>\"\"\"")
     }
   }
+  def updateFromParams() {
+    val url = param("n")
+    val youtubePattern =
+      Pattern.compile("^(?i:(?:https?://)?[a-z0-9_.-]*?\\.?youtu(?:\\.be|be\\.com))/(?:.*v(?:/|=)|(?:.*/)?)" +
+        "([a-zA-Z0-9-_]+)")
+    val check = youtubePattern.matcher(url)
+    if (check.lookingAt()) {
+      _url := param("n")
+    }
+  }
 }
 
 class ImgRes extends Res {
   def elemName = "img"
+  def updateFromParams() {
+    val resDir = "/var/addressbook/" + currentUser.id() + "/resources/"
+    val uuid = param("uuid")
+    val ext = param("ext")
+    if (!uuid.isEmpty) {
+      try {
+        val dir = new File(uploadsDir, request.session.id.getOrElse(""))
+        val srcFile = new File(dir, uuid + "." + ext)
+        val destFile = new File(resDir + "img/", uuid + "." + ext)
+        FileUtils.moveFile(srcFile, destFile)
+      } catch {
+        case e: Exception => Notice.addError("Error")
+      }
+      this._url := resDir + "img/" + uuid + "." + ext
+    }
+  }
 }

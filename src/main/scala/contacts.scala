@@ -136,59 +136,29 @@ class ContactsRouter extends Router {
 
           get("/?") = ftl("/contacts/notes/resources/view.ftl")
 
-          sub("/img") = {
-            val resDir = "/var/addressbook/" + currentUser.id() + "/resources/"
-            val imgDir = new File(resDir + "img/")
-            val res = new ImgRes()
-            'res := res
-            get("/?").and(request.body.isXHR) = ftl("/contacts/notes/resources/img/new.ftl")
-
-            post("/?") = partial {
-              res._title := param("t")
-              val uuid = param("uuid")
-              val ext = param("ext")
-              if (!uuid.isEmpty) {
-                try {
-                  val dir = new File(uploadsDir, request.session.id.getOrElse(""))
-                  val srcFile = new File(dir, uuid + "." + ext)
-                  val destFile = new File(resDir + "img/", uuid + "." + ext)
-                  FileUtils.moveFile(srcFile, destFile)
-                } catch {
-                  case e: Exception => Notice.addError("Error")
-                }
-                res._url := resDir + "img/" + uuid + "." + ext
-                note.resources.add(res)
-                contact._notes := contact.notes.toXml
-                using(db.master) {
-                  contact.save()
-                }
-                'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid + "/resources"
-              } else Notice.addError("resources.empty")
-
+          sub("/:res") = {
+            val kind = param("res")
+            if (!Seq("img", "video", "link").contains(kind))
+              sendError(404)
+            val res: Res = kind match {
+              case "video" => new VideoRes
+              case "link" => new LinkRes
+              case "img" => new ImgRes
+              case _ => sendError(404)
             }
-          }
 
-          sub("/video") = {
-            val res = new VideoRes()
-            'res := res
-            get("/?").and(request.body.isXHR) = ftl("/contacts/notes/resources/video/new.ftl")
+            get("/?") = ftl("/contacts/notes/resources/" + kind + "/new.ftl")
 
             post("/?") = partial {
+
               res._title := param("t")
-              val url = param("n")
-              val youtubePattern =
-                Pattern.compile("^(?i:(?:https?://)?[a-z0-9_.-]*?\\.?youtu(?:\\.be|be\\.com))/(?:.*v(?:/|=)|(?:.*/)?)" +
-                  "([a-zA-Z0-9-_]+)")
-              val check = youtubePattern.matcher(url)
-              if (check.lookingAt()) {
-                res._url := param("n")
-                note.resources.add(res)
-                contact._notes := contact.notes.toXml
-                using(db.master) {
-                  contact.save()
-                }
-                'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid + "/resources"
-              } else Notice.addError("resources.url.notValid")
+              res.updateFromParams()
+              note.resources.add(res)
+              contact._notes := contact.notes.toXml
+              using(db.master) {
+                contact.save()
+              }
+              'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid + "/resources"
             }
           }
         }
