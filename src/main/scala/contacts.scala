@@ -173,6 +173,23 @@ class ContactsRouter extends Router {
             'res := res
             get("/?").and(request.body.isXHR) = ftl("/contacts/notes/resources/video/new.ftl")
 
+            post("/?") = partial {
+              res._title := param("t")
+              val url = param("n")
+              val youtubePattern =
+                Pattern.compile("^(?i:(?:https?://)?[a-z0-9_.-]*?\\.?youtu(?:\\.be|be\\.com))/(?:.*v(?:/|=)|(?:.*/)?)" +
+                  "([a-zA-Z0-9-_]+)")
+              val check = youtubePattern.matcher(url)
+              if (check.lookingAt()) {
+                res._url := param("n")
+                note.resources.add(res)
+                contact._notes := contact.notes.toXml
+                using(db.master) {
+                  contact.save()
+                }
+                'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid + "/resources"
+              } else Notice.addError("resources.url.notValid")
+            }
           }
         }
 
