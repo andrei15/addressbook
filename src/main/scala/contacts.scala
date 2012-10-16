@@ -3,6 +3,7 @@ package net.whiteants
 import ru.circumflex._, core._, web._, orm._, freemarker._, mail._
 import org.apache.commons.io.FileUtils
 import java.io.File
+import java.util.regex.Pattern
 
 class ContactsRouter extends Router {
 
@@ -131,9 +132,52 @@ class ContactsRouter extends Router {
           if (!Notice.hasErrors) 'redirect := prefix
         }
 
-        get("/~email") = {
-          ftl("/contacts/notes/send-email.p.ftl")
+        sub("/resources") = {
+
+          get("/?") = ftl("/contacts/notes/resources/view.ftl")
+
+          sub("/img") = {
+            val resDir = "/var/addressbook/" + currentUser.id() + "/resources/"
+            val imgDir = new File(resDir + "img/")
+            val res = new ImgRes()
+            'res := res
+            get("/?").and(request.body.isXHR) = ftl("/contacts/notes/resources/img/new.ftl")
+
+            post("/?") = partial {
+              res._title := param("t")
+              val uuid = param("uuid")
+              val ext = param("ext")
+              if (!uuid.isEmpty) {
+                try {
+                  val dir = new File(uploadsDir, request.session.id.getOrElse(""))
+                  val srcFile = new File(dir, uuid + "." + ext)
+                  val destFile = new File(resDir + "img/", uuid + "." + ext)
+                  FileUtils.moveFile(srcFile, destFile)
+                } catch {
+                  case e: Exception => Notice.addError("Error")
+                }
+                res._url := resDir + "img/" + uuid + "." + ext
+                note.resources.add(res)
+                contact._notes := contact.notes.toXml
+                using(db.master) {
+                  contact.save()
+                }
+                'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid + "/resources"
+              } else Notice.addError("resources.empty")
+
+            }
+          }
+
+          sub("/video") = {
+            val res = new VideoRes()
+            'res := res
+            get("/?").and(request.body.isXHR) = ftl("/contacts/notes/resources/video/new.ftl")
+
+          }
         }
+
+        get("/~email").and(request.body.isXHR) = ftl("/contacts/notes/send-email.p.ftl")
+
 
         post("/~email") = partial {
           val msg = new MailMessage

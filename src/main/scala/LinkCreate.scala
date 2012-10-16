@@ -10,3 +10,19 @@ class LinkCreate(uuid: String, note: Note) {
     href
   }
 }
+
+class ImgLinkCreate(uuid: String) {
+
+  def create(): LinkDef = {
+    val href = new LinkDef(uuid)
+    href
+  }
+}
+
+class VideoLinkCreate(uuid: String) {
+
+  def create(): LinkDef = {
+    val href = new LinkDef(uuid)
+    href
+  }
+}

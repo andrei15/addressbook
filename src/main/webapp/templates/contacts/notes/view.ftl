@@ -24,6 +24,11 @@
          title="${msg['contact.notes.view']}">
         <img src="/img/delete.png"/>
       </a>
+      <a href="${__base}/resources"
+         class="btn"
+         title="${msg['contact.edit']}">
+        <img src="/img/icons/24/add_link.png"/>
+      </a>
     </div>
     <div class="title">${note.title}</div>
     <div class="note">${note.html}</div>

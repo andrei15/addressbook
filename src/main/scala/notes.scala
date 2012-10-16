@@ -1,7 +1,8 @@
 package net.whiteants
 
 import ru.circumflex._, ru.circumflex.core._, orm._, web._, xml._
-import java.io.File
+import java.io.{Writer, File}
+import markeven.LinkDef
 import org.apache.commons.io.FileUtils
 
 class Notes(val contact: Contact) extends ListHolder[Note] {notes =>
@@ -51,6 +52,8 @@ class Note(@transient val notes: Notes) extends StructHolder {
       case "video" => new VideoRes
       case "img" => new ImgRes
     }
+
+    def getById(id: String) = children.find(_.id == id)
   }
 
   def plainText = if (path.exists && path.isFile) {
@@ -90,18 +93,33 @@ class FileDescription extends StructHolder {
   def originalFileName = originalName + "." + ext
 }
 
-class Res extends StructHolder {
-  def elemName = "resource"
+trait Res extends StructHolder {
+  val _id = attr("id").set(core.randomString(8))
+  def id = _id.getOrElse("")
+
+  val _url = attr("url")
+  def url = _url.getOrElse("/")
+
+  val _title = attr("title")
+  def title = _title.getOrElse("")
 }
 
 class LinkRes extends Res {
-
+  def elemName = "link"
 }
 
 class VideoRes extends Res {
+  def elemName = "video"
 
+  def linkDef = new LinkDef(id, title) {
+    override def writeMedia(w: Writer, alt: String) {
+      w.write("<iframe class=\"youtube-player\" type=\"text/html\"")
+      w.write("src=\"http://www.youtube.com/embed/" + id + "\"")
+      w.write("frameborder=\"0\">" + title + "</iframe>\"\"\"")
+    }
+  }
 }
 
 class ImgRes extends Res {
-
+  def elemName = "img"
 }

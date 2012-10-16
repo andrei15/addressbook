@@ -173,7 +173,7 @@ function initPanelEditForm(ctx) {
       $.get(href, {}, function(data) {
         cnt.empty().append(data);
         initAjaxForms(cnt);
-
+        initUploads(cnt)
         $(".hide-panel").click(function() {
           cnt.empty();
           hideEditPanel();

@@ -15,6 +15,7 @@ class FtlConfiguration extends DefaultConfiguration {
 }
 
 class ABMarkevenConf(val notes: Notes) extends MarkevenConf {
+
   def resolveLink(id: String) = {
     notes.getByUuid(id) match {
       case Some(note: Note) =>
@@ -26,8 +27,22 @@ class ABMarkevenConf(val notes: Notes) extends MarkevenConf {
   }
 
   def resolveMedia(id: String) = {
-
+    notes.getByUuid(id) match {
+      case Some(note: Note) => {
+        note.resources.getById(id) match {
+          case Some(res: ImgRes) =>
+            val linkCreate = new ImgLinkCreate(res.url)
+            Some(linkCreate.create())
+          case Some(res: VideoRes) =>
+            val linkCreate = new VideoLinkCreate(res.url)
+            Some(linkCreate.create())
+          case _ => None
+        }
+      }
+      case _ => None
+    }
   }
+
   def resolveFragment(id: String) = None
 }
 
