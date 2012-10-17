@@ -68,6 +68,7 @@ class ContactsRouter extends Router {
       }
       contact.notes.get.map { note =>
         FileUtils.deleteQuietly(note.path)
+        FileUtils.deleteQuietly(note.baseDir)
         note.files.children.map { file =>
           FileUtils.deleteQuietly(new File(note.baseDir, file.fileName))
         }

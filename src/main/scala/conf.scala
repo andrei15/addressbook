@@ -19,9 +19,7 @@ class ABMarkevenConf(val note: Note) extends MarkevenConf {
   def resolveLink(id: String) = {
     note.notes.getByUuid(id) match {
       case Some(note: Note) =>
-        val uuid = note.uuid
-        val linkCreate = new LinkCreate(uuid, note)
-        Some(linkCreate.create())
+        Some(new LinkDef(note.uuid, note.title))
       case _ =>
         note.resources.children
           .find(_.id == id) match {
