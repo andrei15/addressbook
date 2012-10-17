@@ -3,7 +3,6 @@ package net.whiteants
 import ru.circumflex._, core._, web._, orm._, freemarker._, mail._
 import org.apache.commons.io.FileUtils
 import java.io.File
-import java.util.regex.Pattern
 
 class ContactsRouter extends Router {
 
@@ -132,39 +131,7 @@ class ContactsRouter extends Router {
           if (!Notice.hasErrors) 'redirect := prefix
         }
 
-        sub("/resources") = {
-
-          get("/?") = ftl("/contacts/notes/resources/view.ftl")
-
-          sub("/:res") = {
-            val kind = param("res")
-            if (!Seq("img", "video", "link").contains(kind))
-              sendError(404)
-            val res: Res = kind match {
-              case "video" => new VideoRes
-              case "link" => new LinkRes
-              case "img" => new ImgRes
-              case _ => sendError(404)
-            }
-
-            get("/?") = ftl("/contacts/notes/resources/" + kind + "/new.ftl")
-
-            post("/?") = partial {
-
-              res._title := param("t")
-              res.updateFromParams()
-              note.resources.add(res)
-              contact._notes := contact.notes.toXml
-              using(db.master) {
-                contact.save()
-              }
-              'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid + "/resources"
-            }
-          }
-        }
-
         get("/~email").and(request.body.isXHR) = ftl("/contacts/notes/send-email.p.ftl")
-
 
         post("/~email") = partial {
           val msg = new MailMessage
@@ -183,9 +150,7 @@ class ContactsRouter extends Router {
 
         delete("/?") = partial {
           FileUtils.deleteQuietly(note.path)
-          note.files.children.map { file =>
-            FileUtils.deleteQuietly(new File(note.baseDir, file.fileName))
-          }
+          FileUtils.deleteQuietly(note.baseDir)
           contact.notes.delete(note)
           contact._notes := contact.notes.toXml
           using(db.master) {
@@ -214,6 +179,37 @@ class ContactsRouter extends Router {
               }
               Notice.addInfo("deleted")
               'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid
+            }
+          }
+        }
+
+        sub("/resources") = {
+
+          get("/?") = ftl("/contacts/notes/resources/view.ftl")
+
+          sub("/:res") = {
+            val kind = param("res")
+            'kind := kind
+            if (!Seq("img", "video", "link").contains(kind))
+              sendError(404)
+
+            get("/?") = ftl("/contacts/notes/resources/" + kind + "/new.ftl")
+
+            post("/?") = partial {
+              val res: Res = kind match {
+                case "img" => new ImgRes(note)
+                case "link" => new LinkRes(note)
+                case "video" => new VideoRes(note)
+                case _ => sendError(404)
+              }
+              res._title := param("t")
+              res.updateFromParams()
+              note.resources.add(res)
+              contact._notes := contact.notes.toXml
+              using(db.master) {
+                contact.save()
+              }
+              'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid + "/resources"
             }
           }
         }

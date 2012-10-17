@@ -55,7 +55,7 @@ object User
     .notEmpty(_.login)
     .notEmpty(_.password)
     .unique(_.email)
-    .pattern(_.email, Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$"), "syntax")
+    .pattern(_.email, Regex.emailPattern, "syntax")
 
   val u = User AS "u"
 
@@ -101,8 +101,8 @@ object Contact
   validation
     .notEmpty(_.name)
     .notEmpty(_.surname)
-    .pattern(_.email, Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$"), "syntax")
-    .pattern(_.phone, Pattern.compile("^(8|\\+[0-9]{1,4}) *-? *[\\(]?[0-9]{3,6}[\\)]?( *-? *[0-9]){5,}$"), "syntax")
+    .pattern(_.email, Regex.emailPattern, "syntax")
+    .pattern(_.phone, Regex.phonePattern, "syntax")
 
   val ab = Contact AS "ab"
 

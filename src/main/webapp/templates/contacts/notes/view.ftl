@@ -26,7 +26,7 @@
       </a>
       <a href="${__base}/resources"
          class="btn"
-         title="${msg['contact.edit']}">
+         title="${msg['notes.resources']}">
         <img src="/img/icons/24/add_link.png"/>
       </a>
     </div>

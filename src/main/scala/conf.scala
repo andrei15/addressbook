@@ -2,9 +2,9 @@ package net.whiteants
 
 import _root_.freemarker.cache.FileTemplateLoader
 import ru.circumflex._, core._, freemarker._, orm._
-import java.io.File
+import java.io.{Writer, File}
 import java.util.Date
-import markeven.{Renderer, MarkevenConf}
+import markeven.{LinkDef, Renderer, MarkevenConf}
 
 class FtlConfiguration extends DefaultConfiguration {
   setNumberFormat("0.##")
@@ -14,31 +14,30 @@ class FtlConfiguration extends DefaultConfiguration {
   _root_.freemarker.log.Logger.selectLoggerLibrary(_root_.freemarker.log.Logger.LIBRARY_SLF4J)
 }
 
-class ABMarkevenConf(val notes: Notes) extends MarkevenConf {
+class ABMarkevenConf(val note: Note) extends MarkevenConf {
 
   def resolveLink(id: String) = {
-    notes.getByUuid(id) match {
+    note.notes.getByUuid(id) match {
       case Some(note: Note) =>
         val uuid = note.uuid
         val linkCreate = new LinkCreate(uuid, note)
         Some(linkCreate.create())
-      case _ => None
+      case _ =>
+        note.resources.children
+          .find(_.id == id) match {
+          case Some(link: LinkRes) =>
+            Some(new LinkDef(link.url, link.title))
+          case _ => None
+        }
     }
   }
 
   def resolveMedia(id: String) = {
-    notes.getByUuid(id) match {
-      case Some(note: Note) => {
-        note.resources.getById(id) match {
-          case Some(res: ImgRes) =>
-            val linkCreate = new ImgLinkCreate(res.url)
-            Some(linkCreate.create())
-          case Some(res: VideoRes) =>
-            val linkCreate = new VideoLinkCreate(res.url)
-            Some(linkCreate.create())
-          case _ => None
-        }
-      }
+    note.resources.getById(id) match {
+      case Some(res: ImgRes) =>
+        Some(new LinkDef(res.url, res.title))
+      case Some(res: VideoRes) =>
+        Some(res.linkDef)
       case _ => None
     }
   }
@@ -46,8 +45,8 @@ class ABMarkevenConf(val notes: Notes) extends MarkevenConf {
   def resolveFragment(id: String) = None
 }
 
-class NoteRenderer(val notes: Notes)
-  extends Renderer(new ABMarkevenConf(notes))
+class NoteRenderer(val note: Note)
+  extends Renderer(new ABMarkevenConf(note))
 
 object env {
   def now = new Date

@@ -1,6 +1,7 @@
 package net.whiteants
 
 import ru.circumflex._, web._, freemarker._
+import java.io.File
 
 class Main extends Router {
 
@@ -19,4 +20,10 @@ class Main extends Router {
 
   sub("/svc") = new SvcRouter
 
+  any("/var/addressbook/*") = {
+    val f = new File(uri(0))
+    if (f.exists && f.isFile)
+      sendFile(f)
+    else sendError(404)
+  }
 }

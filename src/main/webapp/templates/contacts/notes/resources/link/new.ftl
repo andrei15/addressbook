@@ -2,7 +2,7 @@
 
 [#assign __base = "/contacts/${contact.id}/notes/${note.uuid}"/]
 
-<form action="${__base}/resources/video"
+<form action="${__base}/resources/link"
       class="submission partial"
       method="post">
   <div class="field-box">
