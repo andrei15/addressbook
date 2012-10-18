@@ -171,6 +171,11 @@ function initPanelEditForm(ctx) {
       showEditPanel();
       ev.preventDefault();
       $.get(href, {}, function(data) {
+        var obj = {
+          'name': "__",
+          "value": new Date().toString()
+        };
+        cnt.empty().append(obj);
         cnt.empty().append(data);
         initAjaxForms(cnt);
         initUploads(cnt)

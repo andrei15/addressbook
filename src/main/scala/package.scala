@@ -1,8 +1,9 @@
 package net
 
-import ru.circumflex._, core._, web._, freemarker._
+import ru.circumflex._, core._, web._, freemarker._, orm._
 import collection.mutable.ListBuffer
 import java.io.File
+import org.apache.commons.io.FileUtils
 
 package object whiteants {
 
@@ -65,6 +66,35 @@ package object whiteants {
   def sendJSON(templ: String): Nothing = {
     response.contentType("application/json")
     ftl(templ)
+  }
+
+  def editNote(note: Note, contact: Contact) {
+    val title = param("t").trim
+    val noteParam = param("n").trim
+    if (!title.isEmpty) {
+      note._title := title
+      FileUtils.writeStringToFile(note.path, noteParam)
+      if (param("uuid") != "") {
+        val fd = new FileDescription
+        fd._uuid := param("uuid")
+        fd._ext := param("ext")
+        fd._originalName := param("originalName")
+        note.files.add(fd)
+        try {
+          val dir = new File(uploadsDir, request.session.id.getOrElse(""))
+          val srcFile = new File(dir, fd.fileName)
+          val destFile = new File(note.baseDir, fd.fileName)
+          FileUtils.moveFile(srcFile, destFile)
+        } catch {
+          case e: Exception => Notice.addError("Error")
+        }
+      }
+      contact._notes := contact.notes.toXml
+      using(db.master) {
+        contact.save()
+      }
+      Notice.addInfo("saved")
+    } else Notice.addError("contact.notes.title.empty")
   }
 
   object partial {

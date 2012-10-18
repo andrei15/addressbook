@@ -1,6 +1,5 @@
 package net.whiteants
 
-import java.util.Random
 import java.util.regex.Pattern
 
 object Regex {

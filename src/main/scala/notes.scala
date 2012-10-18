@@ -106,7 +106,7 @@ trait Res extends StructHolder {
 class LinkRes(@transient val note: Note) extends Res {
   def elemName = "link"
   def updateFromParams() {
-    _url := param("url")
+    _url := param("url").trim
   }
 }
 

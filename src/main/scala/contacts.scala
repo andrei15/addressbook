@@ -79,35 +79,6 @@ class ContactsRouter extends Router {
 
     sub("/notes") = {
 
-      def editNote(note: Note) {
-        val title = param("t").trim
-        val noteParam = param("n").trim
-        if (!title.isEmpty) {
-          note._title := title
-          FileUtils.writeStringToFile(note.path, noteParam)
-          if (param("uuid") != "") {
-            val fd = new FileDescription
-            fd._uuid := param("uuid")
-            fd._ext := param("ext")
-            fd._originalName := param("originalName")
-            note.files.add(fd)
-            try {
-              val dir = new File(uploadsDir, request.session.id.getOrElse(""))
-              val srcFile = new File(dir, fd.fileName)
-              val destFile = new File(note.baseDir, fd.fileName)
-              FileUtils.moveFile(srcFile, destFile)
-            } catch {
-              case e: Exception => Notice.addError("Error")
-            }
-          }
-          contact._notes := contact.notes.toXml
-          using(db.master) {
-            contact.save()
-          }
-          Notice.addInfo("saved")
-        } else Notice.addError("contact.notes.title.empty")
-      }
-
       get("/?") = ftl("/contacts/notes/list.ftl")
 
       get("/~new") = ftl("/contacts/notes/new.ftl")
@@ -115,106 +86,12 @@ class ContactsRouter extends Router {
       post("/?") = partial {
         val note = new Note(contact.notes)
         contact.notes.add(note)
-        editNote(note)
+        editNote(note, contact)
         if (!Notice.hasErrors) 'redirect := prefix
       }
 
-      sub("/:uuid") = {
-        val note = contact.notes.getByUuid(param("uuid")).getOrElse(sendError(404))
-        'note := note
+      sub("/:uuid") = new NoteRouter(contact)
 
-        get("/?") = ftl("/contacts/notes/view.ftl")
-
-        get("/~edit") = ftl("/contacts/notes/edit.ftl")
-
-        post("/?") = partial {
-          editNote(note)
-          if (!Notice.hasErrors) 'redirect := prefix
-        }
-
-        get("/~email").and(request.body.isXHR) = ftl("/contacts/notes/send-email.p.ftl")
-
-        post("/~email") = partial {
-          val msg = new MailMessage
-          msg.setSubject(param("t").trim)
-          msg.setHtml(markeven.toHtml(param("n").trim))
-          msg.addTo(param("e").trim)
-          val msgs = MailWorker.send(msg)
-          if (msgs.size > 0)
-            Notice.addError("mail.send.fail")
-          else
-            Notice.addInfo("mail.send.success")
-          'redirect := prefix
-        }
-
-        get("/~delete").and(request.body.isXHR) = ftl("/contacts/notes/delete.p.ftl")
-
-        delete("/?") = partial {
-          FileUtils.deleteQuietly(note.path)
-          FileUtils.deleteQuietly(note.baseDir)
-          contact.notes.delete(note)
-          contact._notes := contact.notes.toXml
-          using(db.master) {
-            contact.save()
-          }
-          Notice.addInfo("deleted")
-          'redirect := "/contacts/" + contact.id() + "/notes/"
-        }
-
-        sub("/file") = {
-
-          sub("/:uuid") = {
-            val file = note.find(param("uuid")).getOrElse(sendError(404))
-            'file := file
-
-            get("/?") = sendFile(new File(note.baseDir, file.fileName), file.originalFileName)
-
-            get("/~delete").and(request.body.isXHR) = ftl("/contacts/notes/delete-file.p.ftl")
-
-            delete("/?") = partial {
-              note.files.delete(file)
-              FileUtils.deleteQuietly(new File(note.baseDir, file.fileName))
-              contact._notes := contact.notes.toXml
-              using(db.master) {
-                contact.save()
-              }
-              Notice.addInfo("deleted")
-              'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid
-            }
-          }
-        }
-
-        sub("/resources") = {
-
-          get("/?") = ftl("/contacts/notes/resources/view.ftl")
-
-          sub("/:res") = {
-            val kind = param("res")
-            'kind := kind
-            if (!Seq("img", "video", "link").contains(kind))
-              sendError(404)
-
-            get("/?") = ftl("/contacts/notes/resources/" + kind + "/new.ftl")
-
-            post("/?") = partial {
-              val res: Res = kind match {
-                case "img" => new ImgRes(note)
-                case "link" => new LinkRes(note)
-                case "video" => new VideoRes(note)
-                case _ => sendError(404)
-              }
-              res._title := param("t")
-              res.updateFromParams()
-              note.resources.add(res)
-              contact._notes := contact.notes.toXml
-              using(db.master) {
-                contact.save()
-              }
-              'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid + "/resources"
-            }
-          }
-        }
-      }
     }
   }
 }
