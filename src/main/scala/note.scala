@@ -82,13 +82,17 @@ class NoteRouter(contact: Contact) extends Router {
         get("/~delete") = ftl("/contacts/notes/resources/delete-resources.p.ftl")
 
         delete("/?") = partial {
+          res.get.elemName match {
+            case "img" => FileUtils.deleteQuietly(new File(res.get.url))
+            case _ => None
+          }
           note.resources.delete(res.get)
           contact._notes := contact.notes.toXml
           using(db.master) {
             contact.save()
           }
           Notice.addInfo("deleted")
-          'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid
+          'redirect := "/contacts/" + contact.id() + "/notes/" + note.uuid + "/resources"
         }
       }
     }

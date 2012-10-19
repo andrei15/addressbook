@@ -32,7 +32,8 @@
     <hr/>
     [#list note.resources.children as res]
       <div class="files">
-        <a href="${__base}/resources/oper/${res.id}">${res.elemName+ " "+res.id}</a>
+        <a href="${__base}/resources/oper/${res.id}">${res.elemName}</a>
+      ${res.id}
         <a href="${__base}/resources/oper/${res.id}/~delete" rel="popup">
           <img src="/img/icons/16/delete.png"/>
         </a>
